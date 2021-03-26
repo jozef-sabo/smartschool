@@ -51,22 +51,22 @@ p{
     position: static;
     background-color: white;
     margin:auto;
-    height: 400px;
-    width: 50%;
+    height: 600px;
+    width: 75%;
 }
 
 #prvePoschodie{
     position: static;
     background-color: white;
     margin:auto;
-    height: 400px;
-    width: 50%;
+    height: 600px;
+    width: 75%;
 }
 
 #druhePoschodie{
     position: static;
     background-color: white;
     margin:auto;
-    height: 150px;
-    width: 10%;
+    height: 180px;
+    width: 15%;
 }
