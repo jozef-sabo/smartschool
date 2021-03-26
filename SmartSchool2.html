@@ -15,26 +15,42 @@
 
 
         <h1>Prízemie</h1>
+
+        <script>
+          room_details_001 = { "id":"room_001", "temperature": 125.0, "humidity": 135.0, "co2": 100 }
+          room_details_002 = { "id":"room_002", "temperature": 225.0, "humidity": 22.0 }
+          room_details_002 = { "id":"room_003", "temperature": 300.0 }
+
+          rooms = [room_details_001, room_details_002, room_details_003]
+
+        </script>
+
+        <button onclick="update_room_details(rooms[0])"> Update room_001 </button>
+        <button onclick="update_room_details(rooms[1])"> Update room_002 </button>
+
+
+
+          <br>
         <div id=Prízemie><br>
-            
-            
-            
+
+
+
             <div class="h_clss">
 
                 <div class="room"></div>
 
-                <div class="room darker">
+                <div class="room darker" id="room_001">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
-                <div class="room lighter">
+
+                <div class="room lighter" id="room_002">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room darker">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
@@ -50,13 +66,13 @@
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room lighter">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room darker">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
@@ -64,21 +80,21 @@
                 </div>
 
                 <div class="room"></div>
-            
+
             </div>
-            
-            
-            
+
+
+
             <div class="h_clss">
-                
+
                 <div class="room spacer"></div>
                 <div class="chodba" style="width:90%"></div>
                 <div class="room spacer"></div>
 
             </div>
-            
-            
-            
+
+
+
             <div class="v_clss">
 
                 <div class="room spacer"></div>
@@ -135,9 +151,9 @@
 
         <h1>1.Poschodie</h1>
         <div id=prvePoschodie><br>
-            
-            
-            
+
+
+
             <div class="h_clss">
 
                 <div class="room"></div>
@@ -147,13 +163,13 @@
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room lighter">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room darker">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
@@ -169,13 +185,13 @@
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room lighter">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                     <p>CO<sub>2</sub> 500ppm </p>
                 </div>
-            
+
                 <div class="room darker">
                     <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                     <p><span class="fas fa-tint fa-xs"></span> 35%</p>
@@ -183,21 +199,21 @@
                 </div>
 
                 <div class="room"></div>
-            
+
             </div>
-            
-            
-            
+
+
+
             <div class="h_clss">
-                
+
                 <div class="room spacer"></div>
                 <div class="chodba" style="width:90%"></div>
                 <div class="room spacer"></div>
 
             </div>
-            
-            
-            
+
+
+
             <div class="v_clss">
 
                 <div class="room spacer"></div>
@@ -248,10 +264,10 @@
 
 
         <h1>2.Poschodie</h1>
-        <div id=druhePoschodie><br>      
-        
-        
-        
+        <div id=druhePoschodie><br>
+
+
+
             <div class="h_clss" style="height: 60px;">
 
                 <div class="room darker" style="width:50%">
@@ -278,7 +294,7 @@
 
 
             </div>
-        
+
             <div class="h_clss" style="height: 60px;">
 
                 <div style="width:25%"></div>
@@ -287,8 +303,39 @@
 
             </div>
 
-        </div>  
-    
-    <br><br><br>
+        </div>
+
+    <br>
+    <script>
+
+      // console.log("My script starting here.");
+
+      function update_room_details(room_details) {
+
+        cell_content = "";
+        if ("temperature" in room_details)
+        {
+          cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+        }
+        if (room_details["humidity"])
+        {
+          cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+        }
+        if (room_details["co2"])
+        {
+          cell_content += '<p>CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+        }
+        // console.log(cell_content);
+
+        // console.log("Room ID: ");
+        // console.log(room_details["id"]);
+
+        document.getElementById(room_details["id"]).innerHTML = cell_content;
+
+      }
+
+    </script>
+
+
     </body>
 </html>
