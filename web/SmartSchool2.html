@@ -6,26 +6,42 @@
         <title>SmartSchool</title>
         <link rel="stylesheet" href="SmartSchoolStyle2.css">
         <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
+
     <body>
 
-
-
-
-
-
-        <h1>Prízemie</h1>
-
         <script>
-          room_details_001 = { "id":"room_001", "temperature": 125.0, "humidity": 135.0, "co2": 100 }
-          room_details_002 = { "id":"room_002", "temperature": 225.0, "humidity": 22.0, "co2": 200 }
-          room_details_003 = { "id":"room_003", "temperature": 325.0, "humidity": 522.0, "co2": 400 }
 
-          rooms = [room_details_001, room_details_002, room_details_003]
+
+          function on_page_load() {
+            var data;
+            // url: 'http://192.168.25.104/api3/get_sensors',
+            $.ajax({
+              url: 'http://192.168.25.104/api3/get_sensors',
+              type: "GET",
+              dataType: "json",
+              success: function (data) {
+                console.log("Success");
+                //console.log(data);
+                return data;
+              },
+              error: function () {
+                console.log("Error!");
+              }
+            });
+            return data;
+          }
+
 
         </script>
 
+        <button onclick="on_page_load()">BTN</button>
+
+            <h1>Prízemie</h1>
+
         <div id=button_refresh_div>
+
         <button id=button_refresh onclick="update_all_room_details()"> <i class="fas fa-sync-alt"></i> </button>
         </div>
           <br>
@@ -309,13 +325,32 @@
       // console.log("My script starting here.");
     function update_all_room_details(){
 
-        for (i=0; i<rooms.length; i++){
-            update_room_details(rooms[i]);
-        }
+      $.ajax({
+        url: 'http://192.168.25.104/api3/get_sensors',
+        type: "GET",
+        dataType: "json",
+        success: function (rooms) {
+          console.log("Success");
+          console.log(rooms);
+
+          for (i=0; i<rooms.length; i++){
+              console.log("Object " + i);
+              console.log(rooms[i]);
+              update_room_details(rooms[i]);
+          }
+
+
+          },
+          error: function () {
+            console.log("Error!");
+          }
+        });
+
+
     }
-    
+
     function update_room_details(room_details) {
-        
+
         cell_content = "";
         if ("temperature" in room_details)
         {
@@ -336,8 +371,8 @@
 
         document.getElementById(room_details["id"]).innerHTML = cell_content;
         }
-        
-    
+
+
     </script>
 
 
