@@ -1,7 +1,10 @@
 *:focus {outline:none;
     scroll-behavior: smooth;
 }
-
+body{
+    margin: 0;
+    padding: 0;
+}
 .cell{
     height: 10%;
     display: flex;
@@ -12,8 +15,9 @@ h1{
     color: #43414e;
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
+    margin-right:auto;
+    line-height: 0px;
 }
-
 p{
     text-align: center;
     color: white;
@@ -22,6 +26,15 @@ p{
     font-size: 10px;
     line-height: 0px;
     
+}
+li{
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 0px;
+    font-size: 18px;
+    color:white;
+    text-decoration: none;
 }
 p.detailsWindow{
     color: #606060;
@@ -44,18 +57,22 @@ p.detailsWindow{
 .lighter {
     background-color: rgb(128, 128, 128);
 }
-
+.orangeRoom {
+    background-color: #FFBE88;
+}
 .chodba{
     background-color: #F2F2F2;
-
 }
 .darker:hover {
     background-color: rgb(69, 69, 69);
-    cursor:pointer;
-    
+    cursor:pointer;  
 }
 .lighter:hover {
     background-color: rgb(108, 108, 108);
+    cursor:pointer;
+}
+.orangeRoom:hover {
+    background-color: rgb(235, 146, 0);
     cursor:pointer;
 }
 #Prízemie{
@@ -82,7 +99,7 @@ p.detailsWindow{
     width: 15%;
 }
 
-#button_refresh_div{
+.button_div{
     display: flex;
     justify-content: center;
     
@@ -102,8 +119,9 @@ button:active{
     transition:0.5s all ease;
     box-shadow:inset 30px 0 0 0 #363636;
 }
-.modal-container{
+.popUpWindow{
     background-color:rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(1px);
     position: fixed;
     display:flex;
     justify-content: center;
@@ -117,7 +135,7 @@ button:active{
     pointer-events: none;
     transition: opacity 0.2s ease;
 }
-.modal{
+.popUp{
     background-color: #fff;
     width:600px;
     max-width: 100%;
@@ -127,7 +145,7 @@ button:active{
     text-align: center;
     box-sizing: border-box;
 }
-.modal-container.show{
+.popUpWindow.show{
     pointer-events: auto;
     opacity:1;
 }
@@ -146,4 +164,45 @@ button:active{
 #close{
     padding: 4px 8px 4px 8px;
     font-size: 14px;
+}
+p.red{
+    color:#F67280;
+}
+p.blue{
+    color:#79D2E6;
+}
+nav{
+    width:100%;
+    background:rgb(69, 69, 69);
+    position:fixed;
+    top:0;
+}
+#header{
+    padding:0;
+    margin:0;
+    list-style:none;
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+}
+#header a{
+    padding: 20px;
+    width:100%;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color:white;
+}
+#header a:hover{
+    color:rgb(220, 220, 220);
+}
+#logo{
+    font-size: 22px;
+    padding: 20px 0px 0px 20px;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color:white;
 }

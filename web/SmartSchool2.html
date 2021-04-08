@@ -13,6 +13,17 @@
 
         <script>
 
+            //TEMPORARY DATA FOR TESTING
+            room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 37.0, "co2": 40 }
+            room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 100.0, "co2": 40 }
+            room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005]
+
+
+            document.addEventListener("DOMContentLoaded", function(){update_all_room_details()});
+
 
           function on_page_load() {
             var data;
@@ -35,11 +46,21 @@
 
         </script>
 
-        <button onclick="on_page_load()">BTN</button>
+        <nav>
+            <ul id="header">
+                <li id="logo">SMARTSCHOOL</li>
+                <li><a href=SmartSchool2.html>SCHEME</a></li>
+                <li><a href=>TABLE</a></li>
+            </ul>
+        </nav>      
+
+        
+        
+        <br><br><br>
 
         <h1>Prízemie</h1>
 
-        <div id=button_refresh_div>
+        <div class="button_div">
         <button id=button_refresh onclick="update_all_room_details()"> <i class="fas fa-sync-alt"></i> </button>
         </div>
           <br>
@@ -50,7 +71,7 @@
 
             <div class="room topLeft" style="width:10%" ></div>
 
-            <div class="room lighter" id="room_001" onclick="openDetails()">
+            <div class="room lighter" id="room_001" onclick="openDetails(rooms[0])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -58,13 +79,13 @@
 
             <div class="room"></div>
 
-            <div class="room darker" id="room_002" onclick="openDetails()">
+            <div class="room darker" id="room_002" onclick="openDetails(rooms[1])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room lighter" id="room_003" onclick="openDetails()">
+            <div class="room lighter" id="room_003" onclick="openDetails(rooms[2])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -109,7 +130,7 @@
             <div class="room chodba"></div>
             <div style="width: 35%"></div>
             <div class="room chodba"></div>
-            <div class="room darker" id="room_004" onclick="openDetails()">
+            <div class="room darker" id="room_004" onclick="openDetails(rooms[3])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -135,7 +156,7 @@
 
             <div style="width: 90%"></div>
             <div class="room chodba bottomLeft"></div>
-            <div class="room lighter bottomRight" id="room_005" onclick="openDetails()">
+            <div class="room lighter bottomRight" id="room_005" onclick="openDetails(rooms[4])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -315,14 +336,17 @@
 
     </div>
 
-  
+    <div class="button_div"><button onclick="on_page_load()">BTN</button></div>
                 
-        <div class="modal-container" id="modal_container">
-            <div class="modal">
+        <div class="popUpWindow" id="popUpWindowID">
+            <div class="popUp">
                 <h1 class=detailsWindow>Detaily o triede</h1>
+                <br>
+                <div id="detailsInPopUp">
                 <p class=detailsWindow><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p class=detailsWindow><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
+                </div>
                 <br>
                 <button id="close">
                     Zavrieť
@@ -334,7 +358,8 @@
     <script>
 
       // console.log("My script starting here.");
-    function update_all_room_details(){
+    /*
+      function update_all_room_details(){
 
       $.ajax({
         url: 'http://192.168.0.105/api/get_sensors',
@@ -359,10 +384,20 @@
 
 
     }
+    */
+
+    function update_all_room_details(){
+
+    for (i=0; i<rooms.length; i++){
+        update_room_details(rooms[i]);
+        }
+    }
+
 
     function update_room_details(room_details) {
 
         cell_content = "";
+
         if ("temperature" in room_details)
         {
         cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
@@ -375,34 +410,107 @@
         {
         cell_content += '<p>CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
         }
-        // console.log(cell_content)
-
-        // console.log("Room ID: ");
-        // console.log(room_details["id"]);
-
-        //detaily ako z shmu do jednej miestnosti ********
         
         document.getElementById(room_details["id"]).innerHTML = cell_content;
+
+        if ((room_details["temperature"]<18) || (room_details["temperature"]>24) || (room_details["humidity"]<30) || (room_details["humidity"]>50) || (room_details["co2"]<30) || (room_details["co2"]>50))
+            {
+                document.getElementById(room_details["id"]).className = "room orangeRoom";
+            }
+    }
+
+        function openDetails(room_details) {
+            
+            update_all_room_details(room_details);
+            cell_content = "";
+
+            if ("temperature" in room_details)
+            {
+            
+                if (room_details["temperature"]<18)
+                    {
+                        cell_content += '<p class="blue detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+                    }
+                    else if (room_details["temperature"]<24)
+                        {
+                            cell_content += '<p class="detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+                        }
+                        else
+                            {
+                                cell_content += '<p class="red detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+                            } 
+
+            }
+
+
+
+            if (room_details["humidity"])
+            {
+            
+                if (room_details["humidity"]<30)
+                    {
+                        cell_content += '<p class="blue detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+                    }
+                    else if (room_details["humidity"]<50)
+                        {
+                            cell_content += '<p class="detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+                        }
+                        else
+                            {
+                                cell_content += '<p class="red detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+                            } 
+
+            }
+            if (room_details["co2"])
+            {
+
+                if (room_details["co2"]<30)
+                    {
+                        cell_content += '<p class="blue detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+                    }
+                    else if (room_details["co2"]<50)
+                        {
+                            cell_content += '<p class="detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+                        }
+                        else
+                            {
+                                cell_content += '<p class="red detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+                            } 
+
+
+            }
+        document.getElementById("detailsInPopUp").innerHTML = cell_content;
+        popUpWindowID.classList.add('show');
         }
+        
+        
+        
         // Okno s detailmi
         //const open = document.getElementById('open');
-        const modal_container = document.getElementById('modal_container');
+        const popUpWindowID = document.getElementById('popUpWindowID');
         const close = document.getElementById('close');
 
-        function openDetails(){
-            modal_container.classList.add('show');
-        }
 
           //open.addEventListener('click',()=>{
-        //    modal_container.classList.add('show');
+        //    popUpWindowID.classList.add('show');
         //})
 
         close.addEventListener('click',()=>{
-            modal_container.classList.remove('show');
+            popUpWindowID.classList.remove('show');
         })
 
+
+        /* DATA FOR TESTING 
+        
+        room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 5.0, "co2": 5 }
+        room_details_002 = { "id":"room_002", "temperature": 22.0, "humidity": 40.0, "co2": 40 }
+        room_details_003 = { "id":"room_003", "temperature": 100.0, "humidity": 100.0, "co2": 100 }
+
+        rooms = [room_details_001, room_details_002, room_details_003]
+        */
+        
     </script>
 
-
+    
     </body>
 </html>
