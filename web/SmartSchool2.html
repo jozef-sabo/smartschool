@@ -12,7 +12,10 @@
     <body>
 
         <script>
-
+            
+            var rooms;
+            
+            /*
             //TEMPORARY DATA FOR TESTING
             room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 37.0, "co2": 40 }
             room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
@@ -20,14 +23,13 @@
             room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 100.0, "co2": 40 }
             room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
             rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005]
-
-
+            */
             document.addEventListener("DOMContentLoaded", function(){update_all_room_details()});
 
 
-          function on_page_load() {
+            function on_page_load() {
             var data;
-            // url: 'http://192.168.0.105/api/get_sensors',
+            // url: 'http://192.168.25.104/api3/get_sensors',
             $.ajax({
               url: 'http://192.168.0.105/api/get_sensors',
               type: "GET",
@@ -41,8 +43,10 @@
                 console.log("Error!");
               }
             });
+            rooms=data;
             return data;
           }
+
 
         </script>
 
@@ -50,7 +54,7 @@
             <ul id="header">
                 <li id="logo">SMARTSCHOOL</li>
                 <li><a href=SmartSchool2.html>SCHEME</a></li>
-                <li><a href=>TABLE</a></li>
+                <li><a href=SmartSchoolTable.html>TABLE</a></li>
             </ul>
         </nav>      
 
@@ -355,13 +359,13 @@
             </div>
         </div>
         <br><br><br><br><br>
+    
     <script>
-
       // console.log("My script starting here.");
-    /*
+    
       function update_all_room_details(){
-
-      $.ajax({
+          
+        $.ajax({
         url: 'http://192.168.0.105/api/get_sensors',
         type: "GET",
         dataType: "json",
@@ -383,16 +387,18 @@
         });
 
 
-    }
-    */
 
+    }
+    
+    
+    /*
     function update_all_room_details(){
 
     for (i=0; i<rooms.length; i++){
         update_room_details(rooms[i]);
         }
     }
-
+    */
 
     function update_room_details(room_details) {
 
