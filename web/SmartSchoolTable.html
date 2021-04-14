@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="sk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartSchool</title>
+        <link rel="stylesheet" href="SmartSchoolStyle2.css">
+        <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        
+
+
+        <script>
+
+            /*
+            //TEMPORARY DATA FOR TESTING
+            room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 37.0, "co2": 40 }
+            room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 100.0, "co2": 40 }
+            room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005]
+            */
+
+            document.addEventListener("DOMContentLoaded", function(){updateTableData()});
+        </script>
+
+
+
+        <nav>
+            <ul id="header">
+                <li id="logo">SMARTSCHOOL</li>
+                <li><a href=SmartSchool2.html>SCHEME</a></li>
+                <li><a href=SmartSchoolTable.html>TABLE</a></li>
+            </ul>
+        </nav>   
+        
+        <br><br><br>
+        <h1>Prízemie</h1>
+        <br>
+        <table class="contentTable">
+            <thead>
+                <tr>
+                    <td>Trieda</td>
+                    <td>Teplota</td>
+                    <td>Vlhkosť</td>
+                    <td>CO<sub>2</sub></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  id="room_001">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr id="room_002">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr  id="room_003">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr id="room_004">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr  id="room_005">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <h1>1.Poschodie</h1>
+        <br>
+        <table class="contentTable">
+            <thead>
+            <tr>
+                <td>Trieda</td>
+                <td>Teplota</td>
+                <td>Vlhkosť</td>
+                <td>CO<sub>2</sub></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="room_006">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_007">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_008">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_009">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_010">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_011">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_012">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_013">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_014">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_015">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_016">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_017">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_018">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+        </tbody>
+        </table>
+        
+
+        <script>
+            function updateTableData(){
+            for (i=0; i<rooms.length; i++){
+            updateTableRow(rooms[i]);}
+            }
+            
+            function updateTableRow(room_details) {
+            
+            cell_content = "";
+            room_number=i+1;
+
+            cell_content += '<td>Trieda '+room_number+'</td>'
+
+            if ("temperature" in room_details)
+            {
+            
+                if (room_details["temperature"]<18)
+                    {
+                        cell_content += '<td style="color:#79D2E6;">'+room_details["temperature"]+'</td>';
+                    }
+                    else if (room_details["temperature"]<24)
+                        {
+                            cell_content += '<td>'+room_details["temperature"]+'</td>';
+                        }
+                        else
+                            {
+                                cell_content += '<td style="color:#F67280;">'+room_details["temperature"]+'</td>';
+                            } 
+
+            }
+
+
+
+            if (room_details["humidity"])
+            {
+            
+                if (room_details["humidity"]<30)
+                    {
+                        cell_content += '<td style="color:#79D2E6;">'+room_details["humidity"]+'</td>';
+                    }
+                    else if (room_details["humidity"]<50)
+                        {
+                            cell_content += '<td>'+room_details["humidity"]+'</td>';
+                        }
+                        else
+                            {
+                                cell_content += '<td style="color:#F67280;">'+room_details["humidity"]+'</td>';
+                            } 
+
+            }
+            if (room_details["co2"])
+            {
+
+                if (room_details["co2"]<30)
+                    {
+                        cell_content += '<td style="color:#79D2E6;">'+room_details["co2"]+'</td>';
+                    }
+                    else if (room_details["co2"]<50)
+                        {
+                            cell_content += '<td>'+room_details["co2"]+'</td>';
+                        }
+                        else
+                            {
+                                cell_content += '<td style="color:#F67280;">'+room_details["co2"]+'</td>';
+                            } 
+
+
+            }
+            document.getElementById(room_details["id"]).innerHTML = cell_content;
+            }
+        </script>
+    </body>
+</html>
