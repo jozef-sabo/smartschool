@@ -16,12 +16,11 @@
       <canvas id="myChart"></canvas>
     </div>
     <script>
-
     function read_json() {
 
       var data;
       $.ajax({
-        url: 'http://127.0.0.1:5000/sk',
+        url: 'http://127.0.0.1:5000/timelineTemp',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -45,8 +44,8 @@
         labels: labelData,
         datasets: [{
         label: 'Temperature',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'grey',
+        borderColor: 'grey',
         data: tempData,
         }]
       };
@@ -54,7 +53,13 @@
       const config = {
       type: 'line',
       data,
-      options: {}
+      options: {
+        elements:{
+          point:{
+            // radius: 0
+          }
+        }
+      }
       };
 
       var myChart = new Chart(
