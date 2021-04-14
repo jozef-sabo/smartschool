@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <html>
+    <button onclick="read_json()">Get temp_05_04_2021</button>
+    <div>
+      <canvas id="myChart"></canvas>
+    </div>
+    <script>
+
+    function read_json() {
+
+      var data;
+      $.ajax({
+        url: 'http://127.0.0.1:5000/sk',
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log("Success");
+            console.log(data);
+            return drawLine (data);
+        },
+        error: function () {
+            console.log("Error!");
+        }
+      });
+      return data; 
+
+    }
+
+    function drawLine(x) {
+      const labelData = x.map(function(value,index) { return value[0]; });
+      const tempData = x.map(function(value,index) { return value[1]; });
+
+      const data = {
+        labels: labelData,
+        datasets: [{
+        label: 'Temperature',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: tempData,
+        }]
+      };
+
+      const config = {
+      type: 'line',
+      data,
+      options: {}
+      };
+
+      var myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+      );
+
+      return myChart;
+    }
+
+    </script>
+
+</html>
+</body>
