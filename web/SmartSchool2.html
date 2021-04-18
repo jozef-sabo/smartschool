@@ -9,13 +9,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
 
-    <body>
+    <body id="bodyID">
 
         <script>
             
             var rooms;
             
-            /*
+            
             //TEMPORARY DATA FOR TESTING
             room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 37.0, "co2": 40 }
             room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
@@ -23,7 +23,7 @@
             room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 100.0, "co2": 40 }
             room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
             rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005]
-            */
+            
             document.addEventListener("DOMContentLoaded", function(){update_all_room_details()});
 
 
@@ -350,7 +350,12 @@
                 <p class=detailsWindow><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p class=detailsWindow><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
+                <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
                 </div>
+                
+                <div id="detailsInPopUpPt2">
+                </div>
+
                 <br>
                 <button id="close">
                     Zavrieť
@@ -362,7 +367,7 @@
     
     <script>
       // console.log("My script starting here.");
-    
+    /*
       function update_all_room_details(){
           
         $.ajax({
@@ -390,15 +395,15 @@
 
     }
     
+    */
     
-    /*
     function update_all_room_details(){
 
     for (i=0; i<rooms.length; i++){
         update_room_details(rooms[i]);
         }
     }
-    */
+    
 
     function update_room_details(room_details) {
 
@@ -429,6 +434,7 @@
             
             update_all_room_details(room_details);
             cell_content = "";
+            cell_content2 = "";
 
             if ("temperature" in room_details)
             {
@@ -485,8 +491,15 @@
 
 
             }
+        
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br><br><br><br><br><br><br><br><br>' ;
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br><br><br><br><br><br><br><br><br>' ;
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br><br><br><br><br><br><br><br><br>' ;
+
         document.getElementById("detailsInPopUp").innerHTML = cell_content;
+        document.getElementById("detailsInPopUpPt2").innerHTML = cell_content2;
         popUpWindowID.classList.add('show');
+        bodyID.classList.add('noscroll');
         }
         
         
@@ -503,6 +516,7 @@
 
         close.addEventListener('click',()=>{
             popUpWindowID.classList.remove('show');
+            bodyID.classList.remove('noscroll');
         })
 
 
