@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import date
 # import matplotlib.pyplot as plt
 # import os
 '''
@@ -37,6 +38,18 @@ def filterByDateTime(npData, year, month, day, hour):
             result.append((row[0], row[1]))
     return np.array(result)
 
+def filterTodayData(npData):
+    today = date.today()
+    # print(today)
+    result = []
+    for row in npData:
+        today = date.today()
+        current = np.array(row[0], dtype='datetime64[D]') # array s iba reg_date
+        # print(current)
+        if current == today:
+            result.append((row[0], row[1]))
+    return np.array(result)
+
 def filterByRoom(npData, room):
     result = []
     for row in npData:
@@ -44,10 +57,42 @@ def filterByRoom(npData, room):
             result.append((row[5], row[1], row[2]))
     return np.array(result)
 
+def parsePlot(npData):
+    # returns data in format [[minute of the day][value]]
+    for row in npData:
+        row[0] = (int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)
+    return npData
+
+# funkcia pre candlestick chart
+def parseCandle(npData):
+    result = []
+    # returns data in format [[hour],[value_1, value_2,...,value_n]]
+    for row in npData:
+        row[0] = int(row[0].strftime("%H"))
+        if not result:
+            result.append([row[0]])
+            result[0].append([row[1]])
+            continue
+        for element in result:
+            if element[0] == row[0]:
+                element[1].append(row[1])
+                continue
+            elif element == result[-1]:
+                result.append([row[0]])
+                result[-1].append([row[1]])
+                break
+    # returns data in format [[hour], [open - Q3, high - maximum, low - minimum, close - Q1]]
+    for element in result:
+        # element[1] = [np.quantile(element[1], .75), maxi(element[1]), mini(element[1]), np.quantile(element[1], .25)]
+        element[1] = [element[1][0], maxi(element[1]), mini(element[1]), element[1][-1]]
+    
+    return result
+
+
+
 def processData(data, year, month, day, hour):
     # date hour v data v poradi: 'Y-M-D hh:mm:ss'
     # predpoklad: numpy 2dim pole x(datum) y1(teplota) y2(vlhkost), .isnull() == 0
-
     if day == '0':
         mydate = np.datetime64(year+'-'+month)
         dates = np.array(data[:, 5], dtype='datetime64[M]') # array s iba reg_date
@@ -73,10 +118,10 @@ def avg(val):
     return round(np.mean(val.astype(np.float64)), 1)
 
 def maxi(val):
-    return round(np.amax(val.astype(np.float64)), 1)
+    return round(np.amax(val), 1)
 
 def mini(val):
-    return round(np.amin(val.astype(np.float64)), 1)
+    return round(np.amin(val), 1)
 
 def dev(val):
     return round(np.std(val.astype(np.float64)), 1)
@@ -101,11 +146,10 @@ def pearson(val1, val2):
 #     plt.show()
 
 
+# def cleanDataset(data):
+#     data = data[1:, 1:] # odstranenie id column a prvy riadok s nazvami
+#     for row in range(data.shape[0]):
+#         for column in range(data.shape[1]):
+#             data[row, column] = data[row, column][1:-1] # odstranenie extra uvodzoviek kvoli encoding = None v np.genfromtxt()
 
-def cleanDataset(data):
-    data = data[1:, 1:] # odstranenie id column a prvy riadok s nazvami
-    for row in range(data.shape[0]):
-        for column in range(data.shape[1]):
-            data[row, column] = data[row, column][1:-1] # odstranenie extra uvodzoviek kvoli encoding = None v np.genfromtxt()
-
-    return data
+#     return data
