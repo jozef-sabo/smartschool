@@ -497,19 +497,22 @@
             }
         cell_content2 += '<button onclick="candle()">Show Candle</button>';
         cell_content2 += '<button onclick="line()">Show Line</button>';
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br>' ;
-        cell_content2 += '<div id="chartTemp" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br>' ;
-        cell_content2 += '<div id="chartHumid" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br>' ;
-        cell_content2 += '<div id="chartDP" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br>' ;
-        cell_content2 += '<div id="chartA0" style="height: 300px; width: 100%;"></div>'
+        
+        cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div>'
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div>'
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div>'
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div>'
+        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
 
+        
         document.getElementById("detailsInPopUp").innerHTML = cell_content;
         document.getElementById("detailsInPopUpPt2").innerHTML = cell_content2;
         popUpWindowID.classList.add('show');
         bodyID.classList.add('noscroll');
+        candle();
         }
         
         
@@ -542,7 +545,7 @@
         var data;
 
         $.ajax({
-        url: 'http://127.0.0.1:5000/Candle',
+        url: 'http://192.168.0.105/api/Candle',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -562,7 +565,7 @@
     function line() {
       var data;
       $.ajax({
-        url: 'http://127.0.0.1:5000/Line',
+        url: 'http://192.168.0.105/api/Line',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -584,33 +587,57 @@
       sensor = selectSensorType(idx);
       var chart = new CanvasJS.Chart(sensor[0], {
 	      animationEnabled: true,
+          backgroundColor: "rgba(255, 255, 255, 0)",  
 	      theme: "light2", // "light1", "light2", "dark1", "dark2"
 	      exportEnabled: true,
+          dataPointWidth: 10,
 	      title: {
 		      text: sensor[1],
+              fontColor: 'gray',
 	      },
 	      subtitles: [{
-		      text: "Hourly Candles"
+		      text: "Hourly Candles",
+              fontColor: 'gray',
+
 	      }],
 	      axisY: {
 		      // title: "Temp",
+              lineColor:'gray',
+              labelFontSize: 10,
+              labelFontColor: 'gray',
+              gridThickness:0,
+	      },
+          axisX: {
+		      // title: "Temp",
+              lineColor:'gray',
+              labelFontSize: 10,
+              labelFontColor: 'gray',
 	      },
 	      toolTip: {
           shared: false,
 		      content: "Hour: {x}<br /><strong>Values:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
 	      },
-	      data: [{
-		      type: "candlestick",
-          xValueType: "int",
-		      dataPoints: createDatapoints(data),
-          fallingColor: 'grey',
-          risingColor: 'white',
+	      data: [
+		      
+            {
+		    type: "spline",
+		    dataPoints: createOHLCpoints(data, 3), //0 - open, 1 - high, 2 - low, 3 - close
+            markerType: 'none',
+            lineColor: '#ABC1C4',
+            lineThickness: 3,
 	      },
-        {
-		      type: "spline",
-		      dataPoints: createOHLCpoints(data, 3), //0 - open, 1 - high, 2 - low, 3 - close
-          markerType: 'none',
+          {
+            type: "candlestick",
+            xValueType: "int",
+		    dataPoints: createDatapoints(data),
+            //fallingColor: '#79D2E6',
+            fallingColor: '#DA4467',
+            //risingColor: '#F67280',
+            risingColor: '#69B5A6',
+            color:'rgb(200, 200, 200)',
+            lineThickness:40,
 	      },
+        
         // {
 		    //   type: "spline",
 		    //   dataPoints: createOHLCpoints(y, 0)
@@ -630,6 +657,7 @@
         }
         return dataPoints
       };
+      changeBorderColor(chart);
       chart.render();
     };
     
@@ -637,14 +665,16 @@
 
       sensor = selectSensorType(idx);
       var chart = new CanvasJS.Chart(sensor[0], {
-	      animationEnabled: true,  
+	      animationEnabled: true,
+          backgroundColor: "rgba(255, 255, 255, 0)",  
 	      title:{
 		      text: sensor[1],
 	      },
 	      axisY: {
 		      stripLines: [{
 			    value: avg,
-			    label: "Average"
+			    label: "Average",
+                lineColor:'white',
 		      }],
           minimum: 0
 	      },
@@ -690,6 +720,16 @@
         }
         return dataPoints
       }
+
+      function changeBorderColor(chart){
+	var dataSeries;
+	for( var i = 0; i < chart.options.data.length; i++){
+  		dataSeries = chart.options.data[i];
+      for(var j = 0; j < dataSeries.dataPoints.length; j++){
+        dataSeries.dataPoints[j].color = (dataSeries.dataPoints[j].y[0] <= dataSeries.dataPoints[j].y[3]) ? (dataSeries.risingColor ? dataSeries.risingColor : dataSeries.color) : (dataSeries.fallingColor ? dataSeries.fallingColor : dataSeries.color);
+      }
+    }
+    }
     </script>
 
     
