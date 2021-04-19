@@ -21,12 +21,28 @@
             
             
             //TEMPORARY DATA FOR TESTING
-            room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 37.0, "co2": 40 }
+            room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
             room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
             room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-            room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 100.0, "co2": 40 }
+            room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 60.0, "co2": 40 }
             room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005]
+            room_details_006 = { "id":"room_006", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
+            room_details_007 = { "id":"room_007", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_008 = { "id":"room_008", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_009 = { "id":"room_009", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_010 = { "id":"room_010", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            room_details_011 = { "id":"room_011", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_012 = { "id":"room_012", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_013 = { "id":"room_013", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            room_details_014 = { "id":"room_014", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
+            room_details_015 = { "id":"room_015", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005,
+                    room_details_006, room_details_007, room_details_008, room_details_009, room_details_010,
+                    room_details_011, room_details_012, room_details_013, room_details_014, room_details_015,
+                    room_details_016, room_details_017, room_details_018,]
             
             document.addEventListener("DOMContentLoaded", function(){update_all_room_details()});
 
@@ -188,25 +204,25 @@
 
             <div class="room topLeft" style="width:10%"></div>
 
-            <div class="room darker" id="room_006" onclick="openDetails()">
+            <div class="room darker" id="room_006" onclick="openDetails(rooms[5])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room lighter" id="room_007" onclick="openDetails()">
+            <div class="room lighter" id="room_007" onclick="openDetails(rooms[6])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room darker" id="room_008" onclick="openDetails()">
+            <div class="room darker" id="room_008" onclick="openDetails(rooms[7])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room lighter" id="room_009" onclick="openDetails()">
+            <div class="room lighter" id="room_009" onclick="openDetails(rooms[8])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -214,13 +230,13 @@
             
             <div class="room"></div>
 
-            <div class="room darker" id="room_010" onclick="openDetails()">
+            <div class="room darker" id="room_010" onclick="openDetails(rooms[9])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room lighter" id="room_011" onclick="openDetails()">
+            <div class="room lighter" id="room_011" onclick="openDetails(rooms[10])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -228,7 +244,7 @@
 
             <div class="room" style="width:10%"></div>
             
-            <div class="room darker" id="room_012" onclick="openDetails()">
+            <div class="room darker" id="room_012" onclick="openDetails(rooms[11])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -236,13 +252,13 @@
 
             <div class="room"></div>
 
-            <div class="room lighter" id="room_013" onclick="openDetails()">
+            <div class="room lighter" id="room_013" onclick="openDetails(rooms[12])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
 
-            <div class="room darker" id="room_014" onclick="openDetails()">
+            <div class="room darker" id="room_014" onclick="openDetails(rooms[13])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -250,7 +266,7 @@
 
             <div class="room"></div>
 
-            <div class="room lighter" id="room_015" onclick="openDetails()">
+            <div class="room lighter" id="room_015" onclick="openDetails(rooms[14])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -281,7 +297,7 @@
             <div class="room chodba"></div>
             <div style="width: 35%"></div>
             <div class="room chodba"></div>
-            <div class="room lighter" id="room_016" onclick="openDetails()">
+            <div class="room lighter" id="room_016" onclick="openDetails(rooms[15])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -310,7 +326,7 @@
 
             <div style="width: 90%"></div>
             <div class="room chodba"></div>
-            <div class="room lighter" id="room_017" onclick="openDetails()">
+            <div class="room lighter" id="room_017" onclick="openDetails(rooms[16])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -334,7 +350,7 @@
 
             <div style="width: 90%"></div>
             <div class="room chodba bottomLeft"></div>
-            <div class="room lighter bottomRight" id="room_018" onclick="openDetails()">
+            <div class="room lighter bottomRight" id="room_018" onclick="openDetails(rooms[17])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -369,6 +385,7 @@
         </div>
         <br><br><br><br><br>
     
+        
     <script>
       // console.log("My script starting here.");
     /*
@@ -495,17 +512,17 @@
 
 
             }
-        cell_content2 += '<button onclick="candle()">Show Candle</button>';
-        cell_content2 += '<button onclick="line()">Show Line</button>';
+        cell_content2 += '<br><br><button class="leftButton" onclick="candle()">Show Candle</button>';
+        cell_content2 += '<button class="rightButton" onclick="line()">Show Line</button><br><br>';
         
         cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div class="test"><button id="id1D">1 Day</button><button id="id1W">1 Week</button><button id="id1M">1 Month</button><button id="id1Y">1 Year</button></div><br><br></div>' ;
+        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
 
         
         document.getElementById("detailsInPopUp").innerHTML = cell_content;
@@ -588,8 +605,7 @@
       var chart = new CanvasJS.Chart(sensor[0], {
 	      animationEnabled: true,
           backgroundColor: "rgba(255, 255, 255, 0)",  
-	      theme: "light2", // "light1", "light2", "dark1", "dark2"
-	      exportEnabled: true,
+	      theme: "light2",
           dataPointWidth: 10,
 	      title: {
 		      text: sensor[1],
@@ -606,6 +622,7 @@
               labelFontSize: 10,
               labelFontColor: 'gray',
               gridThickness:0,
+              minimum: 0,
 	      },
           axisX: {
 		      // title: "Temp",
@@ -638,7 +655,7 @@
 		    dataPoints: createOHLCpoints(data, 3), //0 - open, 1 - high, 2 - low, 3 - close
             markerType: 'none',
             lineColor: '#ABC1C4',
-            lineThickness: 3,
+            lineThickness: 1,
 	      },
           {
             type: "candlestick",
@@ -649,7 +666,6 @@
             //risingColor: '#F67280',
             risingColor: '#69B5A6',
             color:'rgb(200, 200, 200)',
-            lineThickness:40,
 	      },
         ]
       });
@@ -679,17 +695,35 @@
 	      title:{
 		      text: sensor[1],
 	      },
-	      axisY: {
+          axisY: {
 		      stripLines: [{
 			    value: avg,
 			    label: "Average",
                 lineColor:'white',
+                color: 'rgb(235, 146, 0)',
+                gridThickness:0,
 		      }],
-          minimum: 0
-	      },
+            minimum: 0,
+            labelFontSize: 10,
+            labelFontColor: 'gray',
+            gridThickness:0,
+            fontColor: 'rgb(235, 146, 0)',
+            lineThickness:0,
+            },
+              axisX: {
+              lineColor:'gray',
+              labelFontSize: 10,
+              labelFontColor: 'gray',
+              gridThickness:0,
+	        },
+            
+	      
 	      data: [{
 		      type: "line",
 		      dataPoints: createDatapoints(data),
+              color: '#ABC1C4',
+              markerType: 'none',
+              lineThickness:4,
 	      }]
       });
     chart.render();
