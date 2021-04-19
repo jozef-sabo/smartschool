@@ -11,7 +11,9 @@ C3All = smartSchool.filterByRoom(dbData, "3C")
 # print(smartSchool.filterTodayData(tempAll))
 
 # temperature example
+print(tempAll)
 temp_06_04_2021 = smartSchool.filterByDateTime(tempAll, '2021', '04', '06', '0') # do not use '0' as it is a valid hour_Idx
+# print(temp_06_04_2021)
 # print(smartSchool.parsePlot(temp_06_04_2021))
 # print("        and        ")
 # print(smartSchool.parseCandle(temp_05_04_2021))

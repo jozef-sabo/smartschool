@@ -545,7 +545,7 @@
         var data;
 
         $.ajax({
-        url: 'http://192.168.0.105/api/Candle',
+        url: 'http://127.0.0.1:5000/Candle',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -565,7 +565,7 @@
     function line() {
       var data;
       $.ajax({
-        url: 'http://192.168.0.105/api/Line',
+        url: 'http://127.0.0.1:5000/Line',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -614,9 +614,23 @@
               labelFontColor: 'gray',
 	      },
 	      toolTip: {
-          shared: false,
-		      content: "Hour: {x}<br /><strong>Values:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
-	      },
+            shared: false,
+            contentFormatter: function ( e ){
+                var content = "";
+                for (var i = 0; i < e.entries.length; i++) {
+                    y = e.entries[i].dataPoint.y;
+                    x = e.entries[i].dataPoint.x;
+                    if(Array.isArray(y)){
+                        content += "Hour: " + x + "<br /><strong>Values:</strong><br />Open: " + y[0] + ", Close: " + y[3] + "<br />High: " + y[1] + ", Low: " + y[2];
+                    }
+                    else{
+                        content += "Hour: "+ x + "<br /><strong>Value:</strong><br />" + y;
+                    }
+                }
+                return content
+                }
+            }
+	      ,
 	      data: [
 		      
             {
@@ -637,11 +651,6 @@
             color:'rgb(200, 200, 200)',
             lineThickness:40,
 	      },
-        
-        // {
-		    //   type: "spline",
-		    //   dataPoints: createOHLCpoints(y, 0)
-	      // }
         ]
       });
 
@@ -679,7 +688,7 @@
           minimum: 0
 	      },
 	      data: [{
-		      type: "spline",
+		      type: "line",
 		      dataPoints: createDatapoints(data),
 	      }]
       });
@@ -722,11 +731,11 @@
       }
 
       function changeBorderColor(chart){
-	var dataSeries;
-	for( var i = 0; i < chart.options.data.length; i++){
-  		dataSeries = chart.options.data[i];
-      for(var j = 0; j < dataSeries.dataPoints.length; j++){
-        dataSeries.dataPoints[j].color = (dataSeries.dataPoints[j].y[0] <= dataSeries.dataPoints[j].y[3]) ? (dataSeries.risingColor ? dataSeries.risingColor : dataSeries.color) : (dataSeries.fallingColor ? dataSeries.fallingColor : dataSeries.color);
+	    var dataSeries;
+	    for( var i = 0; i < chart.options.data.length; i++){
+  		    dataSeries = chart.options.data[i];
+        for(var j = 0; j < dataSeries.dataPoints.length; j++){
+            dataSeries.dataPoints[j].color = (dataSeries.dataPoints[j].y[0] <= dataSeries.dataPoints[j].y[3]) ? (dataSeries.risingColor ? dataSeries.risingColor : dataSeries.color) : (dataSeries.fallingColor ? dataSeries.fallingColor : dataSeries.color);
       }
     }
     }
