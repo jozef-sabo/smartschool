@@ -125,6 +125,13 @@ def processData(data, year, month, day, hour):
     return result
 
 
+def a0volt(npData):
+    for line in npData:
+        line[1] = line[1]/1024*5.0
+    
+    return npData
+
+
 # val - stlpec z processed_data
 # => processed_data[:,0] = temp ; processed_data[:,1] = humid
 def avg(val):

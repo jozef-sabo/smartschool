@@ -54,7 +54,8 @@ def filter_data_to_candle():
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
     return jsonify([temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle])
 
@@ -65,7 +66,7 @@ def sub_candle():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '06', 'x') 
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x') 
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -91,7 +92,8 @@ def sub_candle():
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
     return jsonify([temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle])
 
@@ -102,7 +104,7 @@ def add_candle():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '06', 'x') 
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x') 
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -128,7 +130,8 @@ def add_candle():
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
     return jsonify([temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle])
 
@@ -138,7 +141,7 @@ def filter_data_to_line():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '06', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
 
     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
@@ -158,7 +161,8 @@ def filter_data_to_line():
     a0_all = mainData.smartSchool.filterByType(db_data, "A0")
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
 
     temp_av = mainData.smartSchool.avg(temp_06_04_2021_line[1])
     humid_av = mainData.smartSchool.avg(humid_06_04_2021_line[1])
@@ -172,7 +176,7 @@ def line_sub():
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '06', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -196,7 +200,8 @@ def line_sub():
     a0_all = mainData.smartSchool.filterByType(db_data, "A0")
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
 
     temp_av = mainData.smartSchool.avg(temp_06_04_2021_line[1])
     humid_av = mainData.smartSchool.avg(humid_06_04_2021_line[1])
@@ -210,7 +215,7 @@ def line_add():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '06', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -234,7 +239,8 @@ def line_add():
     a0_all = mainData.smartSchool.filterByType(db_data, "A0")
     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021)
+    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
+    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
 
     temp_av = mainData.smartSchool.avg(temp_06_04_2021_line[1])
     humid_av = mainData.smartSchool.avg(humid_06_04_2021_line[1])
