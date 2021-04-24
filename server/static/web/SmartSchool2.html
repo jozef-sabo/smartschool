@@ -516,7 +516,7 @@
         cell_content2 += '<button class="rightButton" onclick="line()">Show Line</button><br><br>';
         
         cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
+        cell_content2 += '<br><br><div><button id ="dateSub" class="leftButton"><span class="fas fa-chevron-left"></span></button><button id = "dateAdd" class="rightButton""><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div>'
         cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div>'
@@ -558,6 +558,32 @@
 
         rooms = [room_details_001, room_details_002, room_details_003]
         */
+
+        var date = new Date();
+        var dd = String(date.getDate()).padStart(2, '0');
+        var mm = String(date.getMonth()).padStart(2, '0'); //January is 0!
+        var yyyy = date.getFullYear();
+        today = new Date(yyyy,mm,dd);
+        date = new Date(yyyy,mm,dd);
+        console.log(date);
+
+        
+        // function dateSub() {
+        //     date.setDate( date.getDate() - 1 );
+        //     return date
+        // }
+
+        // function dateAdd() {
+        //     if (date.getTime() == today.getTime()){
+        //         return date
+        //     }
+        //     else{
+        //         date.setDate( date.getDate() + 1 );
+        //         return date
+        //     }
+        // }
+
+
         function candle() {
         var data;
 
@@ -613,7 +639,8 @@
 	      },
 	      subtitles: [{
 		      text: "Hourly Candles",
-              fontColor: 'gray',
+            // text: date,
+            fontColor: 'gray',
 
 	      }],
 	      axisY: {
@@ -625,7 +652,7 @@
               minimum: 0,
 	      },
           axisX: {
-		      // title: "Temp",
+		      title: "Hour",
               lineColor:'gray',
               labelFontSize: 10,
               labelFontColor: 'gray',
@@ -684,6 +711,14 @@
       };
       changeBorderColor(chart);
       chart.render();
+    //   document.getElementById("dateSub").addEventListener("click",function(){
+    //     date = dateSub();
+    //     chart.subtitles[0].set("text", date);
+    //   });
+    //   document.getElementById("dateAdd").addEventListener("click",function(){
+    //     date = dateAdd();
+    //     chart.subtitles[0].set("text", date);
+    //   });
     };
     
     function drawLine(data, idx, avg){
@@ -710,12 +745,13 @@
             fontColor: 'rgb(235, 146, 0)',
             lineThickness:0,
             },
-              axisX: {
-              lineColor:'gray',
-              labelFontSize: 10,
-              labelFontColor: 'gray',
-              gridThickness:0,
-	        },
+        axisX: {
+            title: "Hour",
+            lineColor:'gray',
+            labelFontSize: 10,
+            labelFontColor: 'gray',
+            gridThickness:0,
+	    },
             
 	      
 	      data: [{
@@ -728,6 +764,7 @@
       });
     chart.render();
     }
+
 
     function selectSensorType(idx) {
       if (idx == 0) {

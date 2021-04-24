@@ -21,20 +21,31 @@ def filterByType(dbData, type):
         # print(line)
     return np.array(result)
 
-def filterByDateTime(npData, year, month, day, hour):
+def createDate(year, month, day, hour):
+    if day == '0':
+        mydate = np.datetime64(year+'-'+month)
+    elif hour == 'x': # iba datum
+        mydate = np.datetime64(year+'-'+month+'-'+day)
+    else:
+        mydate = np.datetime64(year+'-'+month+'-'+day+'T'+hour)
+
+    return mydate
+
+
+def filterByDateTime(npData, myDate):
     result = []
     for row in npData:
-        if day == '0':
-            mydate = np.datetime64(year+'-'+month)
-            current = np.array(row[0], dtype='datetime64[M]') # array s iba reg_date
-        elif hour == '0': # iba datum
-            mydate = np.datetime64(year+'-'+month+'-'+day)
-            current = np.array(row[0], dtype='datetime64[D]') # array s iba reg_date
-        else:
-            mydate = np.datetime64(year+'-'+month+'-'+day+'T'+hour)
-            current = np.array(row[0], dtype='datetime64[h]') # array s iba reg_date
+        # if day == '0':
+        #     mydate = np.datetime64(year+'-'+month)
+        #     current = np.array(row[0], dtype='datetime64[M]') # array s iba reg_date
+        # elif hour == '0': # iba datum
+        #     mydate = np.datetime64(year+'-'+month+'-'+day)
+        #     current = np.array(row[0], dtype='datetime64[D]') # array s iba reg_date
+        # else:
+        #     mydate = np.datetime64(year+'-'+month+'-'+day+'T'+hour)
+        current = np.array(row[0], dtype='datetime64[D]') # array v presnosti na den
         # print(row[0],"  -- ", mydate)
-        if current == mydate:
+        if current == myDate:
             result.append((row[0], row[1]))
     return np.array(result)
 
@@ -60,7 +71,7 @@ def filterByRoom(npData, room):
 def parsePlot(npData):
     # returns data in format [[minute of the day][value]]
     for row in npData:
-        row[0] = (int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)
+        row[0] = round(((int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)/60), 2)
     return npData
 
 # funkcia pre candlestick chart
