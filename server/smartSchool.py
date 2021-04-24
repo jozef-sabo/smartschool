@@ -23,9 +23,11 @@ def filterByType(dbData, type):
 
 def createDate(year, month, day, hour):
     if day == '0':
-        mydate = np.datetime64(year+'-'+month)
+        mydate = date(int(year), int(month))
+        # mydate = np.datetime64(year+'-'+month)
     elif hour == 'x': # iba datum
-        mydate = np.datetime64(year+'-'+month+'-'+day)
+        mydate = date(int(year), int(month), int(day))
+        # mydate = np.datetime64(year+'-'+month+'-'+day)
     else:
         mydate = np.datetime64(year+'-'+month+'-'+day+'T'+hour)
 

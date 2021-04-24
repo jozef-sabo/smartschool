@@ -516,7 +516,7 @@
         cell_content2 += '<button class="rightButton" onclick="line()">Show Line</button><br><br>';
         
         cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button id ="dateSub" class="leftButton"><span class="fas fa-chevron-left"></span></button><button id = "dateAdd" class="rightButton""><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
+        cell_content2 += '<br><br><div><button class="leftButton" onclick="dateSub()"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd()"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div>'
         cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
         cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div>'
@@ -558,54 +558,32 @@
 
         rooms = [room_details_001, room_details_002, room_details_003]
         */
-
-        var date = new Date();
-        var dd = String(date.getDate()).padStart(2, '0');
-        var mm = String(date.getMonth()).padStart(2, '0'); //January is 0!
-        var yyyy = date.getFullYear();
-        today = new Date(yyyy,mm,dd);
-        date = new Date(yyyy,mm,dd);
-        console.log(date);
-
-        
-        // function dateSub() {
-        //     date.setDate( date.getDate() - 1 );
-        //     return date
-        // }
-
-        // function dateAdd() {
-        //     if (date.getTime() == today.getTime()){
-        //         return date
-        //     }
-        //     else{
-        //         date.setDate( date.getDate() + 1 );
-        //         return date
-        //     }
-        // }
-
-
+        var type;
         function candle() {
-        var data;
+            type = 0;
+            console.log(type);
+            var data;
 
-        $.ajax({
-        url: 'http://127.0.0.1:5000/Candle',
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            console.log("Success");
-            for (var idx = 0; idx < 4; idx++){
-              drawCandle(data[idx], idx);
+            $.ajax({
+            url: 'http://127.0.0.1:5000/Candle',
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                console.log("Success");
+                for (var idx = 0; idx < 4; idx++){
+                drawCandle(data[idx], idx);
+                }
+            },
+            error: function () {
+                console.log("Error!");
             }
-        },
-        error: function () {
-            console.log("Error!");
-        }
-      });
-      return data; 
-
+        });
+        return data; 
     }
 
     function line() {
+      type = 1;
+      console.log(type);
       var data;
       $.ajax({
         url: 'http://127.0.0.1:5000/Line',
@@ -623,6 +601,78 @@
         }
       });
       return data;
+    }
+
+    function dateSub() {
+        if(type == 0){
+            $.ajax({
+                url: 'http://127.0.0.1:5000/CandleSub',
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Success");
+                    for (var idx = 0; idx < 4; idx++){
+                    drawCandle(data[idx], idx);
+                    }
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+        }
+        if(type == 1){
+            $.ajax({
+                url: 'http://127.0.0.1:5000/LineSub',
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Success");
+                    for (var idx = 0; idx < 4; idx++){
+                    drawLine(data[0][idx], idx, data[1][idx]);
+                    }
+
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+        }
+    }
+
+    function dateAdd() {
+        if(type == 0){
+            $.ajax({
+                url: 'http://127.0.0.1:5000/CandleAdd',
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Success");
+                    for (var idx = 0; idx < 4; idx++){
+                    drawCandle(data[idx], idx);
+                    }
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+        }
+        if(type == 1){
+            $.ajax({
+                url: 'http://127.0.0.1:5000/LineAdd',
+                type: "GET",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Success");
+                    for (var idx = 0; idx < 4; idx++){
+                    drawLine(data[0][idx], idx, data[1][idx]);
+                    }
+
+                },
+                error: function () {
+                    console.log("Error!");
+                }
+            })
+        }
     }
 
     function drawCandle(data, idx) {
