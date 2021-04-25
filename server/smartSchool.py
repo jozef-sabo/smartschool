@@ -34,9 +34,11 @@ def createDate(year, month, day, hour):
     return mydate
 
 
+# zmena - vstupom je dataset a date object - funguje iba pre filter na konkretny den
 def filterByDateTime(npData, myDate):
     result = []
     for row in npData:
+
         # if day == '0':
         #     mydate = np.datetime64(year+'-'+month)
         #     current = np.array(row[0], dtype='datetime64[M]') # array s iba reg_date
@@ -45,6 +47,7 @@ def filterByDateTime(npData, myDate):
         #     current = np.array(row[0], dtype='datetime64[D]') # array s iba reg_date
         # else:
         #     mydate = np.datetime64(year+'-'+month+'-'+day+'T'+hour)
+
         current = np.array(row[0], dtype='datetime64[D]') # array v presnosti na den
         # print(row[0],"  -- ", mydate)
         if current == myDate:
