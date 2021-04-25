@@ -517,15 +517,11 @@
             }
         cell_content2 += '<br><br><button class="leftButton" onclick="candle()">Show Candle</button>';
         cell_content2 += '<button class="rightButton" onclick="line()">Show Line</button><br><br>';
-        
-        cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button class="leftButton" onclick="dateSub()"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd()"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
-        cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
-        cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
-        cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div>'
-        cell_content2 += '<br><br><div><button class="leftButton"><span class="fas fa-chevron-left"></span></button><button class="rightButton"><span class="fas fa-chevron-right"></span></button></div><br><br></div><br><br>' ;
+        cell_content2 += '<div><button class="leftButton" onclick="dateSub()"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd()"><span class="fas fa-chevron-right"></span></button></div><br><br></div>' ;
+        cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div></div><br><br>'
+        cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div></div><br><br>'
+        cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
+        cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div></div><br><br>'
 
         
         document.getElementById("detailsInPopUp").innerHTML = cell_content;
