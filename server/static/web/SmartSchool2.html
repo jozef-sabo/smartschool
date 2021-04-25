@@ -39,7 +39,7 @@
             room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
             room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
             room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005,
+            rooms = [room_details_003, room_details_004, room_details_005,
                     room_details_006, room_details_007, room_details_008, room_details_009, room_details_010,
                     room_details_011, room_details_012, room_details_013, room_details_014, room_details_015,
                     room_details_016, room_details_017, room_details_018,]
@@ -95,7 +95,7 @@
 
             <div class="room topLeft" style="width:10%" ></div>
 
-            <div class="room lighter" id="room_001" onclick="openDetails(rooms[0])">
+            <div class="room lighter" id="3C" onclick="openDetails(rooms[0])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -103,7 +103,7 @@
 
             <div class="room"></div>
 
-            <div class="room darker" id="room_002" onclick="openDetails(rooms[1])">
+            <div class="room darker" id="4C" onclick="openDetails(rooms[1])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
@@ -388,8 +388,11 @@
         
     <script>
       // console.log("My script starting here.");
-    /*
+    
       function update_all_room_details(){
+          for (i=0; i<rooms.length; i++){
+            update_room_details(rooms[i]);
+            } 
           
         $.ajax({
         url: 'http://192.168.0.105/api/get_sensors',
@@ -416,15 +419,15 @@
 
     }
     
-    */
     
+    /*
     function update_all_room_details(){
 
     for (i=0; i<rooms.length; i++){
         update_room_details(rooms[i]);
         }
     }
-    
+    */
 
     function update_room_details(room_details) {
 
@@ -434,11 +437,11 @@
         {
         cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
         }
-        if (room_details["humidity"])
+        if ("humidity" in room_details)
         {
         cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
         }
-        if (room_details["co2"])
+        if ("co2" in room_details)
         {
         cell_content += '<p>CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
         }
@@ -477,7 +480,7 @@
 
 
 
-            if (room_details["humidity"])
+            if ("humidity" in room_details)
             {
             
                 if (room_details["humidity"]<30)
@@ -494,7 +497,7 @@
                             } 
 
             }
-            if (room_details["co2"])
+            if ("co2" in room_details)
             {
 
                 if (room_details["co2"]<30)

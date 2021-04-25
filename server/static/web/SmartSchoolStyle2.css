@@ -218,6 +218,7 @@ nav{
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     margin:auto;
     font-family: 'Segoe UI', sans-serif;
+    width: 60%;
 }
 .contentTable thead tr {
     background-color: rgb(128, 128, 128);
@@ -283,4 +284,24 @@ nav{
     border-collapse: collapse;
     border-radius: 5px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+.tableDIV{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    flex-wrap: wrap;
+    width: 50%;
+    margin:auto;
+    margin-top: 5%;
+}
+.tableDIV2{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100vh;
+}
+.tableDIV h1{
+    text-align: center;
+    margin:auto;
 }
