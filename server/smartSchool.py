@@ -13,6 +13,7 @@ from datetime import date
 #     raw_data = np.genfromtxt(file_path, delimiter = ',', dtype = None, encoding = None)
 #     return cleanDataset(raw_data)
 
+
 def filterByType(dbData, type):
     result = []
     for line in dbData:
@@ -20,6 +21,7 @@ def filterByType(dbData, type):
             result.append((line[5], line[2]))
         # print(line)
     return np.array(result)
+
 
 def createDate(year, month, day, hour):
     if day == '0':
@@ -54,6 +56,7 @@ def filterByDateTime(npData, myDate):
             result.append((row[0], row[1]))
     return np.array(result)
 
+
 def filterTodayData(npData):
     today = date.today()
     # print(today)
@@ -66,6 +69,7 @@ def filterTodayData(npData):
             result.append((row[0], row[1]))
     return np.array(result)
 
+
 def filterByRoom(npData, room):
     result = []
     for row in npData:
@@ -73,11 +77,13 @@ def filterByRoom(npData, room):
             result.append((row[5], row[1], row[2]))
     return np.array(result)
 
+
 def parsePlot(npData):
     # returns data in format [[minute of the day][value]]
     for row in npData:
         row[0] = round(((int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)/60), 2)
     return npData
+
 
 # funkcia pre candlestick chart
 def parseCandle(npData):
@@ -103,7 +109,6 @@ def parseCandle(npData):
         element[1] = [element[1][0], maxi(element[1]), mini(element[1]), element[1][-1]]
     
     return result
-
 
 
 def processData(data, year, month, day, hour):
@@ -140,17 +145,22 @@ def a0volt(npData):
 def avg(val):
     return round(np.mean(val.astype(np.float64)), 1)
 
+
 def maxi(val):
     return round(np.amax(val), 1)
+
 
 def mini(val):
     return round(np.amin(val), 1)
 
+
 def dev(val):
     return round(np.std(val.astype(np.float64)), 1)
 
+
 def printResults(val):
     return str("MIN: " + str(min(val)) + "  MAX: " + str(max(val)) + "  AVG: " + str(avg(val)) + "  DEV: " + str(dev(val)))
+
 
 def pearson(val1, val2):
     # dva stlpce s processed_data

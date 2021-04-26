@@ -1,6 +1,10 @@
 /* 18 - 68 */
 var rooms;
-
+// Okno s detailmi
+//const open = document.getElementById('open');
+let popUpWindowID;
+let close;
+const api_url = "http://192.168.1.111/api";
 
 //TEMPORARY DATA FOR TESTING
 room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
@@ -25,41 +29,57 @@ const temporary_rooms = [room_details_003, room_details_004, room_details_005, r
     room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
     room_details_015, room_details_016, room_details_017, room_details_018]
 
-function on_script_loaded() {
-    // url: 'http://192.168.25.104/api3/get_sensors',
-    $.ajax({
-        url: 'http://192.168.0.105/api/get_sensors',
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            console.log("Success");
-            rooms = temporary_rooms.concat(data);
-            console.log(rooms);
-        },
-        error: function () {
-            console.log("Error!");
-            rooms = temporary_rooms;
-            console.log(rooms);
-        },
-        timeout: 1000
-    });
+$.ajax({
+    url: api_url + '/get_sensors',
+    type: "GET",
+    dataType: "json",
+    success: function (data) {
+        console.log("Success");
+        rooms = temporary_rooms.concat(data);
+        init();
+    },
+    error: function () {
+        console.log("Error!");
+        rooms = temporary_rooms;
+        init();
+    },
+    timeout: 1000
+});
+
+function init() {
+    popUpWindowID = document.getElementById('popUpWindowID');
+    close = document.getElementById('close');
+    close.addEventListener('click',()=> {
+        popUpWindowID.classList.remove('show');
+        bodyID.classList.remove('noscroll');
+    })
+    for (i = 0; i<rooms.length; i++) {
+        update_room_details(rooms[i]);
+    }
+    let spinnerWrapper = document.querySelector(".spinner-wrapper");
+    spinnerWrapper.style.animation = "odlet 0.5s ease-in";
+    spinnerWrapper.style.top = "-100%";
+    document.getElementById("obsah").style.display = "initial";
+    setTimeout(() => {
+        spinnerWrapper.parentElement.removeChild(spinnerWrapper);
+        }, 500);
 
 }
 
-on_script_loaded();
 
 /* 390 - 869 */
 // console.log("My script starting here.");
 
-document.addEventListener("DOMContentLoaded", function(){update_all_room_details()});
+
+    //update_all_room_details();});
 
 function update_all_room_details(){
-    for (i=0; i<rooms.length; i++){
+    for (let i=0; i<rooms.length; i++){
         update_room_details(rooms[i]);
     }
 
     $.ajax({
-        url: 'http://192.168.0.105/api/get_sensors',
+        url: api_url + '/get_sensors',
         type: "GET",
         dataType: "json",
         success: function (rooms) {
@@ -159,20 +179,14 @@ function openDetails(room_details) {
 
 
 
-// Okno s detailmi
-//const open = document.getElementById('open');
-const popUpWindowID = document.getElementById('popUpWindowID');
-const close = document.getElementById('close');
+
 
 
 //open.addEventListener('click',()=>{
 //    popUpWindowID.classList.add('show');
 //})
 
-close.addEventListener('click',()=> {
-    popUpWindowID.classList.remove('show');
-    bodyID.classList.remove('noscroll');
-})
+
 
 
 /* DATA FOR TESTING
@@ -190,7 +204,7 @@ function candle() {
     var data;
 
     $.ajax({
-        url: 'http://127.0.0.1:5000/Candle',
+        url: api_url + '/Candle',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -211,7 +225,7 @@ function line() {
     console.log(type);
     var data;
     $.ajax({
-        url: 'http://127.0.0.1:5000/Line',
+        url: api_url + '/Line',
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -230,7 +244,7 @@ function line() {
 function dateSub() {
     if(type == 0) {
         $.ajax({
-            url: 'http://127.0.0.1:5000/CandleSub',
+            url: api_url + '/CandleSub',
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -246,7 +260,7 @@ function dateSub() {
     }
     if(type == 1) {
         $.ajax({
-            url: 'http://127.0.0.1:5000/LineSub',
+            url: api_url + '/LineSub',
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -265,7 +279,7 @@ function dateSub() {
 function dateAdd() {
     if(type == 0) {
         $.ajax({
-            url: 'http://127.0.0.1:5000/CandleAdd',
+            url: api_url + '/CandleAdd',
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -281,7 +295,7 @@ function dateAdd() {
     }
     if(type == 1) {
         $.ajax({
-            url: 'http://127.0.0.1:5000/LineAdd',
+            url: api_url + '/LineAdd',
             type: "GET",
             dataType: "json",
             success: function (data) {

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, session
+import flask
 from flask_session import Session
 import sensor_details
 import mainData
@@ -11,21 +12,24 @@ SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
 
-@app.route('/')
+@app.route('/api/')
 def hello():
     session['count'] = 0
     return "Ahoj svet!\n"
 
 
-@app.route('/get_sensors')
+@app.route('/api/get_sensors')
 def retrieve_all_data_from_all_sensors():
     result = sensor_details.get_all_sensors()
-    print(type(result))
+    resp = flask.Response(json.dumps(result))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
     print(result)
-    return jsonify(result)
+    print(resp)
+    return resp
 
 
-@app.route('/Candle')
+@app.route('/api/Candle')
 def filter_data_to_candle():
     session["count"] = 0
     db_data = mainData.fetchData.fetch()
@@ -57,9 +61,18 @@ def filter_data_to_candle():
     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
-    return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
+    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/CandleSub')
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/CandleSub')
 def sub_candle():
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
@@ -103,9 +116,18 @@ def sub_candle():
     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
-    return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
+    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/CandleAdd')
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/CandleAdd')
 def add_candle():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
@@ -149,9 +171,18 @@ def add_candle():
     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
-    return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
+    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/Line')
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/Line')
 def filter_data_to_line():
     session["count"] = 0
 
@@ -185,9 +216,18 @@ def filter_data_to_line():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/LineSub')
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineSub')
 def line_sub():
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
@@ -232,9 +272,18 @@ def line_sub():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/LineAdd')
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineAdd')
 def line_add():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
@@ -279,7 +328,16 @@ def line_add():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
+
+    resp = flask.Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
 
 if __name__ == '__main__':
     #app.run(host="192.168.25.104")

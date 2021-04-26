@@ -5,17 +5,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SmartSchool</title>
         <link rel="stylesheet" href="SmartSchoolStyle2.css">
-        <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="index.js"></script>
+
+
+    </head>
+
+    <body id="bodyID">
+        <div class='spinner-wrapper'>
+            <p class="smart_school_name">SMART SCHOOL</p>
+            <div class="spinner"></div>
+        </div>
+
+        <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    </head>
 
-    <body id="bodyID">
-
+        <div id="obsah">
+            <script>
+                document.getElementById("obsah").style.display = "none";
+            </script>
 
 
         <nav>
@@ -24,20 +35,15 @@
                 <li><a href=SmartSchool2.html>SCHEME</a></li>
                 <li><a href=SmartSchoolTable.html>TABLE</a></li>
             </ul>
-        </nav>      
+        </nav>  <br><br><br>
 
-        
-        
-        <br><br><br>
-
-        <h1>Prízemie</h1>
+        <h1 id="aa">Prízemie</h1>
 
         <div class="button_div">
-        <button id=button_refresh onclick="update_all_room_details()"> <i class="fas fa-sync-alt"></i> </button>
-        </div>
-          <br>
-        <div id=Prízemie><br>
+            <button id=button_refresh onclick="update_all_room_details()"> <i class="fas fa-sync-alt"></i> </button>
+        </div>  <br>
 
+        <div id=Prízemie><br>
 
         <div class="cell">
 
@@ -109,7 +115,7 @@
             </div>
 
         </div>
-        
+
 
 
         <div class="cell" style="height: 20%;">
@@ -175,7 +181,7 @@
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
                 <p>CO<sub>2</sub> 500ppm </p>
             </div>
-            
+
             <div class="room"></div>
 
             <div class="room darker" id="room_010" onclick="openDetails(rooms[9])">
@@ -191,7 +197,7 @@
             </div>
 
             <div class="room" style="width:10%"></div>
-            
+
             <div class="room darker" id="room_012" onclick="openDetails(rooms[11])">
                 <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
                 <p><span class="fas fa-tint fa-xs"></span> 35%</p>
@@ -309,7 +315,7 @@
     </div>
 
     <div class="button_div"><button onclick="on_script_loaded()">BTN</button></div>
-                
+
         <div class="popUpWindow" id="popUpWindowID">
             <div class="popUp">
                 <h1 class=detailsWindow>Detaily o triede</h1>
@@ -320,7 +326,7 @@
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
                 </div>
-                
+
                 <div id="detailsInPopUpPt2">
                 </div>
 
@@ -331,10 +337,7 @@
                 <br><br>
             </div>
         </div>
-        <br><br><br><br><br>
-        
-    <script src="after_DOM_loaded.js"></script>
+        <br><br><br><br><br></div>
 
-    
     </body>
 </html>
