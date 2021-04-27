@@ -11,21 +11,24 @@ SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
 
-@app.route('/')
+@app.route('/api/')
 def hello():
     session['count'] = 0
     return "Ahoj svet!\n"
 
 
-@app.route('/get_sensors')
+@app.route('/api/get_sensors')
 def retrieve_all_data_from_all_sensors():
     result = sensor_details.get_all_sensors()
-    print(type(result))
+    resp = Response(json.dumps(result))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
     print(result)
-    return jsonify(result)
+    print(resp)
+    return resp
 
 
-@app.route('/Candle')
+@app.route('/api/Candle')
 def filter_data_to_candle():
     session["count"] = 0
     db_data = mainData.fetchData.fetch()
@@ -57,54 +60,18 @@ def filter_data_to_candle():
     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
-    return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
+    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-# @app.route('/CandleSub')
-# def sub_candle():
-#     session["count"] -= 1
-#     days = datetime.timedelta(session["count"])
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
 
-#     db_data = mainData.fetchData.fetch()
+    return resp
 
-#     myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
-#     myDate = myDate + days # namiesto myDate - date.today()
-#     print(myDate)
 
-#     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
-#     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-#     # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
-#     temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-#     if temp_06_04_2021.size == 0:
-#         session["count"] += 1
-#         days = datetime.timedelta(session["count"])
-#         myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')# namiesto myDate - date.today()
-#         myDate = myDate + days # namiesto myDate - date.today()
-#         temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-#     temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
-
-#     humid_all = mainData.smartSchool.filterByType(db_data, "Humidity")
-#     # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-#     # humid_today_candle = mainData.smartSchool.parseCandle(humid_today)
-#     humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-#     humid_06_04_2021_candle = mainData.smartSchool.parseCandle(humid_06_04_2021)
-
-#     dp_all = mainData.smartSchool.filterByType(db_data, "DewPoint")
-#     # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-#     # dp_today_candle = mainData.smartSchool.parseCandle(dp_today)
-#     dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-#     dp_06_04_2021_candle = mainData.smartSchool.parseCandle(dp_06_04_2021)
-
-#     a0_all = mainData.smartSchool.filterByType(db_data, "A0")
-#     # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-#     # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
-#     a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-#     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-#     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
-
-#     return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
-@app.route('/CandleSub')
+@app.route('/api/CandleSub')
 def sub_candle():
     print("KukÃ¡me")
     print(session["count"])
@@ -122,14 +89,6 @@ def sub_candle():
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
     # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
     temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-    if temp_06_04_2021.size == 0:
-        session["count"] += 1
-        days = datetime.timedelta(session["count"])
-        myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')# namiesto myDate - date.today()
-        myDate = myDate + days # namiesto myDate - date.today()
-        temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
     temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
 
     humid_all = mainData.smartSchool.filterByType(db_data, "Humidity")
@@ -161,7 +120,8 @@ def sub_candle():
 
     return resp
 
-@app.route('/CandleAdd')
+
+@app.route('/api/CandleAdd')
 def add_candle():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
@@ -176,14 +136,6 @@ def add_candle():
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
     # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
     temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-    if temp_06_04_2021.size == 0:
-        session["count"] -= 1
-        days = datetime.timedelta(session["count"])
-        myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')# namiesto myDate - date.today()
-        myDate = myDate + days # namiesto myDate - date.today()
-        temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
     temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
 
     humid_all = mainData.smartSchool.filterByType(db_data, "Humidity")
@@ -205,9 +157,18 @@ def add_candle():
     a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
     a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
 
-    return jsonify([[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle], myDate])
+    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/Line')
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/Line')
 def filter_data_to_line():
     session["count"] = 0
 
@@ -241,9 +202,18 @@ def filter_data_to_line():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/LineSub')
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineSub')
 def line_sub():
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
@@ -257,14 +227,6 @@ def line_sub():
     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
     temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-    if temp_06_04_2021.size == 0:
-        session["count"] += 1
-        days = datetime.timedelta(session["count"])
-        myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')# namiesto myDate - date.today()
-        myDate = myDate + days # namiesto myDate - date.today()
-        temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
     temp_06_04_2021_line = mainData.smartSchool.parsePlot(temp_06_04_2021)
 
     humid_all = mainData.smartSchool.filterByType(db_data, "Humidity")
@@ -288,9 +250,18 @@ def line_sub():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-@app.route('/LineAdd')
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineAdd')
 def line_add():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
@@ -304,14 +275,6 @@ def line_add():
     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
     temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
-    if temp_06_04_2021.size == 0:
-        session["count"] -= 1
-        days = datetime.timedelta(session["count"])
-        myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')# namiesto myDate - date.today()
-        myDate = myDate + days # namiesto myDate - date.today()
-        temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-
     temp_06_04_2021_line = mainData.smartSchool.parsePlot(temp_06_04_2021)
 
     humid_all = mainData.smartSchool.filterByType(db_data, "Humidity")
@@ -335,7 +298,16 @@ def line_add():
     dp_av = mainData.smartSchool.avg(dp_06_04_2021_line[1])
     a0_av = mainData.smartSchool.avg(a0_06_04_2021_line[1])
 
-    return jsonify([[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(), a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate])
+    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
+               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
+
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
 
 if __name__ == '__main__':
     #app.run(host="192.168.25.104")

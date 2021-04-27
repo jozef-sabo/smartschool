@@ -61,7 +61,7 @@ def get_all_sensors():
                 sensor_unit_formatted = units.get(sensor_type_formatted) if sensor_unit is None else sensor_unit
             except KeyError:
                 sensor_unit_formatted = sensor_unit
-            data[class_id][sensor_type_formatted] = (sensor_value, sensor_unit_formatted)
+            data[class_id][sensor_type_formatted] = (sensor_value) # , sensor_unit_formatted)
 
     cursor.close()
     connection.close()

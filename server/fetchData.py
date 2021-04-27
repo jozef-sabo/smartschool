@@ -9,13 +9,13 @@ config = {
     'raise_on_warnings': True
 }
 
+
 def fetch():
     cnx = mysql.connector.connect(**config)
 
     cursor = cnx.cursor()
 
-    sql_query = ("SELECT * FROM rooms;"
-                "WHERE (`date_time` > DATE_SUB(now(), INTERVAL 30 DAY)")
+    sql_query = "SELECT * FROM rooms WHERE (`date_time` > DATE_SUB(now(), INTERVAL 30 DAY))"
     cursor.execute(sql_query)
 
     data = cursor.fetchall()
@@ -23,4 +23,3 @@ def fetch():
     cnx.close()
 
     return data
-
