@@ -1,5 +1,5 @@
-import numpy as np
 from datetime import date
+import numpy as np
 # import matplotlib.pyplot as plt
 # import os
 '''
@@ -101,7 +101,7 @@ def parseCandle(npData):
     for element in result:
         # element[1] = [np.quantile(element[1], .75), maxi(element[1]), mini(element[1]), np.quantile(element[1], .25)]
         element[1] = [element[1][0], maxi(element[1]), mini(element[1]), element[1][-1]]
-    
+
     return result
 
 
@@ -131,7 +131,7 @@ def processData(data, year, month, day, hour):
 def a0volt(npData):
     for line in npData:
         line[1] = line[1]/1024*5.0
-    
+
     return npData
 
 
