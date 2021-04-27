@@ -1,5 +1,6 @@
 /* 18 - 68 */
 var rooms;
+let init_load = false;
 // Okno s detailmi
 //const open = document.getElementById('open');
 let popUpWindowID;
@@ -36,14 +37,30 @@ $.ajax({
     success: function (data) {
         console.log("Success");
         rooms = temporary_rooms.concat(data);
+        if (!init_load) {
+            init_load = true;
+            return
+        }
         init();
     },
     error: function () {
         console.log("Error!");
         rooms = temporary_rooms;
+        if (!init_load) {
+            init_load = true;
+            return
+        }
         init();
     },
     timeout: 1000
+});
+
+document.addEventListener("DOMContentLoaded", function(){
+    if (!init_load) {
+            init_load = true;
+            return
+        }
+    init();
 });
 
 function init() {
