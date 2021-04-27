@@ -5,11 +5,12 @@ import sensor_details
 import mainData
 import json 
 
-
+# SESSION_COOKIE_SECURE = True
 app = Flask(__name__)
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
+
 
 @app.route('/api/')
 def hello():

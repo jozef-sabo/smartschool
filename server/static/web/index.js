@@ -30,30 +30,35 @@ const temporary_rooms = [room_details_003, room_details_004, room_details_005, r
     room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
     room_details_015, room_details_016, room_details_017, room_details_018]
 
-$.ajax({
-    url: api_url + '/get_sensors',
-    type: "GET",
-    dataType: "json",
-    success: function (data) {
-        console.log("Success");
-        rooms = temporary_rooms.concat(data);
-        if (!init_load) {
-            init_load = true;
-            return
+var xhttp;
+xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState === 4) {
+        console.log(this.responseText)
+        if (this.status === 200) {
+            console.log("Success");
+            rooms = JSON.parse(this.responseText).concat(temporary_rooms);
+            if (!init_load) {
+                init_load = true;
+                return
+            }
+            init();
+            return;
         }
-        init();
-    },
-    error: function () {
-        console.log("Error!");
+        console.log("Error", this.status);
         rooms = temporary_rooms;
         if (!init_load) {
             init_load = true;
             return
         }
         init();
-    },
-    timeout: 1000
-});
+    }
+
+};
+xhttp.open("GET", api_url + '/get_sensors', true);
+xhttp.timeout = 2000;
+xhttp.send();
+
 
 document.addEventListener("DOMContentLoaded", function(){
     if (!init_load) {
@@ -99,14 +104,11 @@ function update_all_room_details(){
         url: api_url + '/get_sensors',
         type: "GET",
         dataType: "json",
-        success: function (rooms) {
+        success: function (data) {
             console.log("Success");
-            console.log(rooms);
-
-            for (i = 0; i<rooms.length; i++) {
-            console.log("Object " + i);
-            console.log(rooms[i]);
-            update_room_details(rooms[i]);
+            rooms = data.concat(temporary_rooms);
+            for (i = 0; i < rooms.length; i++) {
+                update_room_details(rooms[i]);
             }
         },
         error: function () {
@@ -145,7 +147,6 @@ function update_room_details(room_details) {
 }
 
 function openDetails(room_details) {
-    update_all_room_details(room_details);
     let cell_content = "";
     let cell_content2 = "";
 
