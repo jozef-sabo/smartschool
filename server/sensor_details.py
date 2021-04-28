@@ -7,6 +7,9 @@ DATABASE_PORT = 0
 DATABASE_NAME = ""
 DATABASE_USER = ""
 DATABASE_PASSWORD = ""
+# L_DATABASE_NAME = ""
+# L_DATABASE_USER = ""
+# L_DATABASE_PASSWORD = ""
 try:
     from secrets import *
 except ImportError:
@@ -28,6 +31,8 @@ rooms = [room_details_001, room_details_002, room_details_003]
 def get_all_sensors():
     connection = mysql.connector.connect(host=DATABASE_HOST, database=DATABASE_NAME, user=DATABASE_USER,
                                          password=DATABASE_PASSWORD, port=DATABASE_PORT)
+    #     connection = mysql.connector.connect(host="localhost", database=L_DATABASE_NAME, user=L_DATABASE_USER,
+    #                                          password=L_DATABASE_PASSWORD)
     cursor = connection.cursor()
 
     """ AK BY SENZORY POSIELALI V CASE (limitne) BLIZIACOM SA datetime A POSIEALI BY VSETKY
