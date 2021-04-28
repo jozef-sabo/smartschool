@@ -5,7 +5,11 @@ let init_load = false;
 //const open = document.getElementById('open');
 let popUpWindowID;
 let close;
-const api_url = "http://127.0.0.1:5000/api";
+let bodyID;
+let detailsInPopup;
+let detailsInPopup2;
+
+const api_url = "http://192.168.1.111/api";
 
 //TEMPORARY DATA FOR TESTING
 /*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
@@ -91,6 +95,9 @@ document.addEventListener("DOMContentLoaded", function(){
 function init() {
     popUpWindowID = document.getElementById('popUpWindowID');
     close = document.getElementById('close');
+    bodyID = document.getElementById("bodyID");
+    detailsInPopup = document.getElementById("detailsInPopUp");
+    detailsInPopup2 = document.getElementById("detailsInPopUpPt2")
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
@@ -120,7 +127,7 @@ function update_all_room_details(){
         dataType: "json",
         success: function (data) {
             console.log("Success");
-            rooms = Object.assign({}, temporary_rooms, JSON.parse(this.responseText));
+            rooms = Object.assign({}, temporary_rooms, data);
             rooms.forEach((key, value) => update_room_details(key, value));
         },
         error: function (xhr) {
@@ -140,7 +147,8 @@ update_room_details(rooms[i]);
 */
 
 function update_room_details(id, details) {
-    if (!document.getElementById(id)) return;
+    let id_element = document.getElementById(id);
+    if (!id_element) return;
     let cell_content = "";
 
     if ("temperature" in details) {
@@ -152,44 +160,44 @@ function update_room_details(id, details) {
     if ("co2" in details) {
         cell_content += '<p>CO<sub>2</sub> '+details["co2"] + rooms["units"]["co2"] +'</p>';
     }
-    document.getElementById(id).innerHTML = cell_content;
+    id_element.innerHTML = cell_content;
 
     if ((details["temperature"]<18) || (details["temperature"]>24) || (details["humidity"]<30) || (details["humidity"]>50) || (details["co2"]<30) || (details["co2"]>50)) {
-        document.getElementById(id).className = "room orangeRoom";
+        id_element.className = "room orangeRoom";
     }
 }
 
-function openDetails(room_details) {
+function openDetails(id) {
     let cell_content = "";
     let cell_content2 = "";
 
-    if ("temperature" in room_details) {
-        if (room_details["temperature"]<18){
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
-        } else if (room_details["temperature"]<24) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+    if ("temperature" in rooms[id]) {
+        if (rooms[id]["temperature"]<18){
+            cell_content += '<p class="blue detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+ rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
+        } else if (rooms[id]["temperature"]<24) {
+            cell_content += '<p class="detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"]+rooms["units"]["temperature"] +'</p>';
         } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+            cell_content += '<p class="red detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
         }
     }
 
-    if ("humidity" in room_details) {
-        if (room_details["humidity"]<30) {
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
-        } else if (room_details["humidity"]<50) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+    if ("humidity" in rooms[id]) {
+        if (rooms[id]["humidity"]<30) {
+            cell_content += '<p class="blue detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
+        } else if (rooms[id]["humidity"]<50) {
+            cell_content += '<p class="detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
         } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+            cell_content += '<p class="red detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
         }
     }
 
-    if ("co2" in room_details) {
-        if (room_details["co2"]<30) {
-            cell_content += '<p class="blue detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
-        } else if (room_details["co2"]<50) {
-            cell_content += '<p class="detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+    if ("co2" in rooms[id]) {
+        if (rooms[id]["co2"]<30) {
+            cell_content += '<p class="blue detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
+        } else if (rooms[id]["co2"]<50) {
+            cell_content += '<p class="detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
         } else {
-            cell_content += '<p class="red detailsWindow">CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+            cell_content += '<p class="red detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
         }
     }
 
@@ -201,8 +209,8 @@ function openDetails(room_details) {
     cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
     cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div></div><br><br>'
 
-    document.getElementById("detailsInPopUp").innerHTML = cell_content;
-    document.getElementById("detailsInPopUpPt2").innerHTML = cell_content2;
+    detailsInPopup.innerHTML = cell_content;
+    detailsInPopup2.innerHTML = cell_content2;
     popUpWindowID.classList.add('show');
     bodyID.classList.add('noscroll');
     candle();
