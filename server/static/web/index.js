@@ -5,7 +5,7 @@ let init_load = false;
 //const open = document.getElementById('open');
 let popUpWindowID;
 let close;
-const api_url = "http://192.168.1.111/api";
+const api_url = "http://127.0.0.1:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
@@ -331,7 +331,7 @@ function dateAdd() {
 function drawCandle(data, idx, date) {
     date = new Date(date);
     yyyy = date.getFullYear();
-    mm = date.getMonth();
+    mm = date.getMonth()+1;
     dd = date.getDate();
     subtitleDate = dd + '/' + mm + '/' + yyyy;
     // console.log(createDatapoints(y));
@@ -342,28 +342,31 @@ function drawCandle(data, idx, date) {
         theme: "light2",
         dataPointWidth: 10,
         title: {
-        text: sensor[1],
-        fontColor: 'gray',
+            text: sensor[1],
+            fontColor: 'gray',
         },
         subtitles: [{
-        text: subtitleDate,
-        // text: "Hourly Candles",
-        fontColor: 'gray',
-
+            text: subtitleDate,
+            // text: "Hourly Candles",
+            fontColor: 'gray',
         }],
         axisY: {
-        // title: "Temp",
-        lineColor:'gray',
-        labelFontSize: 10,
-        labelFontColor: 'gray',
-        gridThickness:0,
-        minimum: 0,
+            title: sensor[2],
+            minimum: 0,
+            maximum: sensor[3],
+            lineColor:'gray',
+            labelFontSize: 10,
+            labelFontColor: 'gray',
+            gridThickness:0,
         },
         axisX: {
-        title: "Hour",
-        lineColor:'gray',
-        labelFontSize: 10,
-        labelFontColor: 'gray',
+            title: "Hour",
+            lineColor:'gray',
+            labelFontSize: 10,
+            labelFontColor: 'gray',
+            interval: 1,
+            minimum: 0,
+            maximum: 24,
         },
         toolTip: {
             shared: false,
@@ -419,7 +422,7 @@ function drawCandle(data, idx, date) {
 function drawLine(data, idx, avg, date) {
     date = new Date(date);
     yyyy = date.getFullYear();
-    mm = date.getMonth();
+    mm = date.getMonth()+1;
     dd = date.getDate();
     subtitleDate = dd + '/' + mm + '/' + yyyy;
 
@@ -441,8 +444,11 @@ function drawLine(data, idx, avg, date) {
                 label: "Average",
                 lineColor:'white',
                 color: 'rgb(235, 146, 0)',
-                gridThickness:0,
+                gridThickness: 0,
+                lineThickness: 5,
             }],
+            title: sensor[2],
+            maximum: sensor[3],
             minimum: 0,
             labelFontSize: 10,
             labelFontColor: 'gray',
@@ -456,6 +462,9 @@ function drawLine(data, idx, avg, date) {
             labelFontSize: 10,
             labelFontColor: 'gray',
             gridThickness:0,
+            interval: 1,
+            minimum: 0,
+            maximum: 24,
         },
 
         data: [{
@@ -474,20 +483,28 @@ function selectSensorType(idx) {
     if (idx == 0) {
         ch = "chartTemp";
         title = 'Temperature';
+        unit = '°C';
+        max = 35;
     }
     if (idx == 1) {
         ch = "chartHumid";
         title = "Humidity";
+        unit = '%';
+        max = 90;
     }
     if (idx == 2) {
         ch = "chartDP";
         title = "Dew Point";
+        unit = '-';
+        max = 35;
     }
     if (idx == 3) {
         ch = "chartA0";
         title = "A0";
+        unit = "ppm";
+        max = 5;
     }
-    return [ch, title]
+    return [ch, title, unit, max]
 }
 
 // returns in format [{x1: value1, y1: value1, value2,...},{x2:... , y2:... },...]

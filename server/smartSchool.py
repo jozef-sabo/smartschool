@@ -143,7 +143,10 @@ def a0volt(npData):
 # val - stlpec z processed_data
 # => processed_data[:,0] = temp ; processed_data[:,1] = humid
 def avg(val):
-    return round(np.mean(val.astype(np.float64)), 1)
+    sum = 0
+    for value in val:
+        sum += value[1]
+    return round(sum/len(val), 1)
 
 
 def maxi(val):
