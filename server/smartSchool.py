@@ -135,7 +135,7 @@ def processData(data, year, month, day, hour):
 
 def a0volt(npData):
     for line in npData:
-        line[1] = line[1]/1024*5.0
+        line[1] = round(line[1]/1024*5.0, 3)
 
     return npData
 
