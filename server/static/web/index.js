@@ -8,7 +8,7 @@ let close;
 const api_url = "http://192.168.1.111/api";
 
 //TEMPORARY DATA FOR TESTING
-room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
+/*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
 room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
 room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
 room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 60.0, "co2": 40 }
@@ -25,19 +25,39 @@ room_details_014 = { "id":"room_014", "temperature": 20.0, "humidity": 37.0, "co
 room_details_015 = { "id":"room_015", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
 room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
 room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-const temporary_rooms = [room_details_003, room_details_004, room_details_005, room_details_006, room_details_007, room_details_008,
+room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}*/
+const temporary_rooms = {
+    "units": {"temperature": "°C", "humidity": "%", "co2": "ppm"},
+    /*"room_001": {"temperature": 10.0, "humidity": 37.0, "co2": 40},
+    "room_002": {"temperature": 23.0, "humidity": 40.0, "co2": 40},*/
+    "room_003": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
+    "room_004": {"temperature": 21.0, "humidity": 60.0, "co2": 40},
+    "room_005": {"temperature": 22.0, "humidity": 38.0, "co2": 38},
+    "room_006": {"temperature": 20.0, "humidity": 37.0, "co2": 40},
+    "room_007": {"temperature": 23.0, "humidity": 40.0, "co2": 40},
+    "room_008": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
+    "room_009": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
+    "room_010": {"temperature": 22.0, "humidity": 38.0, "co2": 38},
+    "room_011": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
+    "room_012": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
+    "room_013": {"temperature": 22.0, "humidity": 38.0, "co2": 38},
+    "room_014": {"temperature": 20.0, "humidity": 37.0, "co2": 40},
+    "room_015": {"temperature": 23.0, "humidity": 40.0, "co2": 40},
+    "room_016": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
+    "room_017": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
+    "room_018": {"temperature": 22.0, "humidity": 38.0, "co2": 38}
+}
+/*const temporary_rooms = [room_details_003, room_details_004, room_details_005, room_details_006, room_details_007, room_details_008,
     room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
-    room_details_015, room_details_016, room_details_017, room_details_018]
+    room_details_015, room_details_016, room_details_017, room_details_018]*/
 
 var xhttp;
 xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (this.readyState === 4) {
-        console.log(this.responseText)
         if (this.status === 200) {
             console.log("Success");
-            rooms = JSON.parse(this.responseText).concat(temporary_rooms);
+            rooms = Object.assign({}, temporary_rooms, JSON.parse(this.responseText));
             if (!init_load) {
                 init_load = true;
                 return
@@ -75,9 +95,7 @@ function init() {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
     })
-    for (i = 0; i<rooms.length; i++) {
-        update_room_details(rooms[i]);
-    }
+    Object.keys(rooms).forEach(key => update_room_details(key, rooms[key]))
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
     spinnerWrapper.style.top = "-100%";
@@ -96,23 +114,17 @@ function init() {
     //update_all_room_details();});
 
 function update_all_room_details(){
-    for (let i=0; i<rooms.length; i++){
-        update_room_details(rooms[i]);
-    }
-
     $.ajax({
         url: api_url + '/get_sensors',
         type: "GET",
         dataType: "json",
         success: function (data) {
             console.log("Success");
-            rooms = data.concat(temporary_rooms);
-            for (i = 0; i < rooms.length; i++) {
-                update_room_details(rooms[i]);
-            }
+            rooms = Object.assign({}, temporary_rooms, JSON.parse(this.responseText));
+            rooms.forEach((key, value) => update_room_details(key, value));
         },
-        error: function () {
-            console.log("Error!");
+        error: function (xhr) {
+            console.log("Error", xhr.status);
         }
     });
 }
@@ -127,22 +139,23 @@ update_room_details(rooms[i]);
 }
 */
 
-function update_room_details(room_details) {
+function update_room_details(id, details) {
+    if (!document.getElementById(id)) return;
     let cell_content = "";
 
-    if ("temperature" in room_details) {
-        cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+room_details["temperature"]+'°C</p>';
+    if ("temperature" in details) {
+        cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+details["temperature"] + rooms["units"]["temperature"] +'</p>';
     }
-    if ("humidity" in room_details) {
-        cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+room_details["humidity"]+'%</p>';
+    if ("humidity" in details) {
+        cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"]+ rooms["units"]["humidity"] +'</p>';
     }
-    if ("co2" in room_details) {
-        cell_content += '<p>CO<sub>2</sub> '+room_details["co2"]+'ppm</p>';
+    if ("co2" in details) {
+        cell_content += '<p>CO<sub>2</sub> '+details["co2"] + rooms["units"]["co2"] +'</p>';
     }
-    document.getElementById(room_details["id"]).innerHTML = cell_content;
+    document.getElementById(id).innerHTML = cell_content;
 
-    if ((room_details["temperature"]<18) || (room_details["temperature"]>24) || (room_details["humidity"]<30) || (room_details["humidity"]>50) || (room_details["co2"]<30) || (room_details["co2"]>50)) {
-        document.getElementById(room_details["id"]).className = "room orangeRoom";
+    if ((details["temperature"]<18) || (details["temperature"]>24) || (details["humidity"]<30) || (details["humidity"]>50) || (details["co2"]<30) || (details["co2"]>50)) {
+        document.getElementById(id).className = "room orangeRoom";
     }
 }
 
