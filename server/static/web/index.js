@@ -9,7 +9,7 @@ let bodyID;
 let detailsInPopup;
 let detailsInPopup2;
 
-const api_url = "http://192.168.1.111/api";
+const api_url = "http://127.0.0.1:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 /*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }

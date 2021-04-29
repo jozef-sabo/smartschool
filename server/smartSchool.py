@@ -18,7 +18,7 @@ def filterByType(dbData, type):
     result = []
     for line in dbData:
         if line[1] == type:
-            if (type == 'Temperature' or type == 'Humidity ' ) and line[2] == 0 :
+            if (type == 'Temperature' or type == 'Humidity' ) and line[2] == 0 :
                 continue
             result.append((line[5], line[2]))
         # print(line)
