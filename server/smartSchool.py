@@ -20,7 +20,7 @@ def filterByType(dbData, type):
         if line[1] == type:
             if (type == 'Temperature' or type == 'Humidity' ) and line[2] == 0 :
                 continue
-            result.append((line[5], line[2]))
+            result.append((line[0], line[2]))
         # print(line)
     return np.array(result)
 

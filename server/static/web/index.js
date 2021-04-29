@@ -452,8 +452,10 @@ function drawLine(data, idx, avg, date) {
     var chart = new CanvasJS.Chart(sensor[0], {
         animationEnabled: true,
         backgroundColor: "rgba(255, 255, 255, 0)",
+        theme: "light2",
         title:{
             text: sensor[1],
+            fontColor: 'gray',
         },
         subtitles: [{
             text: subtitleDate,
@@ -467,7 +469,8 @@ function drawLine(data, idx, avg, date) {
                 lineColor:'white',
                 color: 'rgb(235, 146, 0)',
                 gridThickness: 0,
-                lineThickness: 5,
+                showOnTop: true,
+                thickness:2,
             }],
             title: sensor[2],
             maximum: sensor[3],
@@ -490,11 +493,11 @@ function drawLine(data, idx, avg, date) {
         },
 
         data: [{
-            type: "line",
+            type: "spline",
             dataPoints: createDatapoints(data),
             color: '#ABC1C4',
             markerType: 'none',
-            lineThickness:4,
+            lineThickness:1,
         }]
     });
     chart.render();
