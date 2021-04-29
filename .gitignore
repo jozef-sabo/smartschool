@@ -112,4 +112,5 @@ venv.bak/
 #pycharm
 .idea
 
+flask_session
 secrets.py

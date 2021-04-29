@@ -46,7 +46,7 @@ def get_all_sensors():
     data = {}
     for the_class in classes:
         class_id = the_class[0]
-        data[class_id] = {"id": class_id}
+        data[class_id] = {}
         cursor.execute(
             "SELECT `sensor_type`, `sensor_value`, `sensor_unit` FROM `rooms` r WHERE `room_number` = '%s'"
             "AND r.`date_time` = (SELECT r.`date_time` FROM `rooms` r WHERE `room_number` = '%s' ORDER BY "
@@ -70,7 +70,7 @@ def get_all_sensors():
 
     cursor.close()
     connection.close()
-    return list(data.values())
+    return data
 
 
 if __name__ == '__main__':

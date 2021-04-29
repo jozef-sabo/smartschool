@@ -34,7 +34,7 @@ def filter_data_to_candle():
     session["count"] = 0
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
 
     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
@@ -82,7 +82,7 @@ def sub_candle():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x') 
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x') 
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -129,7 +129,7 @@ def add_candle():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -175,7 +175,7 @@ def filter_data_to_line():
 
     db_data = mainData.fetchData.fetch()
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
 
     temp_all = mainData.smartSchool.filterByType(db_data, "Temperature")
     # temp_today = mainData.smartSchool.filterTodayData(temp_all)
@@ -219,7 +219,7 @@ def line_sub():
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
@@ -267,7 +267,7 @@ def line_add():
     session["count"] += 1
     days = datetime.timedelta(session["count"])
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = mainData.smartSchool.createDate('2021', '04', '12', 'x')
     myDate = myDate + days # namiesto myDate - date.today()
     print(myDate)
 
