@@ -8,8 +8,9 @@ let close;
 let bodyID;
 let detailsInPopup;
 let detailsInPopup2;
+let darkModeCheckBox;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://192.168.0.105/api/api";
 
 //TEMPORARY DATA FOR TESTING
 /*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
@@ -55,6 +56,7 @@ const temporary_rooms = {
     room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
     room_details_015, room_details_016, room_details_017, room_details_018]*/
 
+
 var xhttp;
 xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
@@ -66,7 +68,7 @@ xhttp.onreadystatechange = function() {
                 init_load = true;
                 return
             }
-            init();
+            setTimeout(() => init(), 100)
             return;
         }
         console.log("Error", this.status);
@@ -75,7 +77,7 @@ xhttp.onreadystatechange = function() {
             init_load = true;
             return
         }
-        init();
+        setTimeout(() => init(), 100)
     }
 
 };
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function(){
             init_load = true;
             return
         }
-    init();
+        setTimeout(() => init(), 100)
 });
 
 function init() {
@@ -98,6 +100,13 @@ function init() {
     bodyID = document.getElementById("bodyID");
     detailsInPopup = document.getElementById("detailsInPopUp");
     detailsInPopup2 = document.getElementById("detailsInPopUpPt2")
+    darkModeCheckBox = document.getElementById('darkModeCheckBox');    
+    if (darkModeCheckBox){
+    darkModeCheckBox.addEventListener('change', () => {
+        document.body.classList.toggle('dark');
+    });
+}
+
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
@@ -553,3 +562,4 @@ function changeBorderColor(chart) {
         }
     }
 }
+
