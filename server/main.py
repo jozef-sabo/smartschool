@@ -177,11 +177,11 @@ def add_candle():
 
 @app.route('/api/Line')
 def filter_data_to_line():
-    session["count"] = 0
-
     db_data = mainData.fetchData.fetch()
+    days = datetime.timedelta(session["count"])
 
     myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
+    myDate = myDate + days # namiesto myDate - date.today()
 
     C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
 

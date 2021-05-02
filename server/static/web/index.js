@@ -1,5 +1,4 @@
-/* 18 - 68 */
-var rooms;
+let rooms;
 let init_load = false;
 // Okno s detailmi
 //const open = document.getElementById('open');
@@ -10,27 +9,9 @@ let detailsInPopup;
 let detailsInPopup2;
 let darkModeCheckBox;
 
-const api_url = "http://192.168.0.105/api/api";
+const api_url = "http://192.168.1.111/api";
 
 //TEMPORARY DATA FOR TESTING
-/*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
-room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 60.0, "co2": 40 }
-room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_006 = { "id":"room_006", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
-room_details_007 = { "id":"room_007", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_008 = { "id":"room_008", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_009 = { "id":"room_009", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_010 = { "id":"room_010", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_011 = { "id":"room_011", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_012 = { "id":"room_012", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_013 = { "id":"room_013", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_014 = { "id":"room_014", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
-room_details_015 = { "id":"room_015", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}*/
 const temporary_rooms = {
     "units": {"temperature": "°C", "humidity": "%", "co2": "ppm"},
     /*"room_001": {"temperature": 10.0, "humidity": 37.0, "co2": 40},
@@ -52,12 +33,8 @@ const temporary_rooms = {
     "room_017": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
     "room_018": {"temperature": 22.0, "humidity": 38.0, "co2": 38}
 }
-/*const temporary_rooms = [room_details_003, room_details_004, room_details_005, room_details_006, room_details_007, room_details_008,
-    room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
-    room_details_015, room_details_016, room_details_017, room_details_018]*/
 
-
-var xhttp;
+let xhttp;
 xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (this.readyState === 4) {
@@ -68,7 +45,7 @@ xhttp.onreadystatechange = function() {
                 init_load = true;
                 return
             }
-            setTimeout(() => init(), 100)
+            setTimeout(() => init(), 100);
             return;
         }
         console.log("Error", this.status);
@@ -77,7 +54,7 @@ xhttp.onreadystatechange = function() {
             init_load = true;
             return
         }
-        setTimeout(() => init(), 100)
+        setTimeout(() => init(), 100);
     }
 
 };
@@ -86,31 +63,28 @@ xhttp.timeout = 2000;
 xhttp.send();
 
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
     if (!init_load) {
-            init_load = true;
-            return
-        }
-        setTimeout(() => init(), 100)
+        init_load = true;
+        return
+    }
+    setTimeout(() => init(), 100);
 });
 
 function init() {
+    bodyID = document.getElementById("bodyID");
     popUpWindowID = document.getElementById('popUpWindowID');
     close = document.getElementById('close');
-    bodyID = document.getElementById("bodyID");
     detailsInPopup = document.getElementById("detailsInPopUp");
     detailsInPopup2 = document.getElementById("detailsInPopUpPt2")
-    darkModeCheckBox = document.getElementById('darkModeCheckBox');    
-    if (darkModeCheckBox){
-    darkModeCheckBox.addEventListener('change', () => {
-        document.body.classList.toggle('dark');
-    });
-}
-
+    darkModeCheckBox = document.getElementById('darkModeCheckBox');
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
-    })
+    });
+    darkModeCheckBox.addEventListener('change', () => {
+        document.body.classList.toggle('dark');
+    });
     Object.keys(rooms).forEach(key => update_room_details(key, rooms[key]))
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
@@ -118,16 +92,8 @@ function init() {
     document.getElementById("obsah").style.display = "initial";
     setTimeout(() => {
         spinnerWrapper.parentElement.removeChild(spinnerWrapper);
-        }, 500);
-
+    }, 500);
 }
-
-
-/* 390 - 869 */
-// console.log("My script starting here.");
-
-
-    //update_all_room_details();});
 
 function update_all_room_details(){
     $.ajax({
@@ -145,69 +111,47 @@ function update_all_room_details(){
     });
 }
 
-
-/*
-function update_all_room_details(){
-
-for (i=0; i<rooms.length; i++){
-update_room_details(rooms[i]);
-}
-}
-*/
-
 function update_room_details(id, details) {
     let id_element = document.getElementById(id);
     if (!id_element) return;
     let cell_content = "";
 
-    if ("temperature" in details) {
-        cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+details["temperature"] + rooms["units"]["temperature"] +'</p>';
-    }
-    if ("humidity" in details) {
-        cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"]+ rooms["units"]["humidity"] +'</p>';
-    }
-    if ("co2" in details) {
-        cell_content += '<p>CO<sub>2</sub> '+details["co2"] + rooms["units"]["co2"] +'</p>';
-    }
+    if ("temperature" in details) cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+ details["temperature"] + rooms["units"]["temperature"] +'</p>';
+    if ("humidity" in details) cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"] + rooms["units"]["humidity"] +'</p>';
+    if ("co2" in details) cell_content += '<p>CO<sub>2</sub> '+ details["co2"] + rooms["units"]["co2"] +'</p>';
     id_element.innerHTML = cell_content;
 
-    if ((details["temperature"]<18) || (details["temperature"]>24) || (details["humidity"]<30) || (details["humidity"]>50) || (details["co2"]<30) || (details["co2"]>50)) {
-        id_element.className = "room orangeRoom";
-    }
+    if (
+        (details["temperature"] < 18) || (details["temperature"] > 24) ||
+        (details["humidity"] < 30) || (details["humidity"] > 50) ||
+        (details["co2"] < 30) || (details["co2"] > 50)
+    ) id_element.className = "room orangeRoom";
 }
 
 function openDetails(id) {
     let cell_content = "";
     let cell_content2 = "";
+    let color;
 
     if ("temperature" in rooms[id]) {
-        if (rooms[id]["temperature"]<18){
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+ rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
-        } else if (rooms[id]["temperature"]<24) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"]+rooms["units"]["temperature"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["temperature"] > 24) color = "red";
+        if (rooms[id]["temperature"] < 18) color = "blue";
+        cell_content += '<p class="' + color + 'detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
     }
 
     if ("humidity" in rooms[id]) {
-        if (rooms[id]["humidity"]<30) {
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        } else if (rooms[id]["humidity"]<50) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["humidity"] > 50) color = "red";
+        if (rooms[id]["humidity"] < 30) color = "blue";
+        cell_content += '<p class="' + color + 'detailsWindow"><span class="fas fa-tint fa-xs"></span> ' + rooms[id]["humidity"] + rooms["units"]["humidity"] + '</p>';
     }
 
     if ("co2" in rooms[id]) {
-        if (rooms[id]["co2"]<30) {
-            cell_content += '<p class="blue detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        } else if (rooms[id]["co2"]<50) {
-            cell_content += '<p class="detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["co2"] > 50) color = "red";
+        if (rooms[id]["co2"] < 30) color = "blue";
+        cell_content += '<p class="' + color + 'detailsWindow">CO<sub>2</sub> ' + rooms[id]["co2"]+ rooms["units"]["co2"] + '</p>';
     }
 
     cell_content2 += '<br><br><button class="leftButton" onclick="candle()">Show Candle</button>';
@@ -225,26 +169,10 @@ function openDetails(id) {
     candle();
 }
 
-
-
-
-
-
 //open.addEventListener('click',()=>{
 //    popUpWindowID.classList.add('show');
 //})
 
-
-
-
-/* DATA FOR TESTING
-
-room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 5.0, "co2": 5 }
-room_details_002 = { "id":"room_002", "temperature": 22.0, "humidity": 40.0, "co2": 40 }
-room_details_003 = { "id":"room_003", "temperature": 100.0, "humidity": 100.0, "co2": 100 }
-
-rooms = [room_details_001, room_details_002, room_details_003]
-*/
 var type;
 function candle() {
     type = 0;
@@ -562,4 +490,3 @@ function changeBorderColor(chart) {
         }
     }
 }
-
