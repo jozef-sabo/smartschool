@@ -116,9 +116,9 @@ function update_room_details(id, details) {
     if (!id_element) return;
     let cell_content = "";
 
-    if ("temperature" in details) cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+ details["temperature"] + rooms["units"]["temperature"] +'</p>';
-    if ("humidity" in details) cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"] + rooms["units"]["humidity"] +'</p>';
-    if ("co2" in details) cell_content += '<p>CO<sub>2</sub> '+ details["co2"] + rooms["units"]["co2"] +'</p>';
+    if ("temperature" in details) {cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+ details["temperature"] + rooms["units"]["temperature"] +'</p>';}
+    if ("humidity" in details) {cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"] + rooms["units"]["humidity"] +'</p>';}
+    if ("co2" in details) {cell_content += '<p>CO<sub>2</sub> '+ details["co2"] + rooms["units"]["co2"] +'</p>';}
     id_element.innerHTML = cell_content;
 
     if (
@@ -137,21 +137,21 @@ function openDetails(id) {
         color = "";
         if (rooms[id]["temperature"] > 24) color = "red";
         if (rooms[id]["temperature"] < 18) color = "blue";
-        cell_content += '<p class="' + color + 'detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
+        cell_content += '<p class="detailsWindow ' + color + '"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
     }
 
     if ("humidity" in rooms[id]) {
         color = "";
         if (rooms[id]["humidity"] > 50) color = "red";
         if (rooms[id]["humidity"] < 30) color = "blue";
-        cell_content += '<p class="' + color + 'detailsWindow"><span class="fas fa-tint fa-xs"></span> ' + rooms[id]["humidity"] + rooms["units"]["humidity"] + '</p>';
+        cell_content += '<p class="detailsWindow ' + color + '"><span class="fas fa-tint fa-xs"></span> ' + rooms[id]["humidity"] + rooms["units"]["humidity"] + '</p>';
     }
 
     if ("co2" in rooms[id]) {
         color = "";
         if (rooms[id]["co2"] > 50) color = "red";
         if (rooms[id]["co2"] < 30) color = "blue";
-        cell_content += '<p class="' + color + 'detailsWindow">CO<sub>2</sub> ' + rooms[id]["co2"]+ rooms["units"]["co2"] + '</p>';
+        cell_content += '<p class="detailsWindow ' + color + '">CO<sub>2</sub> ' + rooms[id]["co2"]+ rooms["units"]["co2"] + '</p>';
     }
 
     cell_content2 += '<br><br><button class="leftButton" onclick="candle()">Show Candle</button>';
