@@ -491,7 +491,9 @@ function drawLine(data, idx, avg, date) {
             minimum: 0,
             maximum: 24,
         },
-
+        toolTip: {
+            content: "<br/><strong>Hour: </strong>{x}<br /><strong>Value: </strong>{y}" 
+        },
         data: [{
             type: "spline",
             dataPoints: createDatapoints(data),
