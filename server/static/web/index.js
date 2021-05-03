@@ -1,6 +1,6 @@
-/* 18 - 68 */
-var rooms;
+let rooms;
 let init_load = false;
+let selected_class;
 // Okno s detailmi
 //const open = document.getElementById('open');
 let popUpWindowID;
@@ -8,28 +8,11 @@ let close;
 let bodyID;
 let detailsInPopup;
 let detailsInPopup2;
+let darkModeCheckBox;
 
 const api_url = "http://127.0.0.1:5000/api";
 
 //TEMPORARY DATA FOR TESTING
-/*room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
-room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 60.0, "co2": 40 }
-room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_006 = { "id":"room_006", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
-room_details_007 = { "id":"room_007", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_008 = { "id":"room_008", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_009 = { "id":"room_009", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_010 = { "id":"room_010", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_011 = { "id":"room_011", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_012 = { "id":"room_012", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_013 = { "id":"room_013", "temperature": 22.0, "humidity": 38.0, "co2": 38}
-room_details_014 = { "id":"room_014", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
-room_details_015 = { "id":"room_015", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
-room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
-room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
-room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}*/
 const temporary_rooms = {
     "units": {"temperature": "°C", "humidity": "%", "co2": "ppm"},
     /*"room_001": {"temperature": 10.0, "humidity": 37.0, "co2": 40},
@@ -51,11 +34,8 @@ const temporary_rooms = {
     "room_017": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
     "room_018": {"temperature": 22.0, "humidity": 38.0, "co2": 38}
 }
-/*const temporary_rooms = [room_details_003, room_details_004, room_details_005, room_details_006, room_details_007, room_details_008,
-    room_details_009, room_details_010, room_details_011, room_details_012, room_details_013, room_details_014,
-    room_details_015, room_details_016, room_details_017, room_details_018]*/
 
-var xhttp;
+let xhttp;
 xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     if (this.readyState === 4) {
@@ -66,7 +46,7 @@ xhttp.onreadystatechange = function() {
                 init_load = true;
                 return
             }
-            init();
+            setTimeout(() => init(), 100);
             return;
         }
         console.log("Error", this.status);
@@ -75,7 +55,7 @@ xhttp.onreadystatechange = function() {
             init_load = true;
             return
         }
-        init();
+        setTimeout(() => init(), 100);
     }
 
 };
@@ -84,24 +64,28 @@ xhttp.timeout = 2000;
 xhttp.send();
 
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
     if (!init_load) {
-            init_load = true;
-            return
-        }
-    init();
+        init_load = true;
+        return
+    }
+    setTimeout(() => init(), 100);
 });
 
 function init() {
+    bodyID = document.getElementById("bodyID");
     popUpWindowID = document.getElementById('popUpWindowID');
     close = document.getElementById('close');
-    bodyID = document.getElementById("bodyID");
     detailsInPopup = document.getElementById("detailsInPopUp");
     detailsInPopup2 = document.getElementById("detailsInPopUpPt2")
+    darkModeCheckBox = document.getElementById('darkModeCheckBox');
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
-    })
+    });
+    darkModeCheckBox.addEventListener('change', () => {
+        document.body.classList.toggle('dark');
+    });
     Object.keys(rooms).forEach(key => update_room_details(key, rooms[key]))
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
@@ -109,16 +93,8 @@ function init() {
     document.getElementById("obsah").style.display = "initial";
     setTimeout(() => {
         spinnerWrapper.parentElement.removeChild(spinnerWrapper);
-        }, 500);
-
+    }, 500);
 }
-
-
-/* 390 - 869 */
-// console.log("My script starting here.");
-
-
-    //update_all_room_details();});
 
 function update_all_room_details(){
     $.ajax({
@@ -136,74 +112,52 @@ function update_all_room_details(){
     });
 }
 
-
-/*
-function update_all_room_details(){
-
-for (i=0; i<rooms.length; i++){
-update_room_details(rooms[i]);
-}
-}
-*/
-
 function update_room_details(id, details) {
     let id_element = document.getElementById(id);
     if (!id_element) return;
     let cell_content = "";
 
-    if ("temperature" in details) {
-        cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+details["temperature"] + rooms["units"]["temperature"] +'</p>';
-    }
-    if ("humidity" in details) {
-        cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"]+ rooms["units"]["humidity"] +'</p>';
-    }
-    if ("co2" in details) {
-        cell_content += '<p>CO<sub>2</sub> '+details["co2"] + rooms["units"]["co2"] +'</p>';
-    }
+    if ("temperature" in details) {cell_content += '<p><span class="fas fa-thermometer-half fa-xs"></span> '+ details["temperature"] + rooms["units"]["temperature"] +'</p>';}
+    if ("humidity" in details) {cell_content += '<p><span class="fas fa-tint fa-xs"></span> '+details["humidity"] + rooms["units"]["humidity"] +'</p>';}
+    if ("co2" in details) {cell_content += '<p>CO<sub>2</sub> '+ details["co2"] + rooms["units"]["co2"] +'</p>';}
     id_element.innerHTML = cell_content;
 
-    if ((details["temperature"]<18) || (details["temperature"]>24) || (details["humidity"]<30) || (details["humidity"]>50) || (details["co2"]<30) || (details["co2"]>50)) {
-        id_element.className = "room orangeRoom";
-    }
+    if (
+        (details["temperature"] < 18) || (details["temperature"] > 24) ||
+        (details["humidity"] < 30) || (details["humidity"] > 50) ||
+        (details["co2"] < 30) || (details["co2"] > 50)
+    ) id_element.className = "room orangeRoom";
 }
 
 function openDetails(id) {
     let cell_content = "";
     let cell_content2 = "";
+    let color;
 
     if ("temperature" in rooms[id]) {
-        if (rooms[id]["temperature"]<18){
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+ rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
-        } else if (rooms[id]["temperature"]<24) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"]+rooms["units"]["temperature"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-thermometer-half fa-xs"></span> '+rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["temperature"] > 24) color = "red";
+        if (rooms[id]["temperature"] < 18) color = "blue";
+        cell_content += '<p class="detailsWindow ' + color + '"><span class="fas fa-thermometer-half fa-xs"></span> ' + rooms[id]["temperature"] + rooms["units"]["temperature"] +'</p>';
     }
 
     if ("humidity" in rooms[id]) {
-        if (rooms[id]["humidity"]<30) {
-            cell_content += '<p class="blue detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        } else if (rooms[id]["humidity"]<50) {
-            cell_content += '<p class="detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow"><span class="fas fa-tint fa-xs"></span> '+rooms[id]["humidity"]+ rooms["units"]["humidity"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["humidity"] > 50) color = "red";
+        if (rooms[id]["humidity"] < 30) color = "blue";
+        cell_content += '<p class="detailsWindow ' + color + '"><span class="fas fa-tint fa-xs"></span> ' + rooms[id]["humidity"] + rooms["units"]["humidity"] + '</p>';
     }
 
     if ("co2" in rooms[id]) {
-        if (rooms[id]["co2"]<30) {
-            cell_content += '<p class="blue detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        } else if (rooms[id]["co2"]<50) {
-            cell_content += '<p class="detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        } else {
-            cell_content += '<p class="red detailsWindow">CO<sub>2</sub> '+rooms[id]["co2"]+ rooms["units"]["co2"] +'</p>';
-        }
+        color = "";
+        if (rooms[id]["co2"] > 50) color = "red";
+        if (rooms[id]["co2"] < 30) color = "blue";
+        cell_content += '<p class="detailsWindow ' + color + '">CO<sub>2</sub> ' + rooms[id]["co2"]+ rooms["units"]["co2"] + '</p>';
     }
 
-    cell_content2 += '<br><br><button class="leftButton" onclick="candle()">Show Candle</button>';
-    cell_content2 += '<button class="rightButton" onclick="line()">Show Line</button><br><br>';
-    cell_content2 += '<div><button class="leftButton" onclick="dateSub()"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd()"><span class="fas fa-chevron-right"></span></button></div><br><br></div>' ;
+    cell_content2 += '<br><br><button class="leftButton" onclick="candle(selected_class)">Show Candle</button>';
+    cell_content2 += '<button class="rightButton" onclick="line(selected_class)">Show Line</button><br><br>';
+    cell_content2 += '<div><button class="leftButton" onclick="dateSub(selected_class)"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd(selected_class)"><span class="fas fa-chevron-right"></span></button></div><br><br></div>' ;
     cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div></div><br><br>'
     cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div></div><br><br>'
     cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
@@ -213,37 +167,29 @@ function openDetails(id) {
     detailsInPopup2.innerHTML = cell_content2;
     popUpWindowID.classList.add('show');
     bodyID.classList.add('noscroll');
-    candle();
+    resetDate();
+    selected_class = id;
+    candle(selected_class);
 }
-
-
-
-
-
 
 //open.addEventListener('click',()=>{
 //    popUpWindowID.classList.add('show');
 //})
 
-
-
-
-/* DATA FOR TESTING
-
-room_details_001 = { "id":"room_001", "temperature": 5.0, "humidity": 5.0, "co2": 5 }
-room_details_002 = { "id":"room_002", "temperature": 22.0, "humidity": 40.0, "co2": 40 }
-room_details_003 = { "id":"room_003", "temperature": 100.0, "humidity": 100.0, "co2": 100 }
-
-rooms = [room_details_001, room_details_002, room_details_003]
-*/
 var type;
-function candle() {
-    type = 0;
-    console.log(type);
-    var data;
-
+function resetDate() {
     $.ajax({
-        url: api_url + '/Candle',
+        url: api_url + '/ResetDate',
+        type: "GET",
+    });
+}
+console.log(id);
+function candle(selected_class) {
+    type = 0;
+    var data;
+    console.log(selected_class);
+    $.ajax({
+        url: api_url + '/Candle/' + selected_class,
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -259,12 +205,12 @@ function candle() {
     return data;
 }
 
-function line() {
+function line(selected_class) {
     type = 1;
-    console.log(type);
+    console.log(selected_class);
     var data;
     $.ajax({
-        url: api_url + '/Line',
+        url: api_url + '/Line/' + selected_class,
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -280,10 +226,10 @@ function line() {
     return data;
 }
 
-function dateSub() {
+function dateSub(selected_class) {
     if(type == 0) {
         $.ajax({
-            url: api_url + '/CandleSub',
+            url: api_url + '/CandleSub/' + selected_class,
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -299,7 +245,7 @@ function dateSub() {
     }
     if(type == 1) {
         $.ajax({
-            url: api_url + '/LineSub',
+            url: api_url + '/LineSub/' + selected_class,
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -315,10 +261,10 @@ function dateSub() {
     }
 }
 
-function dateAdd() {
+function dateAdd(selected_class) {
     if(type == 0) {
         $.ajax({
-            url: api_url + '/CandleAdd',
+            url: api_url + '/CandleAdd/' + selected_class,
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -334,7 +280,7 @@ function dateAdd() {
     }
     if(type == 1) {
         $.ajax({
-            url: api_url + '/LineAdd',
+            url: api_url + '/LineAdd/' + selected_class,
             type: "GET",
             dataType: "json",
             success: function (data) {

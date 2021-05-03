@@ -1,24 +1,28 @@
 import fetchData
 import smartSchool
+import datetime
+
+date = datetime.date.today()
+dbData = fetchData.fetch(date, '3C', 'temperature')
+print(smartSchool.parsePlot(dbData))
+# dbData = fetchData.fetch(date, '3C')
+# tempAll = smartSchool.filterByType(dbData, "temperature") # USED
+# humdAll = smartSchool.filterByType(dbData, "humidity")
+# devpAll = smartSchool.filterByType(dbData, "dewPoint")
+# a0a0All = smartSchool.filterByType(dbData, "co2")
+# C3All = smartSchool.filterByRoom(dbData, "3C")
 
 
-dbData = fetchData.fetch()
-tempAll = smartSchool.filterByType(dbData, "Temperature") # USED
-humdAll = smartSchool.filterByType(dbData, "Humidity")
-devpAll = smartSchool.filterByType(dbData, "DewPoint")
-a0a0All = smartSchool.filterByType(dbData, "A0")
-C3All = smartSchool.filterByRoom(dbData, "3C")
-
-# print(a0a0All)
+# print(dbData)
 # print("                  ")
 # print(smartSchool.a0volt(a0a0All))
-myDate = smartSchool.createDate('2021', '04', '13', 'x')
-print(myDate)
-# print(smartSchool.filterTodayData(tempAll))
-# temperature example
-# print(tempAll)
-temp_06_04_2021 = smartSchool.filterByDateTime(tempAll, myDate) # do not use '0' as it is a valid hour_Idx
-print(temp_06_04_2021)
+# myDate = smartSchool.createDate('2021', '05', '02', 'x')
+# print(myDate)
+# # print(smartSchool.filterTodayData(tempAll))
+# # temperature example
+# # print(tempAll)
+# temp_06_04_2021 = smartSchool.filterByDateTime(tempAll, myDate) # do not use '0' as it is a valid hour_Idx
+# print(temp_06_04_2021)
 # x = smartSchool.parsePlot(temp_06_04_2021)
 # print("        and        ")
 # print(smartSchool.parseCandle(temp_05_04_2021))

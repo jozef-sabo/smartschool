@@ -29,94 +29,39 @@ def retrieve_all_data_from_all_sensors():
     return resp
 
 
-@app.route('/api/Candle')
-def filter_data_to_candle():
+@app.route('/api/ResetDate')
+def reset():
     session["count"] = 0
-    db_data = mainData.fetchData.fetch()
-
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
-
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
-
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
-
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    # humid_today_candle = mainData.smartSchool.parseCandle(humid_today)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_candle = mainData.smartSchool.parseCandle(humid_06_04_2021)
-
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    # dp_today_candle = mainData.smartSchool.parseCandle(dp_today)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_candle = mainData.smartSchool.parseCandle(dp_06_04_2021)
-
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
-
-    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
-    result_json = json.dumps(result)
-
-    resp = Response(result_json)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Content-Type'] = "application/json"
-
-    return resp
+    session["today"] = datetime.date.today()
+    # session['today'] = mainData.smartSchool.createDate('2021', '04', '28', 'x')
+    return "",200
 
 
-@app.route('/api/CandleSub')
-def sub_candle():
-    print("KukÃ¡me")
-    print(session["count"])
-    session["count"] -= 1
-    print(session["count"])
+@app.route('/api/Candle/')
+@app.route('/api/Candle/<idClass>/')
+def filter_data_to_candle(idClass=None):
+    print(idClass)
+
     days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
+    print('hello')
+    print(idClass)
 
-    db_data = mainData.fetchData.fetch()
+    temp_candle = mainData.smartSchool.parseCandle(temp_today)
+    humid_candle = mainData.smartSchool.parseCandle(humid_today)
+    dp_candle = mainData.smartSchool.parseCandle(dp_today)
+    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x') 
-    myDate = myDate + days # namiesto myDate - date.today()
-    print(myDate)
-
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
-
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
-
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    # humid_today_candle = mainData.smartSchool.parseCandle(humid_today)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_candle = mainData.smartSchool.parseCandle(humid_06_04_2021)
-
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    # dp_today_candle = mainData.smartSchool.parseCandle(dp_today)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_candle = mainData.smartSchool.parseCandle(dp_06_04_2021)
-
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
-
-    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
+    result = [[temp_candle, humid_candle, dp_candle, co2_candle],
               myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    print(result)
     result_json = json.dumps(result)
 
     resp = Response(result_json)
@@ -126,143 +71,31 @@ def sub_candle():
     return resp
 
 
-@app.route('/api/CandleAdd')
-def add_candle():
-    session["count"] += 1
-    days = datetime.timedelta(session["count"])
 
-    db_data = mainData.fetchData.fetch()
-
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
-    myDate = myDate + days # namiesto myDate - date.today()
-    print(myDate)
-
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
-
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    # temp_today_candle = mainData.smartSchool.parseCandle(temp_today)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_candle = mainData.smartSchool.parseCandle(temp_06_04_2021)
-
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    # humid_today_candle = mainData.smartSchool.parseCandle(humid_today)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_candle = mainData.smartSchool.parseCandle(humid_06_04_2021)
-
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    # dp_today_candle = mainData.smartSchool.parseCandle(dp_today)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_candle = mainData.smartSchool.parseCandle(dp_06_04_2021)
-
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    # a0_today_candle = mainData.smartSchool.parseCandle(a0_today)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_candle = mainData.smartSchool.parseCandle(a0_06_04_2021_volt)
-
-    result = [[temp_06_04_2021_candle, humid_06_04_2021_candle, dp_06_04_2021_candle, a0_06_04_2021_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
-    result_json = json.dumps(result)
-
-    resp = Response(result_json)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Content-Type'] = "application/json"
-
-    return resp
-
-
-@app.route('/api/Line')
-def filter_data_to_line():
-    session["count"] = 0
-
-    db_data = mainData.fetchData.fetch()
-
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
-
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
-
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_line = mainData.smartSchool.parsePlot(temp_06_04_2021)
-
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_line = mainData.smartSchool.parsePlot(humid_06_04_2021)
-
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_line = mainData.smartSchool.parsePlot(dp_06_04_2021)
-
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
-
-    temp_av = mainData.smartSchool.avg(temp_06_04_2021_line)
-    humid_av = mainData.smartSchool.avg(humid_06_04_2021_line)
-    dp_av = mainData.smartSchool.avg(dp_06_04_2021_line)
-    a0_av = mainData.smartSchool.avg(a0_06_04_2021_line)
-
-    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
-               a0_06_04_2021_line.tolist()], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
-    result_json = json.dumps(result)
-
-    resp = Response(result_json)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Content-Type'] = "application/json"
-
-    return resp
-
-
-@app.route('/api/LineSub')
-def line_sub():
+@app.route('/api/CandleSub/')
+@app.route('/api/CandleSub/<idClass>/')
+def sub_candle(idClass=None):
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
+    print(myDate, idClass)
+    print(temp_today)
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
-    myDate = myDate + days # namiesto myDate - date.today()
-    print(myDate)
+    temp_candle = mainData.smartSchool.parseCandle(temp_today)
+    humid_candle = mainData.smartSchool.parseCandle(humid_today)
+    dp_candle = mainData.smartSchool.parseCandle(dp_today)
+    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
+    print(temp_candle)
 
-    db_data = mainData.fetchData.fetch()
-
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
-
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_line = mainData.smartSchool.parsePlot(temp_06_04_2021)
-
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_line = mainData.smartSchool.parsePlot(humid_06_04_2021)
-
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_line = mainData.smartSchool.parsePlot(dp_06_04_2021)
-
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
-
-    temp_av = mainData.smartSchool.avg(temp_06_04_2021_line)
-    humid_av = mainData.smartSchool.avg(humid_06_04_2021_line)
-    dp_av = mainData.smartSchool.avg(dp_06_04_2021_line)
-    a0_av = mainData.smartSchool.avg(a0_06_04_2021_line)
-
-    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
-               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result = [[temp_candle, humid_candle, dp_candle, co2_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
     result_json = json.dumps(result)
 
     resp = Response(result_json)
@@ -272,47 +105,133 @@ def line_sub():
     return resp
 
 
-@app.route('/api/LineAdd')
-def line_add():
+@app.route('/api/CandleAdd/<idClass>/')
+@app.route('/api/CandleAdd/')
+def add_candle(idClass=None):
     session["count"] += 1
     days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
 
-    myDate = mainData.smartSchool.createDate('2021', '04', '27', 'x')
-    myDate = myDate + days # namiesto myDate - date.today()
-    print(myDate)
+    temp_candle = mainData.smartSchool.parseCandle(temp_today)
+    humid_candle = mainData.smartSchool.parseCandle(humid_today)
+    dp_candle = mainData.smartSchool.parseCandle(dp_today)
+    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
 
-    db_data = mainData.fetchData.fetch()
+    result = [[temp_candle, humid_candle, dp_candle, co2_candle],
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
 
-    C3_all = mainData.smartSchool.filterByRoom(db_data, '3C')
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
 
-    temp_all = mainData.smartSchool.filterByType(C3_all, "Temperature")
-    # temp_today = mainData.smartSchool.filterTodayData(temp_all)
-    temp_06_04_2021 = mainData.smartSchool.filterByDateTime(temp_all, myDate)
-    temp_06_04_2021_line = mainData.smartSchool.parsePlot(temp_06_04_2021)
+    return resp
 
-    humid_all = mainData.smartSchool.filterByType(C3_all, "Humidity")
-    # humid_today = mainData.smartSchool.filterTodayData(humid_all)
-    humid_06_04_2021 = mainData.smartSchool.filterByDateTime(humid_all, myDate)
-    humid_06_04_2021_line = mainData.smartSchool.parsePlot(humid_06_04_2021)
 
-    dp_all = mainData.smartSchool.filterByType(C3_all, "DewPoint")
-    # dp_today = mainData.smartSchool.filterTodayData(dp_all)
-    dp_06_04_2021 = mainData.smartSchool.filterByDateTime(dp_all, myDate)
-    dp_06_04_2021_line = mainData.smartSchool.parsePlot(dp_06_04_2021)
+@app.route('/api/Line/<idClass>/')
+@app.route('/api/Line/')
+def filter_data_to_line(idClass=None):
+    print(idClass)
+    days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
 
-    a0_all = mainData.smartSchool.filterByType(C3_all, "A0")
-    # a0_today = mainData.smartSchool.filterTodayData(a0_all)
-    a0_06_04_2021 = mainData.smartSchool.filterByDateTime(a0_all, myDate)
-    a0_06_04_2021_volt = mainData.smartSchool.a0volt(a0_06_04_2021)
-    a0_06_04_2021_line = mainData.smartSchool.parsePlot(a0_06_04_2021_volt)
+    temp_line = mainData.smartSchool.parsePlot(temp_today)
+    humid_line = mainData.smartSchool.parsePlot(humid_today)
+    dp_line = mainData.smartSchool.parsePlot(dp_today)
+    co2_line = mainData.smartSchool.parsePlot(co2_volt)
 
-    temp_av = mainData.smartSchool.avg(temp_06_04_2021_line)
-    humid_av = mainData.smartSchool.avg(humid_06_04_2021_line)
-    dp_av = mainData.smartSchool.avg(dp_06_04_2021_line)
-    a0_av = mainData.smartSchool.avg(a0_06_04_2021_line)
+    temp_av = mainData.smartSchool.avg(temp_line)
+    humid_av = mainData.smartSchool.avg(humid_line)
+    dp_av = mainData.smartSchool.avg(dp_line)
+    a0_av = mainData.smartSchool.avg(co2_line)
 
-    result = [[temp_06_04_2021_line.tolist(), humid_06_04_2021_line.tolist(), dp_06_04_2021_line.tolist(),
-               a0_06_04_2021_line.tolist()],[temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result = [[temp_line, humid_line, dp_line,
+               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    print(result)
+    result_json = json.dumps(result)
+
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineSub/<idClass>/')
+@app.route('/api/LineSub/')
+def line_sub(idClass=None):
+    session["count"] -= 1
+    days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
+
+    temp_line = mainData.smartSchool.parsePlot(temp_today)
+    humid_line = mainData.smartSchool.parsePlot(humid_today)
+    dp_line = mainData.smartSchool.parsePlot(dp_today)
+    co2_line = mainData.smartSchool.parsePlot(co2_volt)
+
+    temp_av = mainData.smartSchool.avg(temp_line)
+    humid_av = mainData.smartSchool.avg(humid_line)
+    dp_av = mainData.smartSchool.avg(dp_line)
+    a0_av = mainData.smartSchool.avg(co2_line)
+
+    result = [[temp_line, humid_line, dp_line,
+               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    result_json = json.dumps(result)
+
+    resp = Response(result_json)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Content-Type'] = "application/json"
+
+    return resp
+
+
+@app.route('/api/LineAdd/<idClass>/')
+@app.route('/api/LineAdd/')
+def line_add(idClass=None):
+    session["count"] += 1
+    days = datetime.timedelta(session["count"])
+    myDate = session["today"] + days 
+    temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
+    temp_today = mainData.smartSchool.filter0(temp_today)
+    humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
+    humid_today = mainData.smartSchool.filter0(humid_today)
+    dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
+    co2_volt = mainData.smartSchool.a0volt(co2_today)
+
+    temp_line = mainData.smartSchool.parsePlot(temp_today)
+    humid_line = mainData.smartSchool.parsePlot(humid_today)
+    dp_line = mainData.smartSchool.parsePlot(dp_today)
+    co2_line = mainData.smartSchool.parsePlot(co2_volt)
+
+    temp_av = mainData.smartSchool.avg(temp_line)
+    humid_av = mainData.smartSchool.avg(humid_line)
+    dp_av = mainData.smartSchool.avg(dp_line)
+    a0_av = mainData.smartSchool.avg(co2_line)
+
+    result = [[temp_line, humid_line, dp_line,
+               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
     result_json = json.dumps(result)
 
     resp = Response(result_json)

@@ -8,7 +8,7 @@
         <script src="index.js"></script>
 
     </head>
-
+    
     <body id="bodyID">
         <div class='spinner-wrapper'>
             <p class="smart_school_name">SMART SCHOOL</p>
@@ -313,7 +313,21 @@
 
     </div>
 
-    <div class="button_div"><button onclick="on_script_loaded()">BTN</button></div>
+    <div class="button_div">
+        <button onclick="on_script_loaded()">BTN</button>
+    </div>
+
+    <br><br>
+
+    <div id="darkModeSwitch">
+        <input type="checkbox" class="darkModeCheckBox" id="darkModeCheckBox">
+        <label for="darkModeCheckBox" class="label">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+            <div class="ball"></div>
+        </label>
+    </div>
+    
 
         <div class="popUpWindow" id="popUpWindowID">
             <div class="popUp">
@@ -339,4 +353,7 @@
         <br><br><br><br><br></div>
 
     </body>
+
 </html>
+
+

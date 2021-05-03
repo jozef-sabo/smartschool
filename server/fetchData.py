@@ -1,4 +1,5 @@
 import mysql.connector
+import datetime
 
 config = {
     'user': '**REMOVED**',
@@ -9,14 +10,14 @@ config = {
     'raise_on_warnings': True
 }
 
-
-def fetch():
+# param date, idClass
+def fetch(date, idClass, sensor):
     cnx = mysql.connector.connect(**config)
-
     cursor = cnx.cursor()
 
-    sql_query = "SELECT * FROM rooms WHERE (`date_time` > DATE_SUB(now(), INTERVAL 30 DAY))"
-    cursor.execute(sql_query)
+    # sql_query = "SELECT * FROM rooms WHERE (`date_time` > DATE_SUB(now(), INTERVAL 30 DAY))"
+    
+    cursor.execute("SELECT date_time, sensor_value FROM rooms WHERE CAST(`date_time` AS DATE)  = (%s) AND `room_number` = (%s) AND `sensor_type` = (%s)", (date, idClass, sensor))
 
     data = cursor.fetchall()
 
