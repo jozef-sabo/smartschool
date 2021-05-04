@@ -197,22 +197,17 @@ def filter_data_to_line(idClass=None):
     dp_line = mainData.smartSchool.parsePlot(dp_ma)
     co2_line = mainData.smartSchool.parsePlot(co2_ma)
 
-    temp_av = mainData.smartSchool.avg(temp_line)
-    humid_av = mainData.smartSchool.avg(humid_line)
-    dp_av = mainData.smartSchool.avg(dp_line)
-    a0_av = mainData.smartSchool.avg(co2_line)
 
     temp_s = mainData.smartSchool.sigma(temp_today)
     humid_s = mainData.smartSchool.sigma(humid_today)
     dp_s = mainData.smartSchool.sigma(dp_today)
     co2_s = mainData.smartSchool.sigma(co2_volt)
 
-    result = [[temp_line, humid_line, dp_line, co2_line], 
-                [temp_av, humid_av, dp_av, a0_av],  
+    result = [[temp_line, humid_line, dp_line, co2_line],  
                 myDate.strftime("%a, %d %b %Y %H:%M:%S"),
                 [temp_s, humid_s, dp_s, co2_s]
                 ]
-
+    print('RESULT')
     print(result)
     result_json = json.dumps(result)
 
@@ -252,18 +247,12 @@ def line_sub(idClass=None):
     dp_line = mainData.smartSchool.parsePlot(dp_ma)
     co2_line = mainData.smartSchool.parsePlot(co2_ma)
 
-    temp_av = mainData.smartSchool.avg(temp_line)
-    humid_av = mainData.smartSchool.avg(humid_line)
-    dp_av = mainData.smartSchool.avg(dp_line)
-    a0_av = mainData.smartSchool.avg(co2_line)
-
     temp_s = mainData.smartSchool.sigma(temp_today)
     humid_s = mainData.smartSchool.sigma(humid_today)
     dp_s = mainData.smartSchool.sigma(dp_today)
     co2_s = mainData.smartSchool.sigma(co2_volt)
 
     result = [[temp_line, humid_line, dp_line, co2_line], 
-                [temp_av, humid_av, dp_av, a0_av],  
                 myDate.strftime("%a, %d %b %Y %H:%M:%S"),
                 [temp_s, humid_s, dp_s, co2_s]
                 ]
@@ -306,18 +295,12 @@ def line_add(idClass=None):
     dp_line = mainData.smartSchool.parsePlot(dp_ma)
     co2_line = mainData.smartSchool.parsePlot(co2_ma)
 
-    temp_av = mainData.smartSchool.avg(temp_line)
-    humid_av = mainData.smartSchool.avg(humid_line)
-    dp_av = mainData.smartSchool.avg(dp_line)
-    a0_av = mainData.smartSchool.avg(co2_line)
-
     temp_s = mainData.smartSchool.sigma(temp_today)
     humid_s = mainData.smartSchool.sigma(humid_today)
     dp_s = mainData.smartSchool.sigma(dp_today)
     co2_s = mainData.smartSchool.sigma(co2_volt)
 
     result = [[temp_line, humid_line, dp_line, co2_line], 
-                [temp_av, humid_av, dp_av, a0_av],  
                 myDate.strftime("%a, %d %b %Y %H:%M:%S"),
                 [temp_s, humid_s, dp_s, co2_s]
                 ]

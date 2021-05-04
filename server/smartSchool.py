@@ -89,6 +89,8 @@ def sigma(values, std_factor = 3):
 def parsePlot(npData):
     # returns data in format [[minute of the day][value]]
     result = []
+    if not npData:
+        return npData
     for row in npData:
         row = list(row)
 
@@ -99,6 +101,8 @@ def parsePlot(npData):
 # funkcia pre candlestick chart
 def parseCandle(npData):
     result = []
+    if not npData:
+        return npData
     # returns data in format [[hour],[value_1, value_2,...,value_n]]
     for row in npData:
         row = list(row)
@@ -146,6 +150,8 @@ def parseCandle(npData):
 
 
 def a0volt(npData):
+    if not npData:
+        return npData
     result = []
     for line in npData:
         line = list(line)
@@ -157,6 +163,8 @@ def a0volt(npData):
 # val - stlpec z processed_data
 # => processed_data[:,0] = temp ; processed_data[:,1] = humid
 def avg(val):
+    if not avg:
+        return val
     sum = 0
     if len(val) == 0:
         return None 
@@ -166,6 +174,8 @@ def avg(val):
 
 
 def maxi(val):
+    if not val:
+        return val
     maximum = (val[0][0], val[0][1])
     for row in val:
         if row[1] > maximum[1]:
@@ -173,18 +183,18 @@ def maxi(val):
     return maximum
 
 
-def mini(val):
-    return round(np.amin(val), 1)
+# def mini(val):
+#     return round(np.amin(val), 1)
 
 
-def dev(val):
-    return round(np.std(val.astype(np.float64)), 1)
+# def dev(val):
+#     return round(np.std(val.astype(np.float64)), 1)
 
 
-def printResults(val):
-    return str("MIN: " + str(min(val)) + "  MAX: " + str(max(val)) + "  AVG: " + str(avg(val)) + "  DEV: " + str(dev(val)))
+# def printResults(val):
+#     return str("MIN: " + str(min(val)) + "  MAX: " + str(max(val)) + "  AVG: " + str(avg(val)) + "  DEV: " + str(dev(val)))
 
 
-def pearson(val1, val2):
-    # dva stlpce s processed_data
-    return np.corrcoef(val1.astype(np.float64), val2.astype(np.float64))
+# def pearson(val1, val2):
+#     # dva stlpce s processed_data
+#     return np.corrcoef(val1.astype(np.float64), val2.astype(np.float64))

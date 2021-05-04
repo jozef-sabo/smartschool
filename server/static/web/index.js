@@ -215,7 +215,7 @@ function line(selected_class) {
         success: function (data) {
             console.log("Success");
             for (var idx = 0; idx < 4; idx++) {
-            drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
+            drawLine(data[0][idx], idx, data[1], data[2][idx]);
             }
         },
         error: function () {
@@ -250,7 +250,7 @@ function dateSub(selected_class) {
             success: function (data) {
                 console.log("Success");
                 for (var idx = 0; idx < 4; idx++) {
-                drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
+                drawLine(data[0][idx], idx, data[1], data[2][idx]);
                 }
             },
             error: function () {
@@ -285,7 +285,7 @@ function dateAdd(selected_class) {
             success: function (data) {
                 console.log("Success");
                 for (var idx = 0; idx < 4; idx++) {
-                drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
+                drawLine(data[0][idx], idx,  data[1], data[2][idx]);
                 }
             },
             error: function () {
@@ -386,7 +386,7 @@ function drawCandle(data, idx, date) {
     chart.render();
 }
 
-function drawLine(data, idx, avg, myDate, sigma) {
+function drawLine(data, idx, myDate, sigma) {
     console.log(data);
     date = new Date(myDate);
     yyyy = date.getFullYear();
@@ -483,8 +483,9 @@ function selectSensorType(idx) {
 function createDatapoints(data) {
     var dataPoints = [];
     for (var i = 0; i < data.length; i++) {
-        var point = {x: data[i][0], y: data[i][1]}
-        dataPoints.push(point)
+        dataPoints.push(
+            {x: data[i][0], 
+            y: data[i][1]})
     }
     return dataPoints
 }

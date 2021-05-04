@@ -2,15 +2,17 @@ import fetchData
 import smartSchool
 import datetime
 
-date = datetime.date.today() 
-# dbData = fetchData.fetch(date, '4C', 'humidity')
-# humid_filter = smartSchool.eliminateNoise(dbData)
-# humid_ma = smartSchool.movingAvg(humid_filter)
-# humid_line = smartSchool.parsePlot(humid_ma)
-# humid_s = smartSchool.sigma(dbData)
-# print(humid_line)
+date = datetime.date.today() - datetime.timedelta(3)
+dbData = fetchData.fetch(date, '3C', 'dew_point')
+humid_filter = smartSchool.eliminateNoise(dbData)
+humid_ma = smartSchool.movingAvg(humid_filter)
+humid_line = smartSchool.parsePlot(humid_ma)
+humid_s = smartSchool.sigma(dbData)
+print(humid_line[-20:])
+print("           ")
+print(dbData[-20:])
 # print(smartSchool.maxi(smartSchool.parsePlot(dbData)))
-# fil = smartSchool.eliminateNoise(dbData)
+# # fil = smartSchool.eliminateNoise(dbData)
 # x = []
 # print(smartSchool.eliminateNoise(dbData))
 # print(len(dbData))
