@@ -5,16 +5,6 @@ import numpy as np
     id[0] , sensor_type[1] , sensor_value[2] , sensor_unit[3] , room_number[4] , date_time[5]
 '''
 
-def filter0(dbData):
-    result = []
-    for line in dbData:
-        if line[1] == 0:
-            continue
-        else: result.append((line[0], line[1]))
-        # print(line)
-    return np.array(result)
-
-
 def createDate(year, month, day, hour):
     if day == '0':
         mydate = date(int(year), int(month), int(day))
@@ -33,12 +23,34 @@ def movingAvg(npData):
     result = []
     for idx in range(len(npData)-2):
         point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+2][1]) / 3 , 2)
-        print(npData[idx][1] , npData[idx+1][1] , npData[idx+2][1])
-        print(point3avg)
+        # print(npData[idx][1] , npData[idx+1][1] , npData[idx+2][1])
+        # print(point3avg)
         result.append([npData[idx+1][0] , point3avg])
         # npData[idx+1][1] = point3avg
     return result
 
+def eliminateNoise(values, std_factor = 3):
+    values = np.array(values)
+    mean = np.mean(values[:, 1])
+    standard_deviation = np.std(values[:, 1])
+
+    if standard_deviation == 0:
+        return values
+
+    final_values = [element for element in values if element[1] > mean - std_factor * standard_deviation]
+    final_values = [element for element in final_values if element[1] < mean + std_factor * standard_deviation]
+
+    return final_values
+
+def sigma(values, std_factor = 3):
+    values = np.array(values)
+    mean = np.mean(values[:, 1])
+    standard_deviation = np.std(values[:, 1])
+
+    spodna = mean - std_factor * standard_deviation
+    dolna = mean + std_factor * standard_deviation
+
+    return [spodna, dolna]
 
 # def filterByDateTime(npData, myDate):
 #     result = []
@@ -100,7 +112,7 @@ def parseCandle(npData):
     # returns data in format [[hour], [open - Q3, high - maximum, low - minimum, close - Q1]]
     for element in result:
         # element[1] = [np.quantile(element[1], .75), maxi(element[1]), mini(element[1]), np.quantile(element[1], .25)]
-        element[1] = [element[1][0], maxi(element[1]), mini(element[1]), element[1][-1]]
+        element[1] = [element[1][0], round(np.amax(element[1]), 1), round(np.amin(element[1]), 1), element[1][-1]]
 
     return result
 
@@ -148,7 +160,11 @@ def avg(val):
 
 
 def maxi(val):
-    return round(np.amax(val), 1)
+    maximum = (val[0][0], val[0][1])
+    for row in val:
+        if row[1] > maximum[1]:
+            maximum = (row[0], row[1])
+    return maximum
 
 
 def mini(val):

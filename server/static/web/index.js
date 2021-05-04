@@ -216,7 +216,7 @@ function line(selected_class) {
         success: function (data) {
             console.log("Success");
             for (var idx = 0; idx < 4; idx++) {
-            drawLine(data[0][idx], idx, data[1][idx], data[2]);
+            drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
             }
         },
         error: function () {
@@ -251,7 +251,7 @@ function dateSub(selected_class) {
             success: function (data) {
                 console.log("Success");
                 for (var idx = 0; idx < 4; idx++) {
-                drawLine(data[0][idx], idx, data[1][idx], data[2]);
+                drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
                 }
             },
             error: function () {
@@ -286,7 +286,7 @@ function dateAdd(selected_class) {
             success: function (data) {
                 console.log("Success");
                 for (var idx = 0; idx < 4; idx++) {
-                drawLine(data[0][idx], idx, data[1][idx], data[2]);
+                drawLine(data[0][idx], idx, data[1][idx], data[2], data[3][idx]);
                 }
             },
             error: function () {
@@ -387,7 +387,7 @@ function drawCandle(data, idx, date) {
     chart.render();
 }
 
-function drawLine(data, idx, avg, date) {
+function drawLine(data, idx, avg, date, sigma) {
     date = new Date(date);
     yyyy = date.getFullYear();
     mm = date.getMonth()+1;
@@ -405,19 +405,26 @@ function drawLine(data, idx, avg, date) {
         },
         subtitles: [{
             text: subtitleDate,
-            // text: "Hourly Candles",
             fontColor: 'gray',
         }],
         axisY: {
-            stripLines: [{
-                value: avg,
-                label: "Average",
-                lineColor:'white',
-                color: 'rgb(235, 146, 0)',
-                gridThickness: 0,
-                showOnTop: true,
-                thickness:2,
-            }],
+            stripLines: [
+            //     {
+            //     value: avg,
+            //     legendText: "Average",
+            //     lineColor:'white',
+            //     color: 'rgb(235, 146, 0)',
+            //     gridThickness: 0,
+            //     showOnTop: true,
+            //     thickness:2,
+            // },
+            {
+                startValue: sigma[0],
+                endValue: sigma[1],
+                label: "filter",
+                color:"#d8d8d8",
+            }
+            ],
             title: sensor[2],
             maximum: sensor[3],
             minimum: 0,
@@ -446,7 +453,8 @@ function drawLine(data, idx, avg, date) {
             color: '#ABC1C4',
             markerType: 'none',
             lineThickness:1,
-        }]
+        },
+    ]
     });
     chart.render();
 }

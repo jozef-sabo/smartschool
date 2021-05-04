@@ -44,23 +44,34 @@ def filter_data_to_candle(idClass=None):
 
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
+
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
-    print('hello')
-    print(idClass)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_candle = mainData.smartSchool.parseCandle(temp_today)
-    humid_candle = mainData.smartSchool.parseCandle(humid_today)
-    dp_candle = mainData.smartSchool.parseCandle(dp_today)
-    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    temp_candle = mainData.smartSchool.parseCandle(temp_filter)
+    humid_candle = mainData.smartSchool.parseCandle(humid_filter)
+    dp_candle = mainData.smartSchool.parseCandle(dp_filter)
+    co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+              [temp_s, humid_s, dp_s, co2_s]]
+
     print(result)
     result_json = json.dumps(result)
 
@@ -78,24 +89,34 @@ def sub_candle(idClass=None):
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
+
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
-    print(myDate, idClass)
-    print(temp_today)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_candle = mainData.smartSchool.parseCandle(temp_today)
-    humid_candle = mainData.smartSchool.parseCandle(humid_today)
-    dp_candle = mainData.smartSchool.parseCandle(dp_today)
-    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
-    print(temp_candle)
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    temp_candle = mainData.smartSchool.parseCandle(temp_filter)
+    humid_candle = mainData.smartSchool.parseCandle(humid_filter)
+    dp_candle = mainData.smartSchool.parseCandle(dp_filter)
+    co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+              [temp_s, humid_s, dp_s, co2_s]]
+
     result_json = json.dumps(result)
 
     resp = Response(result_json)
@@ -111,21 +132,34 @@ def add_candle(idClass=None):
     session["count"] += 1
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
+
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_candle = mainData.smartSchool.parseCandle(temp_today)
-    humid_candle = mainData.smartSchool.parseCandle(humid_today)
-    dp_candle = mainData.smartSchool.parseCandle(dp_today)
-    co2_candle = mainData.smartSchool.parseCandle(co2_volt)
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    temp_candle = mainData.smartSchool.parseCandle(temp_filter)
+    humid_candle = mainData.smartSchool.parseCandle(humid_filter)
+    dp_candle = mainData.smartSchool.parseCandle(dp_filter)
+    co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+              [temp_s, humid_s, dp_s, co2_s]]
+
     result_json = json.dumps(result)
 
     resp = Response(result_json)
@@ -142,16 +176,21 @@ def filter_data_to_line(idClass=None):
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
-    temp_ma = mainData.smartSchool.movingAvg(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+    temp_ma = mainData.smartSchool.movingAvg(temp_filter)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
-    humid_ma = mainData.smartSchool.movingAvg(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+    humid_ma = mainData.smartSchool.movingAvg(humid_filter)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
-    dp_ma = mainData.smartSchool.movingAvg(dp_today)
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+    dp_ma = mainData.smartSchool.movingAvg(dp_filter)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
-    co2_ma = mainData.smartSchool.movingAvg(co2_volt)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
+    co2_ma = mainData.smartSchool.movingAvg(co2_filter)
 
     temp_line = mainData.smartSchool.parsePlot(temp_ma)
     humid_line = mainData.smartSchool.parsePlot(humid_ma)
@@ -163,8 +202,17 @@ def filter_data_to_line(idClass=None):
     dp_av = mainData.smartSchool.avg(dp_line)
     a0_av = mainData.smartSchool.avg(co2_line)
 
-    result = [[temp_line, humid_line, dp_line,
-               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    result = [[temp_line, humid_line, dp_line, co2_line], 
+                [temp_av, humid_av, dp_av, a0_av],  
+                myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+                [temp_s, humid_s, dp_s, co2_s]
+                ]
+
     print(result)
     result_json = json.dumps(result)
 
@@ -181,17 +229,23 @@ def line_sub(idClass=None):
     session["count"] -= 1
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
+
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
-    temp_ma = mainData.smartSchool.movingAvg(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+    temp_ma = mainData.smartSchool.movingAvg(temp_filter)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
-    humid_ma = mainData.smartSchool.movingAvg(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+    humid_ma = mainData.smartSchool.movingAvg(humid_filter)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
-    dp_ma = mainData.smartSchool.movingAvg(dp_today)
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+    dp_ma = mainData.smartSchool.movingAvg(dp_filter)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
-    co2_ma = mainData.smartSchool.movingAvg(co2_volt)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
+    co2_ma = mainData.smartSchool.movingAvg(co2_filter)
 
     temp_line = mainData.smartSchool.parsePlot(temp_ma)
     humid_line = mainData.smartSchool.parsePlot(humid_ma)
@@ -203,8 +257,17 @@ def line_sub(idClass=None):
     dp_av = mainData.smartSchool.avg(dp_line)
     a0_av = mainData.smartSchool.avg(co2_line)
 
-    result = [[temp_line, humid_line, dp_line,
-               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    result = [[temp_line, humid_line, dp_line, co2_line], 
+                [temp_av, humid_av, dp_av, a0_av],  
+                myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+                [temp_s, humid_s, dp_s, co2_s]
+                ]
+
     result_json = json.dumps(result)
 
     resp = Response(result_json)
@@ -220,17 +283,23 @@ def line_add(idClass=None):
     session["count"] += 1
     days = datetime.timedelta(session["count"])
     myDate = session["today"] + days 
+
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
-    temp_today = mainData.smartSchool.filter0(temp_today)
-    temp_ma = mainData.smartSchool.movingAvg(temp_today)
+    temp_filter = mainData.smartSchool.eliminateNoise(temp_today)
+    temp_ma = mainData.smartSchool.movingAvg(temp_filter)
+
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
-    humid_today = mainData.smartSchool.filter0(humid_today)
-    humid_ma = mainData.smartSchool.movingAvg(humid_today)
+    humid_filter = mainData.smartSchool.eliminateNoise(humid_today)
+    humid_ma = mainData.smartSchool.movingAvg(humid_filter)
+
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')
-    dp_ma = mainData.smartSchool.movingAvg(dp_today)
+    dp_filter = mainData.smartSchool.eliminateNoise(dp_today)
+    dp_ma = mainData.smartSchool.movingAvg(dp_filter)
+
     co2_today = mainData.fetchData.fetch(myDate, idClass, 'co2')
     co2_volt = mainData.smartSchool.a0volt(co2_today)
-    co2_ma = mainData.smartSchool.movingAvg(co2_volt)
+    co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
+    co2_ma = mainData.smartSchool.movingAvg(co2_filter)
 
     temp_line = mainData.smartSchool.parsePlot(temp_ma)
     humid_line = mainData.smartSchool.parsePlot(humid_ma)
@@ -242,8 +311,17 @@ def line_add(idClass=None):
     dp_av = mainData.smartSchool.avg(dp_line)
     a0_av = mainData.smartSchool.avg(co2_line)
 
-    result = [[temp_line, humid_line, dp_line,
-               co2_line], [temp_av, humid_av, dp_av, a0_av], myDate.strftime("%a, %d %b %Y %H:%M:%S")]
+    temp_s = mainData.smartSchool.sigma(temp_today)
+    humid_s = mainData.smartSchool.sigma(humid_today)
+    dp_s = mainData.smartSchool.sigma(dp_today)
+    co2_s = mainData.smartSchool.sigma(co2_volt)
+
+    result = [[temp_line, humid_line, dp_line, co2_line], 
+                [temp_av, humid_av, dp_av, a0_av],  
+                myDate.strftime("%a, %d %b %Y %H:%M:%S"),
+                [temp_s, humid_s, dp_s, co2_s]
+                ]
+
     result_json = json.dumps(result)
 
     resp = Response(result_json)
