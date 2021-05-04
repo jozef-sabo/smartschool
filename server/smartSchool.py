@@ -10,7 +10,7 @@ def filter0(dbData):
     for line in dbData:
         if line[1] == 0:
             continue
-        result.append((line[0], line[1]))
+        else: result.append((line[0], line[1]))
         # print(line)
     return np.array(result)
 
@@ -32,9 +32,9 @@ def createDate(year, month, day, hour):
 def movingAvg(npData):
     result = []
     for idx in range(len(npData)-2):
-        point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+1][1]) / 3 , 2)
-        # print(npData[idx][1] , npData[idx+1][1] , npData[idx+1][1])
-        # print(point3avg)
+        point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+2][1]) / 3 , 2)
+        print(npData[idx][1] , npData[idx+1][1] , npData[idx+2][1])
+        print(point3avg)
         result.append([npData[idx+1][0] , point3avg])
         # npData[idx+1][1] = point3avg
     return result
