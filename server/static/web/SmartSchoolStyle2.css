@@ -139,17 +139,24 @@ p.detailsWindow{
     width: 5%;
     background-color: #D9D9D9;
 }
-
+.roomInDarkMode {
+    width: 5%;
+    background-color: rgb(61, 61, 61);
+}
 .spacer {
     width: 5%;
 }
-
 .darker {
     background-color: rgb(89, 89, 89);
 }
-
+.darkerInDarkMode {
+    background-color: rgb(21, 21, 21);
+}
 .lighter {
     background-color: rgb(128, 128, 128);
+}
+.lighterInDarkMode {
+    background-color: rgb(41, 41, 41);
 }
 .orangeRoom {
     background-color: #FFBE88;
@@ -157,12 +164,23 @@ p.detailsWindow{
 .chodba{
     background-color: #E9E9E9;
 }
+.chodbaInDarkMode {
+    background-color: rgb(71, 71, 71);
+}
 .darker:hover {
     background-color: rgb(69, 69, 69);
     cursor:pointer;  
 }
+.darkerInDarkMode:hover {
+    background-color: rgb(11, 11, 11);
+    cursor:pointer;  
+}
 .lighter:hover {
     background-color: rgb(108, 108, 108);
+    cursor:pointer;
+}
+.lighterInDarkMode:hover {
+    background-color: rgb(28, 28, 28);
     cursor:pointer;
 }
 .orangeRoom:hover {
@@ -195,6 +213,9 @@ button{
     border:none;
     border-radius: 10px;
     transition:ease-out 0.4s;
+}
+.buttonDarkMode {
+    background-color: #555555;
 }
 button:hover{
     box-shadow:inset 0 -30px 0 0  #9c9c9c;
@@ -231,6 +252,9 @@ button:active{
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
+}
+.popUpInDarkMode{
+    background-color: rgb(40, 40, 40);
 }
 .popUpWindow.show{
     pointer-events: auto;
@@ -421,6 +445,12 @@ nav{
     align-items: center;
     box-sizing: border-box;
 }
+#alignRight{
+    width: 100vw;
+    margin-right: 1vw;
+    display: flex;
+    justify-content: flex-end;
+}
 body.dark{
     background-color: rgb(40, 40, 40);
 }
@@ -428,5 +458,8 @@ body.dark{
     color:white;
 }
 .fa-sun{
+    color:white;
+}
+.whiteFont{
     color:white;
 }
