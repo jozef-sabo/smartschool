@@ -28,6 +28,18 @@ def createDate(year, month, day, hour):
     return mydate
 
 
+# data vo formate: datetime[0], value[1]
+def movingAvg(npData):
+    result = []
+    for idx in range(len(npData)-2):
+        point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+1][1]) / 3 , 2)
+        # print(npData[idx][1] , npData[idx+1][1] , npData[idx+1][1])
+        # print(point3avg)
+        result.append([npData[idx+1][0] , point3avg])
+        # npData[idx+1][1] = point3avg
+    return result
+
+
 # def filterByDateTime(npData, myDate):
 #     result = []
 #     for row in npData:

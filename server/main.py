@@ -143,6 +143,7 @@ def filter_data_to_line(idClass=None):
     myDate = session["today"] + days 
     temp_today = mainData.fetchData.fetch(myDate, idClass, 'temperature')
     temp_today = mainData.smartSchool.filter0(temp_today)
+    # temp_ma = mainData.smartSchool.movingAvg(temp_today)
     humid_today = mainData.fetchData.fetch(myDate, idClass, 'humidity')
     humid_today = mainData.smartSchool.filter0(humid_today)
     dp_today = mainData.fetchData.fetch(myDate, idClass, 'dew_point')

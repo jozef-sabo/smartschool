@@ -468,7 +468,7 @@ function selectSensorType(idx) {
     if (idx == 2) {
         ch = "chartDP";
         title = "Dew Point";
-        unit = '-';
+        unit = '°C';
         max = 35;
     }
     if (idx == 3) {

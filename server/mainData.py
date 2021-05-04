@@ -2,9 +2,11 @@ import fetchData
 import smartSchool
 import datetime
 
-date = datetime.date.today()
+date = datetime.date.today() - datetime.timedelta(1)
 dbData = fetchData.fetch(date, '3C', 'temperature')
-print(smartSchool.parsePlot(dbData))
+# print(smartSchool.parsePlot(dbData))
+movingAvg = smartSchool.movingAvg(dbData)
+print(len(dbData), len(movingAvg))
 # dbData = fetchData.fetch(date, '3C')
 # tempAll = smartSchool.filterByType(dbData, "temperature") # USED
 # humdAll = smartSchool.filterByType(dbData, "humidity")
