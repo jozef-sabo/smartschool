@@ -21,6 +21,8 @@ def createDate(year, month, day, hour):
 # data vo formate: datetime[0], value[1]
 def movingAvg(npData):
     result = []
+    if not npData:
+        return npData
     for idx in range(len(npData)-2):
         point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+2][1]) / 3 , 2)
         # print(npData[idx][1] , npData[idx+1][1] , npData[idx+2][1])
@@ -30,6 +32,8 @@ def movingAvg(npData):
     return result
 
 def eliminateNoise(values, std_factor = 3):
+    if not values:
+        return values
     values = np.array(values)
     mean = np.mean(values[:, 1])
     standard_deviation = np.std(values[:, 1])
@@ -43,6 +47,8 @@ def eliminateNoise(values, std_factor = 3):
     return final_values
 
 def sigma(values, std_factor = 3):
+    if not values:
+        return values
     values = np.array(values)
     mean = np.mean(values[:, 1])
     standard_deviation = np.std(values[:, 1])

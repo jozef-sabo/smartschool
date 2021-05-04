@@ -183,7 +183,6 @@ function resetDate() {
         type: "GET",
     });
 }
-console.log(id);
 function candle(selected_class) {
     type = 0;
     var data;
@@ -299,7 +298,7 @@ function dateAdd(selected_class) {
 function drawCandle(data, idx, date) {
     date = new Date(date);
     yyyy = date.getFullYear();
-    mm = date.getMonth()+1;
+    mm = (date.getMonth())+1;
     dd = date.getDate();
     subtitleDate = dd + '/' + mm + '/' + yyyy;
     // console.log(createDatapoints(y));
@@ -387,10 +386,11 @@ function drawCandle(data, idx, date) {
     chart.render();
 }
 
-function drawLine(data, idx, avg, date, sigma) {
-    date = new Date(date);
+function drawLine(data, idx, avg, myDate, sigma) {
+    console.log(data);
+    date = new Date(myDate);
     yyyy = date.getFullYear();
-    mm = date.getMonth()+1;
+    mm = (date.getMonth())+1;
     dd = date.getDate();
     subtitleDate = dd + '/' + mm + '/' + yyyy;
 
@@ -409,15 +409,6 @@ function drawLine(data, idx, avg, date, sigma) {
         }],
         axisY: {
             stripLines: [
-            //     {
-            //     value: avg,
-            //     legendText: "Average",
-            //     lineColor:'white',
-            //     color: 'rgb(235, 146, 0)',
-            //     gridThickness: 0,
-            //     showOnTop: true,
-            //     thickness:2,
-            // },
             {
                 startValue: sigma[0],
                 endValue: sigma[1],
@@ -492,10 +483,8 @@ function selectSensorType(idx) {
 function createDatapoints(data) {
     var dataPoints = [];
     for (var i = 0; i < data.length; i++) {
-        dataPoints.push( {
-            x: data[i][0],
-            y: data[i][1]
-        })
+        var point = {x: data[i][0], y: data[i][1]}
+        dataPoints.push(point)
     }
     return dataPoints
 }
