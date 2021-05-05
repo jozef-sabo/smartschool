@@ -58,19 +58,13 @@ def filter_data_to_candle(idClass=None):
     co2_volt = mainData.smartSchool.a0volt(co2_today)
     co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_s = mainData.smartSchool.sigma(temp_today)
-    humid_s = mainData.smartSchool.sigma(humid_today)
-    dp_s = mainData.smartSchool.sigma(dp_today)
-    co2_s = mainData.smartSchool.sigma(co2_volt)
-
     temp_candle = mainData.smartSchool.parseCandle(temp_filter)
     humid_candle = mainData.smartSchool.parseCandle(humid_filter)
     dp_candle = mainData.smartSchool.parseCandle(dp_filter)
     co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
-              [temp_s, humid_s, dp_s, co2_s]]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
 
     print(result)
     result_json = json.dumps(result)
@@ -103,19 +97,13 @@ def sub_candle(idClass=None):
     co2_volt = mainData.smartSchool.a0volt(co2_today)
     co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_s = mainData.smartSchool.sigma(temp_today)
-    humid_s = mainData.smartSchool.sigma(humid_today)
-    dp_s = mainData.smartSchool.sigma(dp_today)
-    co2_s = mainData.smartSchool.sigma(co2_volt)
-
     temp_candle = mainData.smartSchool.parseCandle(temp_filter)
     humid_candle = mainData.smartSchool.parseCandle(humid_filter)
     dp_candle = mainData.smartSchool.parseCandle(dp_filter)
     co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
-              [temp_s, humid_s, dp_s, co2_s]]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
 
     result_json = json.dumps(result)
 
@@ -146,19 +134,13 @@ def add_candle(idClass=None):
     co2_volt = mainData.smartSchool.a0volt(co2_today)
     co2_filter = mainData.smartSchool.eliminateNoise(co2_volt)
 
-    temp_s = mainData.smartSchool.sigma(temp_today)
-    humid_s = mainData.smartSchool.sigma(humid_today)
-    dp_s = mainData.smartSchool.sigma(dp_today)
-    co2_s = mainData.smartSchool.sigma(co2_volt)
-
     temp_candle = mainData.smartSchool.parseCandle(temp_filter)
     humid_candle = mainData.smartSchool.parseCandle(humid_filter)
     dp_candle = mainData.smartSchool.parseCandle(dp_filter)
     co2_candle = mainData.smartSchool.parseCandle(co2_filter)
 
     result = [[temp_candle, humid_candle, dp_candle, co2_candle],
-              myDate.strftime("%a, %d %b %Y %H:%M:%S"),
-              [temp_s, humid_s, dp_s, co2_s]]
+              myDate.strftime("%a, %d %b %Y %H:%M:%S")]
 
     result_json = json.dumps(result)
 

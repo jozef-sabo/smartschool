@@ -48,7 +48,7 @@ def eliminateNoise(values, std_factor = 3):
 
 def sigma(values, std_factor = 3):
     if not values:
-        return values
+        return [0, 0]
     values = np.array(values)
     mean = np.mean(values[:, 1])
     standard_deviation = np.std(values[:, 1])
