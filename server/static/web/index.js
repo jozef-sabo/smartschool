@@ -9,6 +9,13 @@ let bodyID;
 let detailsInPopup;
 let detailsInPopup2;
 let darkModeCheckBox;
+let darkerRooms;
+let lighterRooms;
+let emptyRooms;
+let chodba;
+let h1FontColor;
+let popUpInDarkMode;
+let buttonDarkMode;
 
 const api_url = "http://127.0.0.1:5000/api";
 
@@ -77,15 +84,48 @@ function init() {
     popUpWindowID = document.getElementById('popUpWindowID');
     close = document.getElementById('close');
     detailsInPopup = document.getElementById("detailsInPopUp");
-    detailsInPopup2 = document.getElementById("detailsInPopUpPt2")
+    detailsInPopup2 = document.getElementById("detailsInPopUpPt2");
+
     darkModeCheckBox = document.getElementById('darkModeCheckBox');
+    darkerRooms = document.getElementsByClassName('darker');
+    lighterRooms = document.getElementsByClassName('lighter');
+    emptyRooms = document.getElementsByClassName('room');
+    chodba = document.getElementsByClassName('chodba');
+    h1FontColor = document.getElementsByTagName('h1');
+    popUpInDarkMode = document.getElementsByClassName("popUp");
+    buttonDarkMode = document.getElementsByTagName('button');
+
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
     });
     darkModeCheckBox.addEventListener('change', () => {
         document.body.classList.toggle('dark');
+        for (var emptyRoomsID = 0; emptyRoomsID < emptyRooms.length; emptyRoomsID++) {
+            emptyRooms[emptyRoomsID].classList.toggle('roomInDarkMode');
+        }   
+        for (var darkerID = 0; darkerID < darkerRooms.length; darkerID++) {
+            darkerRooms[darkerID].classList.toggle('darkerInDarkMode');
+        }
+        for (var lighterID = 0; lighterID < lighterRooms.length; lighterID++) {
+            lighterRooms[lighterID].classList.toggle('lighterInDarkMode');
+        }
+        for (var chodbaID = 0; chodbaID < chodba.length; chodbaID++) {
+            chodba[chodbaID].classList.toggle('chodbaInDarkMode');
+        }
+        for (var h1FontColorID = 0; h1FontColorID < h1FontColor.length; h1FontColorID++) {
+            h1FontColor[h1FontColorID].classList.toggle('whiteFont');
+        }
+        for (var popUpInDarkModeID = 0; popUpInDarkModeID < popUpInDarkMode.length; popUpInDarkModeID++) {
+            popUpInDarkMode[popUpInDarkModeID].classList.toggle('popUpInDarkMode');
+        }
+        for (var buttonDarkModeID = 0; buttonDarkModeID < buttonDarkMode.length; buttonDarkModeID++) {
+            buttonDarkMode[buttonDarkModeID].classList.toggle('buttonDarkMode');
+        }   
+        
     });
+    
+
     Object.keys(rooms).forEach(key => update_room_details(key, rooms[key]))
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
@@ -155,13 +195,13 @@ function openDetails(id) {
         cell_content += '<p class="detailsWindow ' + color + '">CO<sub>2</sub> ' + rooms[id]["co2"]+ rooms["units"]["co2"] + '</p>';
     }
 
-    cell_content2 += '<br><br><button class="leftButton" onclick="candle(selected_class)">Show Candle</button>';
-    cell_content2 += '<button class="rightButton" onclick="line(selected_class)">Show Line</button><br><br>';
-    cell_content2 += '<div><button class="leftButton" onclick="dateSub(selected_class)"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd(selected_class)"><span class="fas fa-chevron-right"></span></button></div><br><br></div>' ;
-    cell_content2 += '<div class="graph"><div id="chartTemp" style="height: 300px; width: 100%;"></div></div><br><br>'
-    cell_content2 += '<div class="graph"><div id="chartHumid" style="height: 300px; width: 100%;"></div></div><br><br>'
-    cell_content2 += '<div class="graph"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
-    cell_content2 += '<div class="graph"><div id="chartA0" style="height: 300px; width: 100%;"></div></div><br><br>'
+    //cell_content2 += '<br><br><button class="leftButton" onclick="candle(selected_class)">Show Candle</button>';
+    //cell_content2 += '<button class="rightButton" onclick="line(selected_class)">Show Line</button><br><br>';
+    //cell_content2 += '<div><button class="leftButton" onclick="dateSub(selected_class)"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd(selected_class)"><span class="fas fa-chevron-right"></span></button></div><br><br></div>' ;
+    cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartTemp" style="height: 300px; width: 100%;"></div></div><br><br>'
+    cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartHumid" style="height: 300px; width: 100%;"></div></div><br><br>'
+    cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
+    cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartA0" style="height: 300px; width: 100%;"></div></div><br><br>'
 
     detailsInPopup.innerHTML = cell_content;
     detailsInPopup2.innerHTML = cell_content2;
@@ -412,8 +452,10 @@ function drawLine(data, idx, myDate, sigma) {
             {
                 startValue: sigma[0],
                 endValue: sigma[1],
-                label: "filter",
-                color:"#d8d8d8",
+                label: "+-3σ",
+                labelBackgroundColor: "rgba(0,0,0,0)",
+                labelFontColor: "#FFB485",
+                color:"rgba(255,180,133,0.2)",
             }
             ],
             title: sensor[2],
@@ -443,7 +485,7 @@ function drawLine(data, idx, myDate, sigma) {
             dataPoints: createDatapoints(data),
             color: '#ABC1C4',
             markerType: 'none',
-            lineThickness:1,
+            lineThickness:2.5,
         },
     ]
     });

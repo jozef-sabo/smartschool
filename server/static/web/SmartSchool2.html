@@ -31,8 +31,18 @@
         <nav>
             <ul id="header">
                 <li id="logo">SMARTSCHOOL</li>
-                <li><a href=SmartSchool2.html>SCHEME</a></li>
+                <li><a href=SmartSchool2.html>LAYOUT</a></li>
                 <li><a href=SmartSchoolTable.html>TABLE</a></li>
+                <div id="alignRight">
+                <div id="darkModeSwitch">
+                    <input type="checkbox" class="darkModeCheckBox" id="darkModeCheckBox">
+                    <label for="darkModeCheckBox" class="label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <div class="ball"></div>
+                    </label>
+                </div>
+                </div>
             </ul>
         </nav>  <br><br><br>
 
@@ -313,20 +323,7 @@
 
     </div>
 
-    <div class="button_div">
-        <button onclick="on_script_loaded()">BTN</button>
-    </div>
-
-    <br><br>
-
-    <div id="darkModeSwitch">
-        <input type="checkbox" class="darkModeCheckBox" id="darkModeCheckBox">
-        <label for="darkModeCheckBox" class="label">
-            <i class="fas fa-moon"></i>
-            <i class="fas fa-sun"></i>
-            <div class="ball"></div>
-        </label>
-    </div>
+    
     
 
         <div class="popUpWindow" id="popUpWindowID">
@@ -339,7 +336,13 @@
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
                 <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
                 </div>
-
+                <br><br>
+                <div class="button_div" style="height: 30px">
+                <br><br><button class="leftButton" onclick="candle(selected_class)">Show Candle</button>
+                <button class="rightButton" onclick="line(selected_class)">Show Line</button><br><br>
+                </div><br>
+                <div><button class="leftButton" onclick="dateSub(selected_class)"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd(selected_class)"><span class="fas fa-chevron-right"></span></button></div><br><br>
+                
                 <div id="detailsInPopUpPt2">
                 </div>
 
@@ -350,7 +353,7 @@
                 <br><br>
             </div>
         </div>
-        <br><br><br><br><br></div>
+
 
     </body>
 
