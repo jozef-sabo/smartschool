@@ -427,7 +427,6 @@ function drawCandle(data, idx, date) {
 }
 
 function drawLine(data, idx, myDate, sigma) {
-    console.log(data);
     date = new Date(myDate);
     yyyy = date.getFullYear();
     mm = (date.getMonth())+1;
@@ -453,6 +452,14 @@ function drawLine(data, idx, myDate, sigma) {
                 startValue: sigma[0],
                 endValue: sigma[1],
                 label: "+-3σ",
+                labelFormatter: function(e){
+                    if (sigma[0] == 0 && sigma[1] == 0){
+                        return " "
+                    }
+                    else{
+                        return e.stripLine.label
+                    }
+                },
                 labelBackgroundColor: "rgba(0,0,0,0)",
                 labelFontColor: "#FFB485",
                 color:"rgba(255,180,133,0.2)",
