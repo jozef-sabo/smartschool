@@ -16,6 +16,7 @@ let chodba;
 let h1FontColor;
 let popUpInDarkMode;
 let buttonDarkMode;
+let classNamePopUp;
 
 const api_url = "http://127.0.0.1:5000/api";
 
@@ -27,7 +28,7 @@ const temporary_rooms = {
     "room_003": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
     "room_004": {"temperature": 21.0, "humidity": 60.0, "co2": 40},
     "room_005": {"temperature": 22.0, "humidity": 38.0, "co2": 38},
-    "room_006": {"temperature": 20.0, "humidity": 37.0, "co2": 40},
+    /*"room_006": {"temperature": 20.0, "humidity": 37.0, "co2": 40},*/
     "room_007": {"temperature": 23.0, "humidity": 40.0, "co2": 40},
     "room_008": {"temperature": 22.0, "humidity": 39.0, "co2": 39},
     "room_009": {"temperature": 21.0, "humidity": 37.0, "co2": 40},
@@ -85,6 +86,7 @@ function init() {
     close = document.getElementById('close');
     detailsInPopup = document.getElementById("detailsInPopUp");
     detailsInPopup2 = document.getElementById("detailsInPopUpPt2");
+    classNamePopUp = document.getElementById("classNamePopUp");
 
     darkModeCheckBox = document.getElementById('darkModeCheckBox');
     darkerRooms = document.getElementsByClassName('darker');
@@ -203,6 +205,7 @@ function openDetails(id) {
     cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartDP" style="height: 300px; width: 100%;"></div></div><br><br>'
     cell_content2 += '<div class="graph" style="background-color:rgba(0,0,0,0)"><div id="chartA0" style="height: 300px; width: 100%;"></div></div><br><br>'
 
+    classNamePopUp.innerText = "Detaily o triede " + id;
     detailsInPopup.innerHTML = cell_content;
     detailsInPopup2.innerHTML = cell_content2;
     popUpWindowID.classList.add('show');
