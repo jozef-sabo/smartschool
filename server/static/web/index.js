@@ -97,34 +97,25 @@ function init() {
     popUpInDarkMode = document.getElementsByClassName("popUp");
     buttonDarkMode = document.getElementsByTagName('button');
 
+    if (localStorage.getItem("dark") !== null && localStorage.getItem("dark") === "true") {
+        toggle_dark_mode();
+        darkModeCheckBox.checked = true;
+    }
+
     close.addEventListener('click',()=> {
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
     });
+
     darkModeCheckBox.addEventListener('change', () => {
-        document.body.classList.toggle('dark');
-        for (var emptyRoomsID = 0; emptyRoomsID < emptyRooms.length; emptyRoomsID++) {
-            emptyRooms[emptyRoomsID].classList.toggle('roomInDarkMode');
-        }   
-        for (var darkerID = 0; darkerID < darkerRooms.length; darkerID++) {
-            darkerRooms[darkerID].classList.toggle('darkerInDarkMode');
+        if (localStorage.getItem("dark") !== null) {
+            if (localStorage.getItem("dark") === "true") localStorage.setItem("dark", "false");
+            else localStorage.setItem("dark", "true");
+        } else {
+            if (emptyRooms[0].classList.contains("roomInDarkMode")) localStorage.setItem("dark", "false");
+            else localStorage.setItem("dark", "true");
         }
-        for (var lighterID = 0; lighterID < lighterRooms.length; lighterID++) {
-            lighterRooms[lighterID].classList.toggle('lighterInDarkMode');
-        }
-        for (var chodbaID = 0; chodbaID < chodba.length; chodbaID++) {
-            chodba[chodbaID].classList.toggle('chodbaInDarkMode');
-        }
-        for (var h1FontColorID = 0; h1FontColorID < h1FontColor.length; h1FontColorID++) {
-            h1FontColor[h1FontColorID].classList.toggle('whiteFont');
-        }
-        for (var popUpInDarkModeID = 0; popUpInDarkModeID < popUpInDarkMode.length; popUpInDarkModeID++) {
-            popUpInDarkMode[popUpInDarkModeID].classList.toggle('popUpInDarkMode');
-        }
-        for (var buttonDarkModeID = 0; buttonDarkModeID < buttonDarkMode.length; buttonDarkModeID++) {
-            buttonDarkMode[buttonDarkModeID].classList.toggle('buttonDarkMode');
-        }   
-        
+        toggle_dark_mode();
     });
     
 
@@ -136,6 +127,17 @@ function init() {
     setTimeout(() => {
         spinnerWrapper.parentElement.removeChild(spinnerWrapper);
     }, 500);
+}
+
+function toggle_dark_mode() {
+    document.body.classList.toggle('dark');
+    for (let emptyRoomsID = 0; emptyRoomsID < emptyRooms.length; emptyRoomsID++) { emptyRooms[emptyRoomsID].classList.toggle('roomInDarkMode');}
+    for (let darkerID = 0; darkerID < darkerRooms.length; darkerID++) { darkerRooms[darkerID].classList.toggle('darkerInDarkMode'); }
+    for (let lighterID = 0; lighterID < lighterRooms.length; lighterID++) { lighterRooms[lighterID].classList.toggle('lighterInDarkMode'); }
+    for (let chodbaID = 0; chodbaID < chodba.length; chodbaID++) { chodba[chodbaID].classList.toggle('chodbaInDarkMode'); }
+    for (let h1FontColorID = 0; h1FontColorID < h1FontColor.length; h1FontColorID++) { h1FontColor[h1FontColorID].classList.toggle('whiteFont');  }
+    for (let popUpInDarkModeID = 0; popUpInDarkModeID < popUpInDarkMode.length; popUpInDarkModeID++) { popUpInDarkMode[popUpInDarkModeID].classList.toggle('popUpInDarkMode'); }
+    for (let buttonDarkModeID = 0; buttonDarkModeID < buttonDarkMode.length; buttonDarkModeID++) { buttonDarkMode[buttonDarkModeID].classList.toggle('buttonDarkMode'); }
 }
 
 function update_all_room_details(){
