@@ -18,7 +18,7 @@ let popUpInDarkMode;
 let buttonDarkMode;
 let classNamePopUp;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://192.168.0.105/api/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -170,6 +170,76 @@ function update_room_details(id, details) {
         (details["co2"] < 30) || (details["co2"] > 50)
     ) id_element.className = "room orangeRoom";
 }
+
+function updateTableData(){
+    for (i=0; i<rooms.length; i++){
+    updateTableRow(rooms[i]);}
+    }
+    
+    function updateTableRow(room_details) {
+    
+    cell_content = "";
+    room_number=i+1;
+
+    cell_content += '<td>Trieda '+room_number+'</td>'
+
+    if ("temperature" in room_details)
+    {
+    
+        if (room_details["temperature"]<18)
+            {
+                cell_content += '<td style="color:#79D2E6;">'+room_details["temperature"]+'</td>';
+            }
+            else if (room_details["temperature"]<24)
+                {
+                    cell_content += '<td>'+room_details["temperature"]+'</td>';
+                }
+                else
+                    {
+                        cell_content += '<td style="color:#F67280;">'+room_details["temperature"]+'</td>';
+                    } 
+
+    }
+
+
+
+    if (room_details["humidity"])
+    {
+    
+        if (room_details["humidity"]<30)
+            {
+                cell_content += '<td style="color:#79D2E6;">'+room_details["humidity"]+'</td>';
+            }
+            else if (room_details["humidity"]<50)
+                {
+                    cell_content += '<td>'+room_details["humidity"]+'</td>';
+                }
+                else
+                    {
+                        cell_content += '<td style="color:#F67280;">'+room_details["humidity"]+'</td>';
+                    } 
+
+    }
+    if (room_details["co2"])
+    {
+
+        if (room_details["co2"]<30)
+            {
+                cell_content += '<td style="color:#79D2E6;">'+room_details["co2"]+'</td>';
+            }
+            else if (room_details["co2"]<50)
+                {
+                    cell_content += '<td>'+room_details["co2"]+'</td>';
+                }
+                else
+                    {
+                        cell_content += '<td style="color:#F67280;">'+room_details["co2"]+'</td>';
+                    } 
+
+
+    }
+    document.getElementById(room_details["id"]).innerHTML = cell_content;
+    }
 
 function openDetails(id) {
     let cell_content = "";

@@ -7,14 +7,10 @@
         <link rel="stylesheet" href="SmartSchoolStyle2.css">
         <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="index.js"></script>
     </head>
 
     <body>
-        
-        <div class='spinner-wrapper'>
-            <p class="smart_school_name">SMART SCHOOL</p>
-            <div class="spinner"></div>
-        </div>
 
         <script>
 
@@ -202,78 +198,8 @@
         </table>
         </div>
         </div>
+    
         
-
-        <script>
-            function updateTableData(){
-            for (i=0; i<rooms.length; i++){
-            updateTableRow(rooms[i]);}
-            }
-            
-            function updateTableRow(room_details) {
-            
-            cell_content = "";
-            room_number=i+1;
-
-            cell_content += '<td>Trieda '+room_number+'</td>'
-
-            if ("temperature" in room_details)
-            {
-            
-                if (room_details["temperature"]<18)
-                    {
-                        cell_content += '<td style="color:#79D2E6;">'+room_details["temperature"]+'</td>';
-                    }
-                    else if (room_details["temperature"]<24)
-                        {
-                            cell_content += '<td>'+room_details["temperature"]+'</td>';
-                        }
-                        else
-                            {
-                                cell_content += '<td style="color:#F67280;">'+room_details["temperature"]+'</td>';
-                            } 
-
-            }
-
-
-
-            if (room_details["humidity"])
-            {
-            
-                if (room_details["humidity"]<30)
-                    {
-                        cell_content += '<td style="color:#79D2E6;">'+room_details["humidity"]+'</td>';
-                    }
-                    else if (room_details["humidity"]<50)
-                        {
-                            cell_content += '<td>'+room_details["humidity"]+'</td>';
-                        }
-                        else
-                            {
-                                cell_content += '<td style="color:#F67280;">'+room_details["humidity"]+'</td>';
-                            } 
-
-            }
-            if (room_details["co2"])
-            {
-
-                if (room_details["co2"]<30)
-                    {
-                        cell_content += '<td style="color:#79D2E6;">'+room_details["co2"]+'</td>';
-                    }
-                    else if (room_details["co2"]<50)
-                        {
-                            cell_content += '<td>'+room_details["co2"]+'</td>';
-                        }
-                        else
-                            {
-                                cell_content += '<td style="color:#F67280;">'+room_details["co2"]+'</td>';
-                            } 
-
-
-            }
-            document.getElementById(room_details["id"]).innerHTML = cell_content;
-            }
-        </script>
+        
     </body>
 </html>
