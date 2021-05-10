@@ -5,7 +5,7 @@ let info_div = document.getElementById("infoDIV");
 let interval_id = 0;
 let text_graph = 2;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://192.168.0.105/api/api";
 
 function get_sensor**REMOVED**() {
     var xhttp;
@@ -27,10 +27,12 @@ function get_sensor**REMOVED**() {
 
 function write() {
     var  content = "";
+    content += "<div id='infoFlex'>";
     content += "<p>Čas merania: " + info["time"] + "</p>";
     content += "<p>Teplota vody: " + info["w_temp"] + "°" + info["temp_unit"] + "</p>";
     content += "<p>Teplota vzduchu: " + info["a_temp"] + "°" + info["temp_unit"] + "</p>";
     content += "<p>Vlhkosť vzduchu: " + info["a_hum"] + "%" + "</p>";
+    content += "</div>";
 
     info_div.innerHTML = content;
 }
@@ -116,6 +118,8 @@ function sk(handleData){
 
 function drawBar(data) {
     var chart1 = new CanvasJS.Chart("humidBar", {
+        backgroundColor: "rgba(0,0,0,0)",
+        theme: "light2",
         title: {
         text: "Temperature",
         },
@@ -135,6 +139,8 @@ function drawBar(data) {
     });
 
     var chart2 = new CanvasJS.Chart("tempBar", {
+        backgroundColor: "rgba(0,0,0,0)",
+        theme: "light2",
         title: {
         text: "Humidity",
         },
@@ -155,20 +161,20 @@ function drawBar(data) {
 
     function updateChart1() {
         sk(function(output) {
-            var barColor = "yellow";
+            var barColor = "#ADEBD2";
             if(output[0]>40){
-                barColor = "red";
+                barColor = "#F8A0B0";
             }
             else if(output[0]<35){
-                barColor = "blue";
+                barColor = "#A8E9F0";
             };
             a_temp = {label: "Air", y: output[0], color: barColor};
-            barColor = "yellow";
+            barColor = "#ADEBD2";
             if(output[1]>28){
-                barColor = "red";
+                barColor = "#F8A0B0";
             }
             else if(output[1]<25){
-                barColor = "blue";
+                barColor = "#A8E9F0";
             };
             w_temp = {label: "Water", y: output[1], color: barColor};
             chart1.options.data[0].dataPoints[0] = a_temp;
@@ -179,7 +185,7 @@ function drawBar(data) {
 
     function updateChart2() {
         sk(function(output) {
-            a_hum = {label: "Air", y: output[2], color: "yellow"};
+            a_hum = {label: "Air", y: output[2], color: "#ADEBD2"};
             chart2.options.data[0].dataPoints[0] = a_hum;
             chart2.render();
         });

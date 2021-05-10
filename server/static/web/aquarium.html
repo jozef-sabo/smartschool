@@ -47,40 +47,55 @@
     
     <header>
         <nav>
+            <div class="alignLeft">
+            <a href=index.html><span class="fas fa-arrow-left"></span>SMARTSCHOOL</a>
+            </div>
+            <div>
             <h1>SMART AQUARIUM</h1>
+            </div>
         </nav>
     </header>
 
     <div id="celaStranka">
         <div id="bodyDIV">
             <div id="gridDIV">
-                <div id="statusDIV">
-                    <p id="relay_info">ON</p>
-                </div>
-                <button onclick="on_text_graph_toggle()">INFO/GRAPH</button>
-                <div id="infoDIV">
-                    <div id="info">
-                        <p>Senzor1: 23.04.2021</p>
-                        <p>Senzor2: 20:00</p>
-                        <p>Senzor3: 55°C</p>
-                        <p>Senzor4: 120%</p>
-                        <p>Senzor5: -350 mnm.</p>
+                    <div id="infoDIV">
+                        <div id="infoFlex">
+                            <div id="info">
+                                <p>Senzor1: 23.04.2021</p>
+                                <p>Senzor2: 20:00</p>
+                                <p>Senzor3: 55°C</p>
+                                <p>Senzor4: 120%</p>
+                                <p>Senzor5: -350 mnm.</p>
+                            </div>
                     </div>
-                </div>
-                <div id="graphDIV">
-                    <div id="tempBar" style="height: 300px; width: 100%;"></div>
-                    <div id="humidBar" style="height: 300px; width: 100%;"></div>
-                </div>
+                    </div>
+                    <div id="graphDIV">
+                        <div id="graphFlex">
+                            <div id="tempBar" style="height: 40%; width: 90%;"></div>
+                            <br>
+                            <div id="humidBar" style="height: 40%; width: 90%;"></div>
+                        </div>
+                    </div>
+
                 <div id="cameraDIV">
                     <div id="camera">
                         <img src="korytnacka.jpg" alt="Tu bude obrazok">
                     </div>
                 </div>
+
                 <div id="buttonsDIV">
-                    <div id="buttons">
-                        <button id="leftButton" onclick="get_sensor**REMOVED**()"><i class="fas fa-retweet"></i></button>
-                        <button id="rightButton" onclick="toggleRelay()"><i class="far fa-lightbulb"></i></button>
+                <div id="buttonFlex">
+                    <div id="infoGraphDIV">    
+                        <button id="infoGraph" onclick="on_text_graph_toggle()">INFO/GRAPH</button>
                     </div>
+                </div>    
+                <div id="buttonsFlex">
+                    <div id="buttons">
+                        <button id="leftButton" class="indicatorOFF" onclick="get_sensor**REMOVED**()"><i class="fas fa-retweet"></i></button>
+                        <button id="rightButton" class="indicatorON" onclick="toggleRelay()"><i class="far fa-lightbulb"></i></button>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>

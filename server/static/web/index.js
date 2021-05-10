@@ -18,7 +18,7 @@ let popUpInDarkMode;
 let buttonDarkMode;
 let classNamePopUp;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://192.168.0.105/api/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
