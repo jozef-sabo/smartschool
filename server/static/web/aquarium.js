@@ -155,8 +155,22 @@ function drawBar(data) {
 
     function updateChart1() {
         sk(function(output) {
-            a_temp = {label: "Air", y: output[0], color: "red"};
-            w_temp = {label: "Water", y: output[1], color: "blue"};
+            var barColor = "yellow";
+            if(output[0]>40){
+                barColor = "red";
+            }
+            else if(output[0]<35){
+                barColor = "blue";
+            };
+            a_temp = {label: "Air", y: output[0], color: barColor};
+            barColor = "yellow";
+            if(output[1]>28){
+                barColor = "red";
+            }
+            else if(output[1]<25){
+                barColor = "blue";
+            };
+            w_temp = {label: "Water", y: output[1], color: barColor};
             chart1.options.data[0].dataPoints[0] = a_temp;
             chart1.options.data[0].dataPoints[1] = w_temp;
             chart1.render();
