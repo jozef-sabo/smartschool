@@ -88,9 +88,7 @@ def get_sensors_aquarium():
     response.headers["Content-Type"] = "application/json"
     response.headers["Access-Control-Allow-Origin"] = CORS_ip
     try:
-        print("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010")
         r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=5)
-        print("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010")
         r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=5)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)

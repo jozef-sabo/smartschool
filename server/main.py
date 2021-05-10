@@ -304,21 +304,21 @@ def line_add(idClass=None):
 
 @app.route('/api/get_sensors_aquarium')
 def retrieve_all_data_from_aquarium_sensors():
-    # global last_sensors_request, sensors_response_cache
-    # if int(time.time() * 1000) - last_sensors_request < 250:
-    #     print("CACHED:", sensors_response_cache.data)
-    #     return sensors_response_cache
-    # last_sensors_request = int(time.time() * 1000)
-    # response = sensor_details.get_sensors_aquarium()
-    # sensors_response_cache = response
-    # print(response.data)
+    global last_sensors_request, sensors_response_cache
+    if int(time.time() * 1000) - last_sensors_request < 250:
+        print("CACHED:", sensors_response_cache.data)
+        return sensors_response_cache
+    last_sensors_request = int(time.time() * 1000)
+    response = sensor_details.get_sensors_aquarium()
+    sensors_response_cache = response
+    print(response.data)
 
-    resp = Response(json.dumps({"date": "2021-05-10", "time": "18:31:10", "w_temp": 22.9, "a_temp": 23.0, "a_hum": 39.0, "temp_unit": "C"}))
+    """resp = Response(json.dumps({"date": "2021-05-10", "time": "18:31:10", "w_temp": 22.9, "a_temp": 23.0, "a_hum": 39.0, "temp_unit": "C"}))
     resp.headers['Access-Control-Allow-Origin'] = CORS_ip
     resp.headers['Content-Type'] = "application/json"
 
-    return resp
-    # return response
+    return resp"""
+    return response
 
 
 @app.route('/api/relay/<relay_id>/toggle/')
