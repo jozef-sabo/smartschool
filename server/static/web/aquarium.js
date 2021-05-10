@@ -179,7 +179,7 @@ function drawBar(data) {
 
     function updateChart2() {
         sk(function(output) {
-            a_hum = {label: "Air", y: output[2], color: "red"};
+            a_hum = {label: "Air", y: output[2], color: "yellow"};
             chart2.options.data[0].dataPoints[0] = a_hum;
             chart2.render();
         });
