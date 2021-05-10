@@ -1,0 +1,16 @@
+.contents {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+button {
+    padding: 16px;
+    font-size: 18pt;
+    width: 100%;
+}
+
+img {
+    width: 480px;
+}
