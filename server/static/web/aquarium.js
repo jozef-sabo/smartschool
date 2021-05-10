@@ -160,7 +160,7 @@ function drawBar(data) {
     }
     updateChart1();
 
-    setInterval(function() {updateChart1()}, 1000);
+    setInterval(function() {updateChart1()}, 10000);
 
     function updateChart2() {
         sk(function(output) {
@@ -171,7 +171,7 @@ function drawBar(data) {
     }
     updateChart2();
 
-    setInterval(function() {updateChart2()}, 1000);
+    setInterval(function() {updateChart2()}, 10000);
 }
 
 get_sensor**REMOVED**();
