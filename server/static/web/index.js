@@ -18,7 +18,7 @@ let popUpInDarkMode;
 let buttonDarkMode;
 let classNamePopUp;
 
-const api_url = "http://192.168.0.105/api/api";
+const api_url = "http://192.168.1.111/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -294,7 +294,7 @@ function openDetails(id) {
 var type;
 function resetDate() {
     $.ajax({
-        url: api_url + '/ResetDate',
+        url: api_url + '/ResetDate/',
         type: "GET",
     });
 }
@@ -303,7 +303,7 @@ function candle(selected_class) {
     var data;
     console.log(selected_class);
     $.ajax({
-        url: api_url + '/Candle/' + selected_class,
+        url: api_url + '/Candle/' + selected_class + "/",
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -324,7 +324,7 @@ function line(selected_class) {
     console.log(selected_class);
     var data;
     $.ajax({
-        url: api_url + '/Line/' + selected_class,
+        url: api_url + '/Line/' + selected_class + "/",
         type: "GET",
         dataType: "json",
         success: function (data) {
@@ -343,7 +343,7 @@ function line(selected_class) {
 function dateSub(selected_class) {
     if(type == 0) {
         $.ajax({
-            url: api_url + '/CandleSub/' + selected_class,
+            url: api_url + '/CandleSub/' + selected_class + "/",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -359,7 +359,7 @@ function dateSub(selected_class) {
     }
     if(type == 1) {
         $.ajax({
-            url: api_url + '/LineSub/' + selected_class,
+            url: api_url + '/LineSub/' + selected_class + "/",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -378,7 +378,7 @@ function dateSub(selected_class) {
 function dateAdd(selected_class) {
     if(type == 0) {
         $.ajax({
-            url: api_url + '/CandleAdd/' + selected_class,
+            url: api_url + '/CandleAdd/' + selected_class + "/",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -394,7 +394,7 @@ function dateAdd(selected_class) {
     }
     if(type == 1) {
         $.ajax({
-            url: api_url + '/LineAdd/' + selected_class,
+            url: api_url + '/LineAdd/' + selected_class + "/",
             type: "GET",
             dataType: "json",
             success: function (data) {
