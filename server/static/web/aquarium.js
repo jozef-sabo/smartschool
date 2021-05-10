@@ -16,7 +16,7 @@ function get_sensor**REMOVED**() {
         }
 
     };
-    xhttp.open("GET", "http://192.168.1.111/api/get_sensors_aquarium", true);
+    xhttp.open("GET", "http://127.0.0.1:5000/api/get_sensors_aquarium", true);
     xhttp.send();
 }
 
@@ -59,7 +59,7 @@ function toggleRelay() {
         }
 
     };
-    xhttp.open("GET", "http://192.168.1.111/api/relay/toggle/", true);
+    xhttp.open("GET", "http://127.0.0.1:5000/api/relay/toggle/", true);
     xhttp.send();
 }
 
@@ -79,9 +79,71 @@ function statusRelay() {
         }
 
     };
-    xhttp.open("GET", "http://192.168.1.111/api/relay/toggle/status/", true);
+    xhttp.open("GET", "http://127.0.0.1:5000/api/relay/toggle/status/", true);
     xhttp.send();
+}
+
+
+function bar() {
+    var data;
+    $.ajax({
+        url: "127.0.0.1:5000/api/get_sensors_aquarium",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            console.log("Success");
+            console.log(data.StatusSNS[0].Temperature);
+            // drawBar(data[0][1][1][0]);
+            drawBar(data.StatusSNS[0].Temperature);
+            // for (var idx = 0; idx < 4; idx++) {
+            // drawLine(data[0][idx], idx, data[1], data[2][idx]);
+            // }
+        },
+        error: function () {
+            console.log("Error!!!1");
+        }
+    });
+    return data;
+};
+
+function drawBar(data) {
+    var chart = new CanvasJS.Chart("firstBar", {
+        title: {
+            text: "Temperature of Each Boiler"
+        },
+        axisY: {
+            title: "Temperature (°C)",
+            includeZero: true,
+            suffix: " °C"
+        },
+        data: [{
+            type: "column",	
+            yValueFormatString: "#,### °C",
+            dataPoints: [
+                {label: "Temperature", y: data[1]}
+            ]
+        }]
+    });
+    
+    function updateChart() {
+        var barColor, yVal;
+        var dps = chart.options.data[0].dataPoints;
+        // for (var i = 0; i < dps.length; i++) {
+
+        //     yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
+        //     boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
+        //     dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
+        // }
+        updated = bar();
+        dps[0] = {label: "Temp", y: updated[1]}
+        chart.options.data[0].dataPoints = dps; 
+        chart.render();
+    };
+    updateChart();
+    
+    setInterval(function() {updateChart()}, 500);
 }
 
 get_sensor**REMOVED**();
 statusRelay();
+bar();
