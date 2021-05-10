@@ -85,56 +85,94 @@ function bar() {
         dataType: "json",
         success: function (data) {
             console.log("Success");
-            // drawBar(data[0][1][1][0]);
-            // for (var idx = 0; idx < 4; idx++) {
-            // drawLine(data[0][idx], idx, data[1], data[2][idx]);
-            // }
+            drawBar([data.w_temp, data.a_temp, data.a_hum]);
         },
         error: function () {
-            console.log("Error!!!1");
+            console.log("Error!!!");
         }
     });
     return data;
 };
+function sk(handleData){
+    var data;
+        $.ajax({
+            url: "http://127.0.0.1:5000/api/get_sensors_aquarium",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                console.log("Success");
+                handleData([data.w_temp, data.a_temp, data.a_hum]);
+            },
+            error: function () {
+                console.log("Error!!!");
+            }
+        });
+        return data;
+}
 
 function drawBar(data) {
-    var chart = new CanvasJS.Chart("firstBar", {
+    var chart1 = new CanvasJS.Chart("humidBar", {
         title: {
-            text: "Temperature of Each Boiler"
+        text: "Temperature",
         },
-        axisY: {
-            title: "Temperature (°C)",
+        axisY: [{
+            title: "C",
             includeZero: true,
-            suffix: " °C"
-        },
+        }],
         data: [{
             type: "column",	
-            yValueFormatString: "#,### °C",
+            indexLabel: "{y}C",
             dataPoints: [
-                {label: "Temperature", y: data[1]}
-            ]
-        }]
+                {label: "Air", y: data[0], color: "red"},
+                {label: "Water", y: data[1], color: "blue"},
+        ]
+        },
+        ]
     });
-    
-    function updateChart() {
-        var barColor, yVal;
-        var dps = chart.options.data[0].dataPoints;
-        // for (var i = 0; i < dps.length; i++) {
 
-        //     yVal = deltaY + dps[i].y > 0 ? dps[i].y + deltaY : 0;
-        //     boilerColor = yVal > 200 ? "#FF2500" : yVal >= 170 ? "#FF6000" : yVal < 170 ? "#6B8E23 " : null;
-        //     dps[i] = {label: "Boiler "+(i+1) , y: yVal, color: boilerColor};
-        // }
-        updated = bar();
-        dps[0] = {label: "Temp", y: updated[1]}
-        chart.options.data[0].dataPoints = dps; 
-        chart.render();
-    };
-    updateChart();
-    
-    setInterval(function() {updateChart()}, 500);
+    var chart2 = new CanvasJS.Chart("tempBar", {
+        title: {
+        text: "Humidity",
+        },
+        axisY: [{
+            title: "%",
+            includeZero: true,
+        }],
+        data: [{
+            type: "column",
+            indexLabel: "{y}%",
+            dataPoints: [
+                {label: "Air Humidity", y: data[2], color: "red"},
+        ]
+        },
+        ]
+    });
+
+
+    function updateChart1() {
+        sk(function(output) {
+            a_temp = {label: "Air", y: output[0], color: "red"};
+            w_temp = {label: "Water", y: output[1], color: "blue"};
+            chart1.options.data[0].dataPoints[0] = a_temp;
+            chart1.options.data[0].dataPoints[1] = w_temp;
+            chart1.render();
+        });
+    }
+    updateChart1();
+
+    setInterval(function() {updateChart1()}, 1000);
+
+    function updateChart2() {
+        sk(function(output) {
+            a_hum = {label: "Air", y: output[2], color: "red"};
+            chart2.options.data[0].dataPoints[0] = a_hum;
+            chart2.render();
+        });
+    }
+    updateChart2();
+
+    setInterval(function() {updateChart2()}, 1000);
 }
 
 get_sensor**REMOVED**();
 statusRelay();
-bar();

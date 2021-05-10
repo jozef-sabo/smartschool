@@ -313,9 +313,7 @@ def retrieve_all_data_from_aquarium_sensors():
     sensors_response_cache = response
     print(response.data)
 
-    """resp = Response(json.dumps({"StatusSNS": {"Time": "2021-05-10T10:59:18",
-                                              "SI7021": {"Temperature": 26.3, "Humidity": 43.2, "DewPoint": 12.8},
-                                              "TempUnit": "C"}}))
+    """resp = Response(json.dumps({"date": "2021-05-10", "time": "18:31:10", "w_temp": 22.9, "a_temp": 23.0, "a_hum": 39.0, "temp_unit": "C"}))
     resp.headers['Access-Control-Allow-Origin'] = CORS_ip
     resp.headers['Content-Type'] = "application/json"
 
