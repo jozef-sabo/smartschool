@@ -26,7 +26,8 @@ def retrieve_all_data_from_all_sensors():
     sensors_response_cache = response
     print(response.data)
 
-    return response
+    return {"StatusSNS":{"Time":"2021-05-10T10:59:18","SI7021":{"Temperature":26.3,"Humidity":43.2,"DewPoint":12.8},"TempUnit":"C"}}
+    # return response
 
 
 @app.route('/api/relay/toggle/')
