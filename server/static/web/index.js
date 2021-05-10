@@ -294,7 +294,7 @@ function openDetails(id) {
 var type;
 function resetDate() {
     $.ajax({
-        url: api_url + '/ResetDate/',
+        url: api_url + '/ResetDate',
         type: "GET",
     });
 }
