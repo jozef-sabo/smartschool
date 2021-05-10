@@ -1,6 +1,9 @@
 let info;
-var info_div = document.getElementById("info");
 var relay_info_span = document.getElementById("relay_info");
+let graph_div = document.getElementById("graphDIV");
+let info_div = document.getElementById("infoDIV");
+let interval_id = 0;
+let text_graph = 2;
 
 const api_url = "http://127.0.0.1:5000/api";
 
@@ -44,7 +47,7 @@ function toggleRelay() {
             if (this.status === 200) {
                 if (this.responseText !== null && this.responseText !== '') {
                     let relay_info = JSON.parse(this.responseText);
-                    relay_info_span.innerText = relay_info["POWER"]
+                        relay_info_span.innerText = relay_info["POWER"]
                     }
                     return
             }
@@ -92,11 +95,12 @@ function bar() {
         }
     });
     return data;
-};
+}
+
 function sk(handleData){
     var data;
         $.ajax({
-            url: "http://127.0.0.1:5000/api/get_sensors_aquarium",
+            url: api_url + "/get_sensors_aquarium",
             type: "GET",
             dataType: "json",
             success: function (data) {
@@ -158,9 +162,6 @@ function drawBar(data) {
             chart1.render();
         });
     }
-    updateChart1();
-
-    setInterval(function() {updateChart1()}, 10000);
 
     function updateChart2() {
         sk(function(output) {
@@ -169,10 +170,30 @@ function drawBar(data) {
             chart2.render();
         });
     }
+    updateChart1();
     updateChart2();
+    interval_id = setInterval(function() {
+        updateChart1();
+        updateChart2();
+        }, 10000);
+}
 
-    setInterval(function() {updateChart2()}, 10000);
+function on_text_graph_toggle() {
+    clearInterval(interval_id)
+    if (text_graph === 1) {
+        info_div.style.display = "none"
+        graph_div.style.display = "initial"
+        text_graph = 2
+        bar()
+        return
+    }
+    info_div.style.display = "initial"
+    graph_div.style.display = "none"
+    text_graph = 1
+    interval_id = setInterval(function() {get_sensor**REMOVED**()}, 10000);
+
 }
 
 get_sensor**REMOVED**();
 statusRelay();
+on_text_graph_toggle();
