@@ -128,7 +128,7 @@ function drawBar(data) {
         }],
         data: [{
             type: "column",	
-            axisYIndex: 0,
+            indexLabel: "{y}C",
             dataPoints: [
                 {label: "Air", y: data[0], color: "red"},
                 {label: "Water", y: data[1], color: "blue"},
@@ -147,7 +147,7 @@ function drawBar(data) {
         }],
         data: [{
             type: "column",	
-            axisYIndex: 0,
+            indexLabel: "{y}%",
             dataPoints: [
                 {label: "Air Humidity", y: data[2], color: "red"},
         ]
