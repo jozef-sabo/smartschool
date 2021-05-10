@@ -1,6 +1,8 @@
 import mysql.connector
 import datetime
 import re
+import requests
+import flask
 
 # SECRETS IMPORT
 # DATABASE_HOST = ""
@@ -16,6 +18,8 @@ try:
 except ImportError:
     pass
 
+CORS_ip = "*"
+
 
 
 """  STARY SPOSOB
@@ -24,6 +28,12 @@ room_details_002 = {"id": "room_002", "temperature": 2.0, "humidity": 22.0, "co2
 room_details_003 = {"id": "room_003", "temperature": 3.0, "humidity": 522.0, "co2": 400}
 rooms = [room_details_001, room_details_002, room_details_003]
 """
+
+
+def cant_connect_to_aquarium(response: flask.Response):
+    response.data = """{"error":"Cannot connect to aquarium"}"""
+    response.status_code = 503
+    return response
 
 units = {}
 
@@ -64,6 +74,52 @@ def get_all_sensors():
     cursor.close()
     connection.close()
     return data
+
+
+def get_sensors_aquarium():
+    r = requests.Response
+    response = flask.Response()
+    response.headers["Content-Type"] = "application/json"
+    response.headers["Access-Control-Allow-Origin"] = CORS_ip
+    try:
+        r = requests.get("http://192.168.1.151/cm?cmnd=status%2010", timeout=0.5)
+    except requests.exceptions.ConnectionError:
+        return cant_connect_to_aquarium(response)
+    else:
+        response.data = r.text
+        response.status_code = 200
+        return response
+
+
+def toggle_relay(relay_id, to_state=None):
+    response = flask.Response()
+    response.headers["Content-Type"] = "application/json"
+    response.headers["Access-Control-Allow-Origin"] = CORS_ip
+    ip = None
+
+    if relay_id not in {"1", "2"}:
+        response.data = "{'error':'Wrond relay ID'}"
+        response.status_code = 404
+        return response
+    if relay_id == "1":
+        ip = "192.168.1.151"
+    if relay_id == "2":
+        ip = "192.168.1.184"
+
+    r = requests.Response
+
+    try:
+        if not to_state:
+            r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=0.5)
+        else:
+            request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On","Off") else "http://" + ip + "/cm?cmnd=Power"
+            r = requests.get(request, timeout=0.5)
+    except requests.exceptions.ConnectionError:
+        return cant_connect_to_aquarium(response)
+    else:
+        response.data = r.text
+        response.status_code = 200
+        return response
 
 
 if __name__ == '__main__':

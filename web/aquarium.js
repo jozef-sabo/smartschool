@@ -16,7 +16,7 @@ function get_sensor**REMOVED**() {
         }
 
     };
-    xhttp.open("GET", "http://192.168.1.111/api/get_sensors", true);
+    xhttp.open("GET", "http://192.168.1.111/api/get_sensors_aquarium", true);
     xhttp.send();
 }
 
