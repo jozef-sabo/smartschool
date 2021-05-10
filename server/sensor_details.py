@@ -1,3 +1,5 @@
+import json
+
 import mysql.connector
 import datetime
 import re
@@ -19,6 +21,10 @@ except ImportError:
     pass
 
 CORS_ip = "*"
+relay_ips = {
+    "1": "192.168.1.151",
+    "2": "192.168.1.184"
+}
 
 
 
@@ -82,11 +88,29 @@ def get_sensors_aquarium():
     response.headers["Content-Type"] = "application/json"
     response.headers["Access-Control-Allow-Origin"] = CORS_ip
     try:
-        r = requests.get("http://192.168.1.151/cm?cmnd=status%2010", timeout=0.5)
+        print("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010")
+        r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=5)
+        print("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010")
+        r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=5)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:
-        response.data = r.text
+        response_text = {}
+        r_json = json.loads(r.text)
+        r2_json = json.loads(r2.text)
+        date_time = datetime.datetime.strptime(r_json["StatusSNS"]["Time"], "%Y-%m-%dT%H:%M:%S")
+        date_time = date_time.replace(
+            day=(date_time.day + ((date_time.hour + 1) // 24)),
+            hour=(date_time.hour + 1) % 24
+        )
+
+        response_text["date"] = date_time.strftime("%d.%m.%Y")
+        response_text["time"] = date_time.strftime("%H:%M:%S")
+        response_text["w_temp"] = r_json["StatusSNS"]["DHT11"]["Temperature"]
+        response_text["a_temp"] = r2_json["StatusSNS"]["DHT11"]["Temperature"]
+        response_text["a_hum"] = r2_json["StatusSNS"]["DHT11"]["Humidity"]
+        response_text["temp_unit"] = r_json["StatusSNS"]["TempUnit"]
+        response.data = json.dumps(response_text)
         response.status_code = 200
         return response
 
@@ -98,13 +122,10 @@ def toggle_relay(relay_id, to_state=None):
     ip = None
 
     if relay_id not in {"1", "2"}:
-        response.data = "{'error':'Wrond relay ID'}"
+        response.data = '{"error":"Wrong relay ID"}'
         response.status_code = 404
         return response
-    if relay_id == "1":
-        ip = "192.168.1.151"
-    if relay_id == "2":
-        ip = "192.168.1.184"
+    ip = relay_ips.get(relay_id)
 
     r = requests.Response
 

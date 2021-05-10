@@ -313,18 +313,18 @@ def retrieve_all_data_from_aquarium_sensors():
     sensors_response_cache = response
     print(response.data)
 
-    resp = Response(json.dumps({"StatusSNS": {"Time": "2021-05-10T10:59:18",
+    """resp = Response(json.dumps({"StatusSNS": {"Time": "2021-05-10T10:59:18",
                                               "SI7021": {"Temperature": 26.3, "Humidity": 43.2, "DewPoint": 12.8},
                                               "TempUnit": "C"}}))
     resp.headers['Access-Control-Allow-Origin'] = CORS_ip
     resp.headers['Content-Type'] = "application/json"
 
-    return resp
-    # return response
+    return resp"""
+    return response
 
 
-@app.route('/api/relay/toggle/<relay_id>/')
-@app.route('/api/relay/toggle/<relay_id>/<state>/')
+@app.route('/api/relay/<relay_id>/toggle/')
+@app.route('/api/relay/<relay_id>/toggle/<state>/')
 def toggle_relay(relay_id, state=None):
     global last_relay_request, relay_response_cache
     if int(time.time() * 1000) - last_relay_request < 500:

@@ -2,6 +2,8 @@ let info;
 var info_div = document.getElementById("info");
 var relay_info_span = document.getElementById("relay_info");
 
+const api_url = "http://127.0.0.1:5000/api";
+
 function get_sensor**REMOVED**() {
     var xhttp;
     xhttp = new XMLHttpRequest();
@@ -16,25 +18,16 @@ function get_sensor**REMOVED**() {
         }
 
     };
-    xhttp.open("GET", "http://127.0.0.1:5000/api/get_sensors_aquarium", true);
+    xhttp.open("GET",  api_url + "/get_sensors_aquarium", true);
     xhttp.send();
 }
 
 function write() {
     var  content = "";
-
-    const keys = Object.keys(info["StatusSNS"])
-    keys.forEach((key, index) => {
-        if (isObject(info["StatusSNS"][key])) {
-            const keys_2 = Object.keys(info["StatusSNS"][key]);
-            keys_2.forEach((key_2, index_2) => {
-                content += "<p>" + key_2 + ": " + info["StatusSNS"][key][key_2] + "</p>";
-            })
-        }
-        else {
-            content += "<p>" + key + ": " + info["StatusSNS"][key] + "</p>";
-        }
-    });
+    content += "<p>Čas merania: " + info["time"] + "</p>";
+    content += "<p>Teplota vody: " + info["w_temp"] + "°" + info["temp_unit"] + "</p>";
+    content += "<p>Teplota vzduchu: " + info["a_temp"] + "°" + info["temp_unit"] + "</p>";
+    content += "<p>Vlhkosť vzduchu: " + info["a_hum"] + "%" + "</p>";
 
     info_div.innerHTML = content;
 }
@@ -59,7 +52,7 @@ function toggleRelay() {
         }
 
     };
-    xhttp.open("GET", "http://127.0.0.1:5000/api/relay/toggle/", true);
+    xhttp.open("GET", api_url + "/relay/toggle/", true);
     xhttp.send();
 }
 
@@ -79,7 +72,7 @@ function statusRelay() {
         }
 
     };
-    xhttp.open("GET", "http://127.0.0.1:5000/api/relay/toggle/status/", true);
+    xhttp.open("GET", api_url + "/relay/1/toggle/status/", true);
     xhttp.send();
 }
 
@@ -87,14 +80,12 @@ function statusRelay() {
 function bar() {
     var data;
     $.ajax({
-        url: "127.0.0.1:5000/api/get_sensors_aquarium",
+        url: api_url + "/get_sensors_aquarium",
         type: "GET",
         dataType: "json",
         success: function (data) {
             console.log("Success");
-            console.log(data.StatusSNS[0].Temperature);
             // drawBar(data[0][1][1][0]);
-            drawBar(data.StatusSNS[0].Temperature);
             // for (var idx = 0; idx < 4; idx++) {
             // drawLine(data[0][idx], idx, data[1], data[2][idx]);
             // }
