@@ -7,12 +7,16 @@
         <link rel="stylesheet" href="SmartSchoolStyle2.css">
         <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="index.js"></script>
+    <script src="table.js"></script>
     </head>
 
     <body>
+        <div class='spinner-wrapper'>
+            <p class="smart_school_name">SMART SCHOOL</p>
+            <div class="spinner"></div>
+        </div>
 
-        <script>
+        <!--<script>
 
             
             //TEMPORARY DATA FOR TESTING
@@ -41,7 +45,7 @@
             
 
             document.addEventListener("DOMContentLoaded", function(){updateTableData()});
-        </script>
+        </script>-->
 
 
 
@@ -51,17 +55,29 @@
                 <li><a href=index.html>LAYOUT</a></li>
                 <li><a href=table.html>TABLE</a></li>
                 <li><a href=aquarium.html>AQUARIUM</a></li>
+                <div id="alignRight">
+                    <div id="darkModeSwitch">
+                        <input type="checkbox" class="darkModeCheckBox" id="darkModeCheckBox">
+                        <label for="darkModeCheckBox" class="label">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                            <div class="ball"></div>
+                        </label>
+                    </div>
+                </div>
             </ul>
-        </nav>   
+        </nav>
         
         
         <div class="tableDIV2">
         <div class="tableDIV">
-            
+
+        <div class="textID">
         <h1>Prízemie</h1>
+        </div>
         <br><br>
         <table class="contentTable">
-            <thead>
+            <thead class="contentTable">
                 <tr>
                     <td>Trieda</td>
                     <td>Teplota</td>
@@ -69,20 +85,20 @@
                     <td>CO<sub>2</sub></td>
                 </tr>
             </thead>
-            <tbody>
-                <tr  id="room_001">
+            <tbody class="contentTable">
+                <tr  id="3C">
                     <td>Trieda</td>
                     <td></td>
                     <td></td>
                     <td></td>            
                 </tr>
-                <tr id="room_002">
+                <tr id="4C">
                     <td>Trieda</td>
                     <td></td>
                     <td></td>
                     <td></td>            
                 </tr>
-                <tr  id="room_003">
+                <tr  id="3A">
                     <td>Trieda</td>
                     <td></td>
                     <td></td>
@@ -104,11 +120,13 @@
         </table>
         </div>
         <div class="tableDIV">
-            
+
+        <div class="textID">
         <h1>1.Poschodie</h1>
+        </div>
         <br><br>
         <table class="contentTable">
-            <thead>
+            <thead class="contentTable">
             <tr>
                 <td>Trieda</td>
                 <td>Teplota</td>
@@ -116,7 +134,7 @@
                 <td>CO<sub>2</sub></td>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="contentTable">
             <tr id="room_006">
                 <td>Trieda</td>
                 <td></td>

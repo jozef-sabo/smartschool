@@ -17,8 +17,9 @@ let h1FontColor;
 let popUpInDarkMode;
 let buttonDarkMode;
 let classNamePopUp;
+let contentTable;
 
-const api_url = "http://192.168.0.105/api/api";
+const api_url = "http://127.0.0.1:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -96,6 +97,7 @@ function init() {
     h1FontColor = document.getElementsByTagName('h1');
     popUpInDarkMode = document.getElementsByClassName("popUp");
     buttonDarkMode = document.getElementsByTagName('button');
+    contentTable = document.getElementsByClassName('contentTable');
 
     if (localStorage.getItem("dark") !== null && localStorage.getItem("dark") === "true") {
         toggle_dark_mode();
@@ -123,6 +125,7 @@ function init() {
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
     spinnerWrapper.style.top = "-100%";
+    updateTableData();
     document.getElementById("obsah").style.display = "initial";
     setTimeout(() => {
         spinnerWrapper.parentElement.removeChild(spinnerWrapper);
@@ -137,7 +140,8 @@ function toggle_dark_mode() {
     for (let chodbaID = 0; chodbaID < chodba.length; chodbaID++) { chodba[chodbaID].classList.toggle('chodbaInDarkMode'); }
     for (let h1FontColorID = 0; h1FontColorID < h1FontColor.length; h1FontColorID++) { h1FontColor[h1FontColorID].classList.toggle('whiteFont');  }
     for (let popUpInDarkModeID = 0; popUpInDarkModeID < popUpInDarkMode.length; popUpInDarkModeID++) { popUpInDarkMode[popUpInDarkModeID].classList.toggle('popUpInDarkMode'); }
-    for (let buttonDarkModeID = 0; buttonDarkModeID < buttonDarkMode.length; buttonDarkModeID++) { buttonDarkMode[buttonDarkModeID].classList.toggle('buttonDarkMode'); }
+    for (let buttonDarkModeID = 0; buttonDarkModeID < buttonDarkMode.length; buttonDarkModeID++) { buttonDarkMode[buttonDarkModeID].classList.toggle('buttonDarkMode');}
+    for (let contentTableID = 0; contentTableID < contentTable.length; contentTableID++) { contentTable[contentTableID].classList.toggle('tableInDarkMode');}
 }
 
 function update_all_room_details(){
@@ -177,9 +181,8 @@ function updateTableData(){
     for (i=0; i<rooms.length; i++){
     updateTableRow(rooms[i]);}
     }
-    
-    function updateTableRow(room_details) {
-    
+
+function updateTableRow(room_details) {
     cell_content = "";
     room_number=i+1;
 

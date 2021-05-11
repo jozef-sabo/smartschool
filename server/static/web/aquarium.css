@@ -19,13 +19,8 @@ nav{
     box-shadow: 0px 5px 50px rgba(0, 0, 0, 0.1);
     font-family: 'Audiowide', cursive;
 }
-.alignLeft{
-    width: 100vw;
-    margin-left: 1vw;
-    display: flex;
-}
 a{
-    color:grey;
+    color:#ADADAD;
     text-align: center;
     line-height: 0px;
     font-size: 18px;
@@ -42,7 +37,7 @@ body{
 p{
     font-family: 'Kanit', sans-serif;
     font-size: 1em;
-    color:#858585;
+    color:#ADADAD;
 }
 #bodyDIV{
     display: flex;
@@ -194,4 +189,21 @@ img{
 }
 .indicatorOFF{
     border-bottom: 6px solid #F24061;
+}
+#navbarGrid{
+    display: grid;
+    grid-template-columns:20% 1fr 20%;
+}
+#SmartSchoolLinkDIV{
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    margin-left: 1vw;
+    font-size:0.8em;
+    color:#ADADAD;
+}
+#SmartAquariumDIV{
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }

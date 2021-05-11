@@ -335,6 +335,9 @@ nav{
     text-align: left;
     font-weight: bold;    
 }
+.tableInDarkMode.contentTable thead tr {
+    background-color: rgb(11, 11, 11);
+}
 .contentTable th,
 .contentTable td{
     padding: 12px 15px;
@@ -344,6 +347,14 @@ nav{
 }
 .contentTable tbody tr:nth-of-type(even){
     background-color: #f3f3f3;
+}
+.tableInDarkMode.contentTable tbody tr:nth-of-type(even){
+    background-color: rgb(41, 41, 41);
+    color:white;
+}
+.tableInDarkMode.contentTable tbody tr:nth-of-type(odd){
+    background-color: rgb(21, 21, 21);
+    color: white;
 }
 .noscroll{
     overflow: hidden;
@@ -399,6 +410,9 @@ nav{
     width: 50%;
     margin:auto;
     margin-top: 5%;
+}
+.textID{
+    height:30px;
 }
 .tableDIV2{
     display: flex;
