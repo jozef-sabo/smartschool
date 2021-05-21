@@ -19,7 +19,7 @@ let buttonDarkMode;
 let classNamePopUp;
 let contentTable;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://10.0.7.59:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -98,6 +98,7 @@ function init() {
     popUpInDarkMode = document.getElementsByClassName("popUp");
     buttonDarkMode = document.getElementsByTagName('button');
     contentTable = document.getElementsByClassName('contentTable');
+    resetDate();
 
     if (localStorage.getItem("dark") !== null && localStorage.getItem("dark") === "true") {
         toggle_dark_mode();
