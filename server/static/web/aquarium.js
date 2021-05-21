@@ -5,7 +5,7 @@ let info_div = document.getElementById("infoDIV");
 let interval_id = 0;
 let text_graph = 2;
 
-const api_url = "http://127.0.0.1:5000/api";
+const api_url = "http://10.0.7.174:5000/api";
 
 function get_sensor**REMOVED**() {
     var xhttp;
@@ -124,7 +124,7 @@ function drawBar(data) {
         text: "Temperature",
         },
         axisY: [{
-            title: "C",
+            title: " °C",
             includeZero: true,
         }],
         data: [{
@@ -145,7 +145,7 @@ function drawBar(data) {
         text: "Humidity",
         },
         axisY: [{
-            title: "%",
+            title: " %",
             includeZero: true,
         }],
         data: [{

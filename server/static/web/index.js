@@ -19,7 +19,7 @@ let buttonDarkMode;
 let classNamePopUp;
 let contentTable;
 
-const api_url = "http://10.0.7.59:5000/api";
+const api_url = "http://10.0.7.174:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -106,6 +106,16 @@ function init() {
     }
 
     close.addEventListener('click',()=> {
+        $.ajax({
+            url: api_url + '/ResetDate',
+            type: "GET",
+            success: function (data) {
+                console.log("Success");
+            },
+            error: function () {
+                console.log("Error!");
+            }
+        });
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
     });
