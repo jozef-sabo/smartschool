@@ -1,8 +1,7 @@
 import json
-
-import mysql.connector
 import datetime
 import re
+import mysql.connector
 import requests
 import flask
 
@@ -45,14 +44,19 @@ units = {}
 
 
 def get_all_sensors():
-    connection = mysql.connector.connect(host=DATABASE_HOST, database=DATABASE_NAME, user=DATABASE_USER,
+    connection = mysql.connector.connect(host=DATABASE_HOST,
+                                         database=DATABASE_NAME,
+                                         user=DATABASE_USER,
                                          password=DATABASE_PASSWORD, port=DATABASE_PORT)
-    # connection = mysql.connector.connect(host="localhost", database=L_DATABASE_NAME, user=L_DATABASE_USER,
+    # connection = mysql.connector.connect(host="localhost",
+    #                                      database=L_DATABASE_NAME,
+    #                                      user=L_DATABASE_USER,
     #                                      password=L_DATABASE_PASSWORD)
     cursor = connection.cursor()
 
     """ AK BY SENZORY POSIELALI V CASE (limitne) BLIZIACOM SA datetime A POSIEALI BY VSETKY
-    cursor.execute("SELECT `room_number`, `sensor_type`, `sensor_value`, `sensor_unit` FROM `rooms` r WHERE r.`date_time` ="
+    cursor.execute("SELECT `room_number`, `sensor_type`,
+                    `sensor_value`, `sensor_unit` FROM `rooms` r WHERE r.`date_time` ="
                    " (SELECT r.`date_time` FROM `rooms` r ORDER BY r.`date_time` DESC LIMIT 1) ORDER BY `room_number`")
     """
 
@@ -131,7 +135,7 @@ def toggle_relay(relay_id, to_state=None):
         if not to_state:
             r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=0.5)
         else:
-            request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On","Off") else "http://" + ip + "/cm?cmnd=Power"
+            request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On", "Off") else "http://" + ip + "/cm?cmnd=Power"
             r = requests.get(request, timeout=0.5)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
