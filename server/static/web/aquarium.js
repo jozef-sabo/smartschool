@@ -5,7 +5,8 @@ let info_div = document.getElementById("infoDIV");
 let interval_id = 0;
 let text_graph = 2;
 
-const api_url = "http://10.0.7.174:5000/api";
+// const api_url = "http://10.0.7.174:5000/api";
+const api_url = "http://10.0.7.59:5000/api";
 
 function get_sensor**REMOVED**() {
     var xhttp;

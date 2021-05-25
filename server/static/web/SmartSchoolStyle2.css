@@ -110,7 +110,7 @@ h1{
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
     margin-right:auto;
-    line-height: 0px;
+    line-height: 0;
 }
 p{
     text-align: center;
@@ -118,16 +118,15 @@ p{
     font-family: 'Segoe UI', sans-serif;
     word-wrap:break-word;
     font-size: 10px;
-    line-height: 0px;
+    line-height: 0;
     
 }
 li{
     color: white;
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
-    line-height: 0px;
+    line-height: 0;
     font-size: 18px;
-    color:white;
     text-decoration: none;
 }
 p.detailsWindow{
@@ -261,16 +260,16 @@ button:active{
     opacity:1;
 }
 .topLeft{
-    border-radius:10px 0px 0px 0px;
+    border-radius:10px 0 0 0;
 }
 .topRight{
-    border-radius:0px 10px 0px 0px;
+    border-radius:0 10px 0 0;
 }
 .bottomLeft{
-    border-radius:0px 0px 0px 10px;
+    border-radius:0 0 0 10px;
 }
 .bottomRight{
-    border-radius:0px 0px 10px 0px;
+    border-radius:0 0 10px 0;
 }
 #close{
     padding: 4px 8px 4px 8px;
@@ -311,7 +310,7 @@ nav{
 }
 #logo{
     font-size: 22px;
-    padding: 20px 0px 0px 20px;
+    padding: 20px 0 0 20px;
     display: block;
     text-decoration: none;
     text-transform: uppercase;
@@ -366,19 +365,19 @@ nav{
     justify-content: center;
 }
 .leftButton{
-    border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0 0 5px;
     padding: 3px 30px;
     font-size: 12px;
     font-weight:1000;
 }
 .middleButton{
-    border-radius: 0px;
+    border-radius: 0;
     padding: 3px 30px;
     font-size: 12px;
     font-weight:1000;
 }
 .rightButton{
-    border-radius: 0px 5px 5px 0px;
+    border-radius: 0 5px 5px 0;
     padding: 3px 30px; 
     font-size: 12px;
     font-weight:1000;
@@ -408,8 +407,7 @@ nav{
     text-align: center;
     flex-wrap: wrap;
     width: 50%;
-    margin:auto;
-    margin-top: 5%;
+    margin: 5% auto auto;
 }
 .textID{
     height:30px;

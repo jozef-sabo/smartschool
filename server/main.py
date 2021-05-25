@@ -346,4 +346,5 @@ def toggle_relay(relay_id, state=None):
 
 if __name__ == '__main__':
     # app.run(host="192.168.25.104")
-    app.run(host="10.0.7.174", debug=True)
+    # app.run(host="10.0.7.174", debug=True)
+    app.run(host="10.0.7.59", debug=True)

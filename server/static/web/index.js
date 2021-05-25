@@ -1,8 +1,6 @@
 let rooms;
 let init_load = false;
 let selected_class;
-// Okno s detailmi
-//const open = document.getElementById('open');
 let popUpWindowID;
 let close;
 let bodyID;
@@ -19,7 +17,8 @@ let buttonDarkMode;
 let classNamePopUp;
 let contentTable;
 
-const api_url = "http://10.0.7.174:5000/api";
+// const api_url = "http://10.0.7.174:5000/api";
+const api_url = "http://10.0.7.59:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
@@ -88,7 +87,6 @@ function init() {
     detailsInPopup = document.getElementById("detailsInPopUp");
     detailsInPopup2 = document.getElementById("detailsInPopUpPt2");
     classNamePopUp = document.getElementById("classNamePopUp");
-
     darkModeCheckBox = document.getElementById('darkModeCheckBox');
     darkerRooms = document.getElementsByClassName('darker');
     lighterRooms = document.getElementsByClassName('lighter');
@@ -106,16 +104,7 @@ function init() {
     }
 
     close.addEventListener('click',()=> {
-        $.ajax({
-            url: api_url + '/ResetDate',
-            type: "GET",
-            success: function (data) {
-                console.log("Success");
-            },
-            error: function () {
-                console.log("Error!");
-            }
-        });
+        resetDate();
         popUpWindowID.classList.remove('show');
         bodyID.classList.remove('noscroll');
     });
@@ -130,7 +119,6 @@ function init() {
         }
         toggle_dark_mode();
     });
-    
 
     Object.keys(rooms).forEach(key => update_room_details(key, rooms[key]))
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
@@ -188,75 +176,6 @@ function update_room_details(id, details) {
     ) id_element.className = "room orangeRoom";
 }
 
-function updateTableData(){
-    for (i=0; i<rooms.length; i++){
-    updateTableRow(rooms[i]);}
-    }
-
-function updateTableRow(room_details) {
-    cell_content = "";
-    room_number=i+1;
-
-    cell_content += '<td>Trieda '+room_number+'</td>'
-
-    if ("temperature" in room_details)
-    {
-    
-        if (room_details["temperature"]<18)
-            {
-                cell_content += '<td style="color:#79D2E6;">'+room_details["temperature"]+'</td>';
-            }
-            else if (room_details["temperature"]<24)
-                {
-                    cell_content += '<td>'+room_details["temperature"]+'</td>';
-                }
-                else
-                    {
-                        cell_content += '<td style="color:#F67280;">'+room_details["temperature"]+'</td>';
-                    } 
-
-    }
-
-
-
-    if (room_details["humidity"])
-    {
-    
-        if (room_details["humidity"]<30)
-            {
-                cell_content += '<td style="color:#79D2E6;">'+room_details["humidity"]+'</td>';
-            }
-            else if (room_details["humidity"]<50)
-                {
-                    cell_content += '<td>'+room_details["humidity"]+'</td>';
-                }
-                else
-                    {
-                        cell_content += '<td style="color:#F67280;">'+room_details["humidity"]+'</td>';
-                    } 
-
-    }
-    if (room_details["co2"])
-    {
-
-        if (room_details["co2"]<30)
-            {
-                cell_content += '<td style="color:#79D2E6;">'+room_details["co2"]+'</td>';
-            }
-            else if (room_details["co2"]<50)
-                {
-                    cell_content += '<td>'+room_details["co2"]+'</td>';
-                }
-                else
-                    {
-                        cell_content += '<td style="color:#F67280;">'+room_details["co2"]+'</td>';
-                    } 
-
-
-    }
-    document.getElementById(room_details["id"]).innerHTML = cell_content;
-    }
-
 function openDetails(id) {
     let cell_content = "";
     let cell_content2 = "";
@@ -301,10 +220,6 @@ function openDetails(id) {
     candle(selected_class);
 }
 
-//open.addEventListener('click',()=>{
-//    popUpWindowID.classList.add('show');
-//})
-
 var type;
 function resetDate() {
     $.ajax({
@@ -312,6 +227,7 @@ function resetDate() {
         type: "GET",
     });
 }
+
 function candle(selected_class) {
     type = 0;
     var data;

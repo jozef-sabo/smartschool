@@ -1,10 +1,9 @@
-var rooms;
+let rooms;
 let init_load = false;
 let darkModeCheckBox;
 let darkerRooms;
 let lighterRooms;
 let emptyRooms;
-let chodba;
 let h1FontColor;
 let buttonDarkMode;
 let contentTable;
