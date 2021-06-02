@@ -347,12 +347,46 @@ def toggle_relay(relay_id, state=None):
 
 @app.route('/login', methods=['POST'])
 def login_post():
-    return str(login.login(request.form))
+    if not session.get("is_admin"):
+        session["is_admin"] = login.login(request.form)
+
+    resp = Response("")
+    resp.headers["Location"] = "aquarium"
+    resp.status_code = 302
+    return resp
 
 
 @app.route('/login', methods=['GET'])
 def login_get():
-    return render_template("/login.html")
+    if not session.get("is_admin"):
+        return render_template("/login.html")
+
+    resp = Response("")
+    resp.headers["Location"] = "aquarium"
+    resp.status_code = 302
+    return resp
+
+
+@app.route('/logout')
+def logout():
+    if session.get("is_admin"):
+        session.pop("is_admin")
+
+    resp = Response("")
+    resp.headers["Location"] = "aquarium"
+    resp.status_code = 302
+    return resp
+
+
+@app.route("/aquarium", methods=["GET"])
+def show_aquarium():
+    if not session.get("is_admin"):
+        return render_template("/aquarium.html")
+
+    if not session["is_admin"]:
+        return render_template("/aquarium.html")
+
+    return render_template("/aquarium_adm.html")
 
 
 if __name__ == '__main__':

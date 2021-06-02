@@ -124,7 +124,6 @@ function init() {
     let spinnerWrapper = document.querySelector(".spinner-wrapper");
     spinnerWrapper.style.animation = "odlet 0.5s ease-in";
     spinnerWrapper.style.top = "-100%";
-    updateTableData();
     document.getElementById("obsah").style.display = "initial";
     setTimeout(() => {
         spinnerWrapper.parentElement.removeChild(spinnerWrapper);
