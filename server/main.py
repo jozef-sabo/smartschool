@@ -1,14 +1,15 @@
 import datetime
 import json
 import time
-from flask import Flask, session, Response
+from flask import Flask, session, Response, request, render_template
 from flask_session import Session
 import sensor_details
 import smartSchool
 import fetchData
+import login
 
 # SESSION_COOKIE_SECURE = True
-app = Flask(__name__)
+app = Flask(__name__, template_folder="static/web")
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
@@ -342,6 +343,16 @@ def toggle_relay(relay_id, state=None):
     print(response.data)
 
     return response
+
+
+@app.route('/login', methods=['POST'])
+def login_post():
+    return str(login.login(request.form))
+
+
+@app.route('/login', methods=['GET'])
+def login_get():
+    return render_template("/login.html")
 
 
 if __name__ == '__main__':
