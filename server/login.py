@@ -7,19 +7,15 @@ DATABASE_PORT = 0
 DATABASE_NAME = ""
 DATABASE_USER = ""
 DATABASE_PASSWORD = ""
-# L_DATABASE_NAME = ""
-# L_DATABASE_USER = ""
-# L_DATABASE_PASSWORD = ""
 try:
     from secrets import *
 except ImportError:
     pass
 
-mariadb_connect = mysql.connector.connect(user=DATABASE_USER, password=DATABASE_PASSWORD, database=DATABASE_NAME,
-                                          port=DATABASE_PORT, host=DATABASE_HOST)
-
 
 def login(form):
+    mariadb_connect = mysql.connector.connect(user=DATABASE_USER, password=DATABASE_PASSWORD, database=DATABASE_NAME,
+                                              port=DATABASE_PORT, host=DATABASE_HOST)
     user_name = form['username']
     password = form['password']
     cur = mariadb_connect.cursor(buffered=True)
@@ -27,6 +23,7 @@ def login(form):
 
     data = cur.fetchall()
     cur.close()
+    mariadb_connect.close()
 
     if len(data) != 1:
         return False
