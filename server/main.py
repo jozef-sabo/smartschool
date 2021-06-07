@@ -306,14 +306,15 @@ def line_add(id_class=None):
 
 @app.route('/api/get_sensors_aquarium')
 def retrieve_all_data_from_aquarium_sensors():
-    """global last_sensors_request, sensors_response_cache
+    global last_sensors_request, sensors_response_cache
     if int(time.time() * 1000) - last_sensors_request < 250:
         print("CACHED:", sensors_response_cache.data)
         return sensors_response_cache
     last_sensors_request = int(time.time() * 1000)
     response = sensor_details.get_sensors_aquarium()
     sensors_response_cache = response
-    print(response.data)"""
+    print(response.data)
+    """
 
     resp = Response(json.dumps({"date": "2021-05-10",
                                 "time": "18:31:10",
@@ -324,20 +325,25 @@ def retrieve_all_data_from_aquarium_sensors():
     resp.headers['Access-Control-Allow-Origin'] = CORS_ip
     resp.headers['Content-Type'] = "application/json"
 
-    return resp
-    # return response
+    return resp"""
+    return response
 
 
 @app.route('/api/relay/<relay_id>/toggle/')
 @app.route('/api/relay/<relay_id>/toggle/<state>/')
 def toggle_relay(relay_id, state=None):
+    if not session.get("is_admin"):
+        return "", 401
+    """
     global last_relay_request, relay_response_cache
     if int(time.time() * 1000) - last_relay_request < 500:
         print("CACHED:", relay_response_cache.data)
         if state:
             return relay_response_cache
         return "", 200
+    
     last_relay_request = int(time.time() * 1000)
+    """
     response = sensor_details.toggle_relay(relay_id, state)
     relay_response_cache = response
     print(response.data)
@@ -389,7 +395,19 @@ def show_aquarium():
     return render_template("/aquarium_adm.html")
 
 
+@app.route("/api/logged_in", methods=["GET"])
+def logged_in():
+    resp = Response("")
+    if not session.get("is_admin") or not session["is_admin"]:
+        resp.set_cookie("logged_in", "false", 86400)
+        return resp
+
+    resp.set_cookie("logged_in", "true", 86400)
+    return resp
+
+
 if __name__ == '__main__':
     # app.run(host="192.168.25.104")
     # app.run(host="10.0.7.174", debug=True)
     app.run(host="10.0.7.59", debug=True)
+    # app.run(host="localhost", debug=True)

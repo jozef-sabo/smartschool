@@ -1,7 +1,8 @@
 let info;
-var relay_info_span = document.getElementById("relay_info");
 let graph_div = document.getElementById("graphDIV");
 let info_div = document.getElementById("infoDIV");
+let left_button = document.getElementById("leftButton");
+let right_button = document.getElementById("rightButton");
 let interval_id = 0;
 let text_graph = 2;
 
@@ -42,35 +43,33 @@ function isObject(objValue) {
   return objValue && typeof objValue === 'object' && objValue.constructor === Object;
 }
 
-function toggleRelay() {
-    var xhttp;
-    xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                if (this.responseText !== null && this.responseText !== '') {
-                    let relay_info = JSON.parse(this.responseText);
-                        relay_info_span.innerText = relay_info["POWER"]
-                    }
-                    return
-            }
-            console.log("Error");
+function getCookie(name) {
+    var cookieArr = document.cookie.split(";");
+    for(let i = 0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+        if(name === cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
         }
-
-    };
-    xhttp.open("GET", api_url + "/relay/toggle/", true);
-    xhttp.send();
+    }
+    return null;
 }
 
-function statusRelay() {
+function logged_in() {
     var xhttp;
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
             if (this.status === 200) {
-                if (this.responseText !== null && this.responseText !== '') {
-                    let relay_info = JSON.parse(this.responseText);
-                    relay_info_span.innerText = relay_info["POWER"]
+                let is_logged_in = getCookie("logged_in");
+                if (is_logged_in) {
+                    if (is_logged_in === "true") {
+                        setTimeout(() => {
+                            statusRelay(1);
+                            statusRelay(2);
+                            setInterval(function() {statusRelay(1);statusRelay(2);}, 20000);
+                        })
+                    }
+
                 }
                 return
             }
@@ -78,8 +77,79 @@ function statusRelay() {
         }
 
     };
-    xhttp.open("GET", api_url + "/relay/1/toggle/status/", true);
+    xhttp.open("GET", api_url + "/logged_in", true);
     xhttp.send();
+}
+
+function toggleRelay(id) {
+    var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                if (this.responseText !== null && this.responseText !== '') {
+                    let relay_info = JSON.parse(this.responseText);
+                    set_buttons_colors(relay_info, id);
+                }
+                return
+            }
+            console.log("Error");
+        }
+
+    };
+    xhttp.open("GET", api_url + "/relay/" + id + "/toggle/", true);
+    xhttp.send();
+}
+
+function statusRelay(id) {
+    var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                if (this.responseText !== null && this.responseText !== '') {
+                    let relay_info = JSON.parse(this.responseText);
+                    set_buttons_colors(relay_info, id)
+                }
+                return
+
+            }
+            console.log("Error");
+        }
+
+    };
+    xhttp.open("GET", api_url + "/relay/" + id + "/toggle/status/", true);
+    xhttp.send();
+}
+
+function set_buttons_colors(relay_info, id) {
+    if (id == 1) {
+        if (relay_info["POWER"] === "OFF") {
+            left_button.classList.add("indicatorOFF")
+            left_button.classList.remove("indicatorON")
+            return;
+        }
+
+        if (relay_info["POWER"] === "ON") {
+            left_button.classList.add("indicatorON")
+            left_button.classList.remove("indicatorOFF")
+            return;
+        }
+        return;
+    }
+
+    if (id == 2) {
+        if (relay_info["POWER"] === "OFF") {
+            right_button.classList.add("indicatorOFF")
+            right_button.classList.remove("indicatorON")
+            return;
+        }
+
+        if (relay_info["POWER"] === "ON") {
+            right_button.classList.add("indicatorON")
+            right_button.classList.remove("indicatorOFF")
+        }
+    }
 }
 
 
@@ -132,8 +202,8 @@ function drawBar(data) {
             type: "column",	
             indexLabel: "{y}C",
             dataPoints: [
-                {label: "Air", y: data[0], color: "red"},
-                {label: "Water", y: data[1], color: "blue"},
+                {label: "Air", y: data[1], color: "red"},
+                {label: "Water", y: data[0], color: "blue"},
         ]
         },
         ]
@@ -163,23 +233,23 @@ function drawBar(data) {
     function updateChart1() {
         sk(function(output) {
             var barColor = "#ADEBD2";
-            if(output[0]>40){
+            if(output[1]>40){
                 barColor = "#F8A0B0";
             }
-            else if(output[0]<35){
+            else if(output[1]<35){
                 barColor = "#A8E9F0";
             };
-            a_temp = {label: "Air", y: output[0], color: barColor};
+            a_temp = {label: "Air", y: output[1], color: barColor};
             barColor = "#ADEBD2";
-            if(output[1]>28){
+            if(output[0]>28){
                 barColor = "#F8A0B0";
             }
-            else if(output[1]<25){
+            else if(output[0]<25){
                 barColor = "#A8E9F0";
             };
-            w_temp = {label: "Water", y: output[1], color: barColor};
-            chart1.options.data[0].dataPoints[0] = a_temp;
-            chart1.options.data[0].dataPoints[1] = w_temp;
+            w_temp = {label: "Water", y: output[0], color: barColor};
+            chart1.options.data[0].dataPoints[1] = a_temp;
+            chart1.options.data[0].dataPoints[0] = w_temp;
             chart1.render();
         });
     }
@@ -216,5 +286,5 @@ function on_text_graph_toggle() {
 }
 
 get_sensor**REMOVED**();
-statusRelay();
+logged_in();
 on_text_graph_toggle();

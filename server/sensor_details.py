@@ -21,8 +21,8 @@ except ImportError:
 
 CORS_ip = "*"
 relay_ips = {
-    "1": "192.168.1.151",
-    "2": "192.168.1.184"
+    "1": "10.0.5.111",
+    "2": "10.0.5.25"
 }
 
 
@@ -92,8 +92,8 @@ def get_sensors_aquarium():
     response.headers["Content-Type"] = "application/json"
     response.headers["Access-Control-Allow-Origin"] = CORS_ip
     try:
-        r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=5)
-        r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=5)
+        r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=10)
+        r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=10)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:
@@ -108,9 +108,9 @@ def get_sensors_aquarium():
 
         response_text["date"] = date_time.strftime("%d.%m.%Y")
         response_text["time"] = date_time.strftime("%H:%M:%S")
-        response_text["w_temp"] = r_json["StatusSNS"]["DHT11"]["Temperature"]
-        response_text["a_temp"] = r2_json["StatusSNS"]["DHT11"]["Temperature"]
-        response_text["a_hum"] = r2_json["StatusSNS"]["DHT11"]["Humidity"]
+        response_text["w_temp"] = r_json["StatusSNS"]["DS18B20"]["Temperature"]
+        response_text["a_temp"] = r2_json["StatusSNS"]["SI7021"]["Temperature"]
+        response_text["a_hum"] = r2_json["StatusSNS"]["SI7021"]["Humidity"]
         response_text["temp_unit"] = r_json["StatusSNS"]["TempUnit"]
         response.data = json.dumps(response_text)
         response.status_code = 200
@@ -133,10 +133,10 @@ def toggle_relay(relay_id, to_state=None):
 
     try:
         if not to_state:
-            r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=0.5)
+            r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=10)
         else:
             request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On", "Off") else "http://" + ip + "/cm?cmnd=Power"
-            r = requests.get(request, timeout=0.5)
+            r = requests.get(request, timeout=10)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:
