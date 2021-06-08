@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="sk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartSchool</title>
+        <link rel="stylesheet" href="SmartSchoolStyle2.css">
+        <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="index.js"></script>
+    </head>
+
+    <body>
+
+        <script>
+
+            
+            //TEMPORARY DATA FOR TESTING
+            room_details_001 = { "id":"room_001", "temperature": 10.0, "humidity": 37.0, "co2": 40 }
+            room_details_002 = { "id":"room_002", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_003 = { "id":"room_003", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_004 = { "id":"room_004", "temperature": 21.0, "humidity": 60.0, "co2": 40 }
+            room_details_005 = { "id":"room_005", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            room_details_006 = { "id":"room_006", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
+            room_details_007 = { "id":"room_007", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_008 = { "id":"room_008", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_009 = { "id":"room_009", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_010 = { "id":"room_010", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            room_details_011 = { "id":"room_011", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_012 = { "id":"room_012", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_013 = { "id":"room_013", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            room_details_014 = { "id":"room_014", "temperature": 20.0, "humidity": 37.0, "co2": 40 }
+            room_details_015 = { "id":"room_015", "temperature": 23.0, "humidity": 40.0, "co2": 40 }
+            room_details_016 = { "id":"room_016", "temperature": 22.0, "humidity": 39.0, "co2": 39}
+            room_details_017 = { "id":"room_017", "temperature": 21.0, "humidity": 37.0, "co2": 40 }
+            room_details_018 = { "id":"room_018", "temperature": 22.0, "humidity": 38.0, "co2": 38}
+            rooms = [room_details_001, room_details_002, room_details_003, room_details_004, room_details_005,
+                    room_details_006, room_details_007, room_details_008, room_details_009, room_details_010,
+                    room_details_011, room_details_012, room_details_013, room_details_014, room_details_015,
+                    room_details_016, room_details_017, room_details_018,]
+            
+
+            document.addEventListener("DOMContentLoaded", function(){updateTableData()});
+        </script>
+
+
+
+        <nav>
+            <ul id="header">
+                <li id="logo">SMARTSCHOOL</li>
+                <li><a href=index.html>LAYOUT</a></li>
+                <li><a href=table.html>TABLE</a></li>
+                <li><a href=aquarium.html>AQUARIUM</a></li>
+            </ul>
+        </nav>   
+        
+        
+        <div class="tableDIV2">
+        <div class="tableDIV">
+            
+        <h1>Prízemie</h1>
+        <br><br>
+        <table class="contentTable">
+            <thead>
+                <tr>
+                    <td>Trieda</td>
+                    <td>Teplota</td>
+                    <td>Vlhkosť</td>
+                    <td>CO<sub>2</sub></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  id="room_001">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr id="room_002">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr  id="room_003">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr id="room_004">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+                <tr  id="room_005">
+                    <td>Trieda</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>            
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="tableDIV">
+            
+        <h1>1.Poschodie</h1>
+        <br><br>
+        <table class="contentTable">
+            <thead>
+            <tr>
+                <td>Trieda</td>
+                <td>Teplota</td>
+                <td>Vlhkosť</td>
+                <td>CO<sub>2</sub></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="room_006">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_007">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_008">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_009">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_010">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_011">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_012">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_013">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_014">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_015">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_016">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_017">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+            <tr id="room_018">
+                <td>Trieda</td>
+                <td></td>
+                <td></td>
+                <td></td>            
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        </div>
+    
+        
+        
+    </body>
+</html>

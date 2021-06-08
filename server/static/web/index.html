@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="sk">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SmartSchool</title>
+        <link rel="stylesheet" href="SmartSchoolStyle2.css">
+        <script src="index.js"></script>
+
+    </head>
+    
+    <body id="bodyID">
+        <div class='spinner-wrapper'>
+            <p class="smart_school_name">SMART SCHOOL</p>
+            <div class="spinner"></div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/376964bc27.js" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+        <div id="obsah">
+            <script>
+                document.getElementById("obsah").style.display = "none";
+            </script>
+
+
+        <nav>
+            <ul id="header">
+                <li id="logo">SMARTSCHOOL</li>
+                <li><a href=index.html>LAYOUT</a></li>
+                <li><a href=table.html>TABLE</a></li>
+                <li><a href=aquarium/aquarium.html>AQUARIUM</a></li>
+                <div id="alignRight">
+                    <div id="darkModeSwitch">
+                        <input type="checkbox" class="darkModeCheckBox" id="darkModeCheckBox">
+                        <label for="darkModeCheckBox" class="label">
+                            <i class="fas fa-moon"></i>
+                            <i class="fas fa-sun"></i>
+                            <div class="ball"></div>
+                        </label>
+                    </div>
+                </div>
+            </ul>
+        </nav>  <br><br><br>
+
+        <h1 id="aa">Prízemie</h1>
+
+        <div class="button_div">
+            <button id=button_refresh onclick="update_all_room_details()"> <i class="fas fa-sync-alt"></i> </button>
+        </div>  <br>
+
+        <div id=Prízemie><br>
+
+        <div class="cell">
+
+            <div class="room topLeft" style="width:10%" ></div>
+
+            <div class="room lighter" id="3C" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room"></div>
+
+            <div class="room darker" id="4C" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room lighter" id="room_003" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room" style="width:15%"></div>
+            <div class="chodba" style="width:10%"></div>
+            <div class="room topRight" style="width:45%"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div class="room "></div>
+            <div class="room chodba" style="width:95%"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div class="room"></div>
+            <div class="room chodba"></div>
+            <div style="width: 35%"></div>
+            <div class="room"></div>
+            <div class="room chodba"></div>
+            <div style="width: 35%"></div>
+            <div class="room chodba"></div>
+            <div class="room"></div>
+
+        </div>
+
+        <div class="cell">
+
+            <div class="room bottomLeft"></div>
+            <div class="room chodba bottomRight"></div>
+            <div style="width: 35%"></div>
+            <div class="room"></div>
+            <div class="room chodba"></div>
+            <div style="width: 35%"></div>
+            <div class="room chodba"></div>
+            <div class="room darker" id="room_004" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+        </div>
+
+
+
+        <div class="cell" style="height: 20%;">
+
+            <div style="width: 40%"></div>
+            <div class="room" style="width:20%; border-radius:10px;"></div>
+            <div style="width: 30%"></div>
+            <div class="room chodba"></div>
+            <div class="room"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div style="width: 90%"></div>
+            <div class="room chodba bottomLeft"></div>
+            <div class="room lighter bottomRight" id="room_005" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <h1>1.Poschodie</h1>
+    <div id=prvePoschodie><br>
+
+
+
+        <div class="cell">
+
+            <div class="room topLeft" style="width:10%"></div>
+
+            <div class="room darker" id="3A" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room lighter" id="room_007" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room darker" id="room_008" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room lighter" id="room_009" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room"></div>
+
+            <div class="room darker" id="room_010" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room lighter" id="room_011" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room" style="width:10%"></div>
+
+            <div class="room darker" id="room_012" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room"></div>
+
+            <div class="room lighter" id="room_013" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room darker" id="room_014" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room"></div>
+
+            <div class="room lighter" id="room_015" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+            <div class="room topRight" style="width:15%"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div class="room"></div>
+            <div class="chodba" style="width:90%"></div>
+            <div class="room"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div class="room"></div>
+            <div class="room chodba"></div>
+            <div style="width: 35%"></div>
+            <div class="room"></div>
+            <div class="room chodba"></div>
+            <div style="width: 35%"></div>
+            <div class="room chodba"></div>
+            <div class="room lighter" id="room_016" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div class="room bottomLeft"></div>
+            <div class="room chodba bottomRight"></div>
+            <div style="width: 35%"></div>
+            <div class="room bottomLeft"></div>
+            <div class="room chodba bottomRight"></div>
+            <div style="width: 35%"></div>
+            <div class="room chodba"></div>
+            <div class="room" ></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div style="width: 90%"></div>
+            <div class="room chodba"></div>
+            <div class="room lighter" id="room_017" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div style="width: 90%"></div>
+            <div class="room chodba"></div>
+            <div class="room"></div>
+
+        </div>
+
+
+
+        <div class="cell">
+
+            <div style="width: 90%"></div>
+            <div class="room chodba bottomLeft"></div>
+            <div class="room lighter bottomRight" id="room_018" onclick="openDetails(this.id)">
+                <p><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p>CO<sub>2</sub> 500ppm </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    
+    
+
+        <div class="popUpWindow" id="popUpWindowID">
+            <div class="popUp">
+                <h1 id="classNamePopUp" class=detailsWindow>Detaily o triede</h1>
+                <br>
+                <div id="detailsInPopUp">
+                <p class=detailsWindow><span class="fas fa-thermometer-half fa-xs"></span> 25°C</p>
+                <p class=detailsWindow><span class="fas fa-tint fa-xs"></span> 35%</p>
+                <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
+                <p class=detailsWindow>CO<sub>2</sub> 500ppm </p>
+                </div>
+                <br><br>
+                <div class="button_div" style="height: 30px">
+                <br><br><button class="leftButton" onclick="candle(selected_class)">Show Candle</button>
+                <button class="rightButton" onclick="line(selected_class)">Show Line</button><br><br>
+                </div><br>
+                <div><button class="leftButton" onclick="dateSub(selected_class)"><span class="fas fa-chevron-left"></span></button><button class="rightButton" onclick="dateAdd(selected_class)"><span class="fas fa-chevron-right"></span></button></div><br><br>
+                
+                <div id="detailsInPopUpPt2">
+                </div>
+
+                <br>
+                <button id="close">
+                    Zavrieť
+                </button>
+                <br><br>
+            </div>
+        </div>
+        </div>
+    </body>
+
+</html>
+
+
