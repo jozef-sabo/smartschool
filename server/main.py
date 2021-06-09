@@ -351,6 +351,27 @@ def toggle_relay(relay_id, state=None):
     return response
 
 
+@app.route('/api/feed/<rotates_count>/')
+# @app.route('/api/feed/')
+def feed(rotates_count=1):
+    if not session.get("is_admin"):
+        return "", 401
+
+    try:
+        rotates_count = int(rotates_count)
+
+    except Exception as e:
+        return "", 401
+
+    rotates_count = 5 if rotates_count > 5 else rotates_count
+    rotates_count = 0 if rotates_count < 0 else rotates_count
+
+    response = sensor_details.feed(rotates_count)
+    print(response.data)
+
+    return response
+
+
 @app.route('/login', methods=['POST'])
 def login_post():
     if not session.get("is_admin"):

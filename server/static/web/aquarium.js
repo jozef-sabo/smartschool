@@ -1,15 +1,15 @@
 let info;
 let graph_div = document.getElementById("graphDIV");
 let info_div = document.getElementById("infoDIV");
-let left_button = document.getElementById("leftButton");
-let right_button = document.getElementById("rightButton");
+let air_button = document.getElementById("leftButton");
+let bulb_button = document.getElementById("rightButton");
 let interval_id = 0;
 let text_graph = 2;
 
 // const api_url = "http://10.0.7.174:5000/api";
 const api_url = "http://10.0.7.59:5000/api";
 
-function get_sensor**REMOVED**() {
+function get_sensors_data() {
     var xhttp;
     xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -101,6 +101,25 @@ function toggleRelay(id) {
     xhttp.send();
 }
 
+function pustKrmitko(pocetOtacok) {
+    var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                if (this.responseText !== null && this.responseText !== '') {
+                    console.log("Done");
+                }
+                return
+            }
+            console.log("Error");
+        }
+
+    };
+    xhttp.open("GET", api_url + "/feed/" + pocetOtacok, true);
+    xhttp.send();
+}
+
 function statusRelay(id) {
     var xhttp;
     xhttp = new XMLHttpRequest();
@@ -125,14 +144,14 @@ function statusRelay(id) {
 function set_buttons_colors(relay_info, id) {
     if (id == 1) {
         if (relay_info["POWER"] === "OFF") {
-            left_button.classList.add("indicatorOFF")
-            left_button.classList.remove("indicatorON")
+            air_button.classList.add("indicatorOFF")
+            air_button.classList.remove("indicatorON")
             return;
         }
 
         if (relay_info["POWER"] === "ON") {
-            left_button.classList.add("indicatorON")
-            left_button.classList.remove("indicatorOFF")
+            air_button.classList.add("indicatorON")
+            air_button.classList.remove("indicatorOFF")
             return;
         }
         return;
@@ -140,14 +159,14 @@ function set_buttons_colors(relay_info, id) {
 
     if (id == 2) {
         if (relay_info["POWER"] === "OFF") {
-            right_button.classList.add("indicatorOFF")
-            right_button.classList.remove("indicatorON")
+            bulb_button.classList.add("indicatorOFF")
+            bulb_button.classList.remove("indicatorON")
             return;
         }
 
         if (relay_info["POWER"] === "ON") {
-            right_button.classList.add("indicatorON")
-            right_button.classList.remove("indicatorOFF")
+            bulb_button.classList.add("indicatorON")
+            bulb_button.classList.remove("indicatorOFF")
         }
     }
 }
@@ -197,6 +216,7 @@ function drawBar(data) {
         axisY: [{
             title: " °C",
             includeZero: true,
+            maximum: 60,
         }],
         data: [{
             type: "column",	
@@ -217,6 +237,7 @@ function drawBar(data) {
         },
         axisY: [{
             title: " %",
+            maximum: 100,
             includeZero: true,
         }],
         data: [{
@@ -281,10 +302,10 @@ function on_text_graph_toggle() {
     info_div.style.display = "initial"
     graph_div.style.display = "none"
     text_graph = 1
-    interval_id = setInterval(function() {get_sensor**REMOVED**()}, 10000);
+    interval_id = setInterval(function() {get_sensors_data()}, 10000);
 
 }
 
-get_sensor**REMOVED**();
+get_sensors_data();
 logged_in();
 on_text_graph_toggle();

@@ -24,6 +24,7 @@ relay_ips = {
     "1": "10.0.5.111",
     "2": "10.0.5.25"
 }
+motor_ip = "10.0.4.130"
 
 
 
@@ -137,6 +138,23 @@ def toggle_relay(relay_id, to_state=None):
         else:
             request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On", "Off") else "http://" + ip + "/cm?cmnd=Power"
             r = requests.get(request, timeout=10)
+    except requests.exceptions.ConnectionError:
+        return cant_connect_to_aquarium(response)
+    else:
+        response.data = r.text
+        response.status_code = 200
+        return response
+
+def feed(rotates_count):
+    response = flask.Response()
+    response.headers["Content-Type"] = "application/json"
+    response.headers["Access-Control-Allow-Origin"] = CORS_ip
+
+    r = requests.Response
+    angle = rotates_count * 360
+
+    try:
+        r = requests.get("http://" + motor_ip + "/cm?cmnd=MotorRotate -" + str(angle), timeout=15)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:

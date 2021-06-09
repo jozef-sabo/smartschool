@@ -139,12 +139,16 @@ button:active{
 }
 #rightButton{
     border-radius: 0 5px 5px 0;
-    padding: 18px 50px; 
+    padding: 18px 33px;
+}
+#middleButton{
+    padding: 18px 33px;
 }
 #leftButton{
     border-radius: 5px 0 0 5px;
-    padding: 18px 50px;
+    padding: 18px 33px;
 }
+
 img{
     max-height:100%;
 }
@@ -193,6 +197,9 @@ img{
 .indicatorOFF{
     border-bottom: 6px solid #F24061;
 }
+.indicatorNONE{
+    border-bottom: 6px solid #A2D2CD;
+}
 #navbarGrid{
     display: grid;
     grid-template-columns:20% 1fr 20%;
@@ -205,19 +212,59 @@ img{
     font-size:0.8em;
     color:#ADADAD;
 }
-#SmartAquariumDIV{
+.SmartAquariumDIV{
     display: flex;
     justify-content: center;
     align-content: center;
 }
+h4{
+    line-height: 0px
+}
 @media only screen and (max-width: 550px){
+    h1{
+        font-size: 1em;
+    }
+    a{
+        font-size:0.6em;
+    }
+    p{
+        font-size: 0.6em;
+    }
+    #camera{
+        height: 25vh;
+        width: 25vh;
+        box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
+    }
     #gridDIV{
     grid-template-columns:1fr;
-    grid-template-rows: 1fr 1fr 0.5fr 0.5fr;
+    grid-template-rows: 1fr 1.2fr 0.5fr 0.5fr;
         grid-template-areas:
             "info"
             "camera"
             "button1"
             "button2";
     }
+    #bodyDIV{
+        height: 80vh;
+        align-self: flex-end;
+        margin-bottom: 5vh;
+    }
+
+    #rightButton{
+        border-radius: 0 5px 5px 0;
+        padding: 9px 16px;
+    }
+    #middleButton{
+        padding: 9px 16px;
+    }
+    #leftButton{
+        border-radius: 5px 0 0 5px;
+        padding: 9px 16px;
+    }
+    #infoGraph{
+    border-radius: 5px;
+    font-size:calc(14px + 0.5vw);
+    padding: 25px 30px;
+    }
 }
+
