@@ -197,9 +197,6 @@ img{
 .indicatorOFF{
     border-bottom: 6px solid #F24061;
 }
-.indicatorNONE{
-    border-bottom: 6px solid #A2D2CD;
-}
 #navbarGrid{
     display: grid;
     grid-template-columns:20% 1fr 20%;
@@ -218,7 +215,7 @@ img{
     align-content: center;
 }
 h4{
-    line-height: 0px
+    line-height: 0;
 }
 @media only screen and (max-width: 550px){
     h1{
