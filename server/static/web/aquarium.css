@@ -3,7 +3,6 @@ header{
     text-align: center;
     margin: 0;
     padding: 0;
-    padding:0;
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -16,8 +15,15 @@ nav{
     width:100%; 
     position:fixed;
     top:0;
-    box-shadow: 0px 5px 50px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 50px rgba(0, 0, 0, 0.1);
     font-family: 'Audiowide', cursive;
+}
+a{
+    color:#ADADAD;
+    text-align: center;
+    line-height: 0;
+    font-size: 18px;
+    text-decoration: none;
 }
 body{
     background-image: linear-gradient(to right top,#CEFDFF, #A2D2CD);
@@ -30,7 +36,7 @@ body{
 p{
     font-family: 'Kanit', sans-serif;
     font-size: 1em;
-    color:#858585;
+    color:#ADADAD;
 }
 #bodyDIV{
     display: flex;
@@ -38,7 +44,7 @@ p{
     width: 70vw;
     height: 70vh;
     background: linear-gradient( to right bottom, rgba(251, 254, 249, 0.7), rgba(251, 254, 249, 0.4));
-    box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     
 }
@@ -54,7 +60,10 @@ p{
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 10% 1fr 20%;
+    grid-template-rows:1fr 20%;
+    grid-template-areas:
+        "info camera"
+        "button1 button2";
 }
 #statusDIV{
     grid-column-start: 1;
@@ -69,6 +78,7 @@ p{
     display: flex;
     justify-content: center;
     align-items: center;
+    grid-area: info;
 }
 #info{
     font-size:calc(14px + 0.5vw);
@@ -79,19 +89,26 @@ p{
     display: flex;
     justify-content: center;
     align-items: center;
+    grid-area: camera;
 }
 #camera{
     display: flex;
     height: 20vw;
     width: 20vw; 
     background-color: rgba(251, 254, 249, 0.6);
-    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     border-radius: 6px;   
 }
-#buttonsDIV{
-    grid-column-start: 1;
-    grid-column-end: 3;
+#buttonsDIV1{
+    grid-area: button1;
+    display: grid;
+}
+#buttonsDIV2{
+    grid-area: button2;
+    display: grid;
+}
+#buttonsFlex{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,8 +123,7 @@ button{
     color:white;
     border:none;
     transition:ease-out 0.4s;
-    font-size: 22px;
-    line-height: 0px;
+    line-height: 0;
     font-family: 'Kanit', sans-serif;
     font-size: 1.4em;
 }
@@ -122,13 +138,130 @@ button:active{
     cursor: pointer;
 }
 #rightButton{
-    border-radius: 0px 5px 5px 0px;
-    padding: 18px 50px; 
+    border-radius: 0 5px 5px 0;
+    padding: 18px 33px;
+}
+#middleButton{
+    padding: 18px 33px;
 }
 #leftButton{
-    border-radius: 5px 0px 0px 5px;
-    padding: 18px 50px;
+    border-radius: 5px 0 0 5px;
+    padding: 18px 33px;
 }
+
 img{
     max-height:100%;
 }
+#graphFlex{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#tempBar{
+    background-color: rgba(251, 254, 249, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.05);
+}
+#humidBar{
+    background-color: rgba(251, 254, 249, 0.4);
+    border-radius: 10px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.05);
+}
+#infoFlex{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4em;
+}
+#infoGraphDIV{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#infoGraph{
+    border-radius: 5px;
+    font-size:calc(14px + 0.5vw);
+    padding: 30px 50px; 
+}
+.indicatorON{
+    border-bottom: 6px solid #3ACF94;
+}
+.indicatorOFF{
+    border-bottom: 6px solid #F24061;
+}
+#navbarGrid{
+    display: grid;
+    grid-template-columns:20% 1fr 20%;
+}
+#SmartSchoolLinkDIV{
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    margin-left: 1vw;
+    font-size:0.8em;
+    color:#ADADAD;
+}
+.SmartAquariumDIV{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+h4{
+    line-height: 0;
+}
+@media only screen and (max-width: 550px){
+    h1{
+        font-size: 1em;
+    }
+    a{
+        font-size:0.6em;
+    }
+    p{
+        font-size: 0.6em;
+    }
+    #camera{
+        height: 25vh;
+        width: 25vh;
+        box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
+    }
+    #gridDIV{
+    grid-template-columns:1fr;
+    grid-template-rows: 1fr 1.2fr 0.5fr 0.5fr;
+        grid-template-areas:
+            "info"
+            "camera"
+            "button1"
+            "button2";
+    }
+    #bodyDIV{
+        height: 80vh;
+        align-self: flex-end;
+        margin-bottom: 5vh;
+    }
+
+    #rightButton{
+        border-radius: 0 5px 5px 0;
+        padding: 9px 16px;
+    }
+    #middleButton{
+        padding: 9px 16px;
+    }
+    #leftButton{
+        border-radius: 5px 0 0 5px;
+        padding: 9px 16px;
+    }
+    #infoGraph{
+    border-radius: 5px;
+    font-size:calc(14px + 0.5vw);
+    padding: 25px 30px;
+    }
+}
+

@@ -1,8 +1,7 @@
 import json
-
-import mysql.connector
 import datetime
 import re
+import mysql.connector
 import requests
 import flask
 
@@ -22,9 +21,10 @@ except ImportError:
 
 CORS_ip = "*"
 relay_ips = {
-    "1": "192.168.1.151",
-    "2": "192.168.1.184"
+    "1": "10.0.5.111",
+    "2": "10.0.5.25"
 }
+motor_ip = "10.0.4.130"
 
 
 
@@ -45,14 +45,19 @@ units = {}
 
 
 def get_all_sensors():
-    connection = mysql.connector.connect(host=DATABASE_HOST, database=DATABASE_NAME, user=DATABASE_USER,
+    connection = mysql.connector.connect(host=DATABASE_HOST,
+                                         database=DATABASE_NAME,
+                                         user=DATABASE_USER,
                                          password=DATABASE_PASSWORD, port=DATABASE_PORT)
-    # connection = mysql.connector.connect(host="localhost", database=L_DATABASE_NAME, user=L_DATABASE_USER,
+    # connection = mysql.connector.connect(host="localhost",
+    #                                      database=L_DATABASE_NAME,
+    #                                      user=L_DATABASE_USER,
     #                                      password=L_DATABASE_PASSWORD)
     cursor = connection.cursor()
 
     """ AK BY SENZORY POSIELALI V CASE (limitne) BLIZIACOM SA datetime A POSIEALI BY VSETKY
-    cursor.execute("SELECT `room_number`, `sensor_type`, `sensor_value`, `sensor_unit` FROM `rooms` r WHERE r.`date_time` ="
+    cursor.execute("SELECT `room_number`, `sensor_type`,
+                    `sensor_value`, `sensor_unit` FROM `rooms` r WHERE r.`date_time` ="
                    " (SELECT r.`date_time` FROM `rooms` r ORDER BY r.`date_time` DESC LIMIT 1) ORDER BY `room_number`")
     """
 
@@ -88,10 +93,8 @@ def get_sensors_aquarium():
     response.headers["Content-Type"] = "application/json"
     response.headers["Access-Control-Allow-Origin"] = CORS_ip
     try:
-        print("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010")
-        r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=5)
-        print("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010")
-        r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=5)
+        r = requests.get("http://" + relay_ips.get("1") + "/cm?cmnd=status%2010", timeout=10)
+        r2 = requests.get("http://" + relay_ips.get("2") + "/cm?cmnd=status%2010", timeout=10)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:
@@ -106,9 +109,9 @@ def get_sensors_aquarium():
 
         response_text["date"] = date_time.strftime("%d.%m.%Y")
         response_text["time"] = date_time.strftime("%H:%M:%S")
-        response_text["w_temp"] = r_json["StatusSNS"]["DHT11"]["Temperature"]
-        response_text["a_temp"] = r2_json["StatusSNS"]["DHT11"]["Temperature"]
-        response_text["a_hum"] = r2_json["StatusSNS"]["DHT11"]["Humidity"]
+        response_text["w_temp"] = r_json["StatusSNS"]["DS18B20"]["Temperature"]
+        response_text["a_temp"] = r2_json["StatusSNS"]["SI7021"]["Temperature"]
+        response_text["a_hum"] = r2_json["StatusSNS"]["SI7021"]["Humidity"]
         response_text["temp_unit"] = r_json["StatusSNS"]["TempUnit"]
         response.data = json.dumps(response_text)
         response.status_code = 200
@@ -131,10 +134,27 @@ def toggle_relay(relay_id, to_state=None):
 
     try:
         if not to_state:
-            r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=0.5)
+            r = requests.get("http://" + ip + "/cm?cmnd=Power%20TOGGLE", timeout=10)
         else:
-            request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On","Off") else "http://" + ip + "/cm?cmnd=Power"
-            r = requests.get(request, timeout=0.5)
+            request = "http://" + ip + "/cm?cmnd=Power%20" + to_state if to_state in ("On", "Off") else "http://" + ip + "/cm?cmnd=Power"
+            r = requests.get(request, timeout=10)
+    except requests.exceptions.ConnectionError:
+        return cant_connect_to_aquarium(response)
+    else:
+        response.data = r.text
+        response.status_code = 200
+        return response
+
+def feed(rotates_count):
+    response = flask.Response()
+    response.headers["Content-Type"] = "application/json"
+    response.headers["Access-Control-Allow-Origin"] = CORS_ip
+
+    r = requests.Response
+    angle = rotates_count * 360
+
+    try:
+        r = requests.get("http://" + motor_ip + "/cm?cmnd=MotorRotate -" + str(angle), timeout=15)
     except requests.exceptions.ConnectionError:
         return cant_connect_to_aquarium(response)
     else:

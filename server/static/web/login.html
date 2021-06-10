@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<style>
+ * {
+box-sizing: border-box;
+font-family: 'Kanit', sans-serif;
+color:#ADADAD;
+}
+*:focus {
+outline: none;
+}
+body {
+font-family: Arial;
+padding: 50px;
+background-image: linear-gradient(to right top,#CEFDFF, #A2D2CD);
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+.login {
+margin: 20px auto;
+width: 300px;
+}
+.login-screen {
+padding: 20px;
+border-radius: 5px;
+background: linear-gradient( to right bottom, rgba(251, 254, 249, 0.7), rgba(251, 254, 249, 0.4));
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+border-radius: 5px;
+}
+.app-title {
+text-align: center;
+font-size: 0.8em;
+}
+.login-form {
+text-align: center;
+}
+.control-group {
+margin-bottom: 10px;
+}
+input {
+text-align: center;
+background:rgba(255, 255, 255, 0.3);
+border: 0px;
+border-radius: 3px;
+font-size: 16px;
+font-weight: 200;
+padding: 10px 0;
+width: 250px;
+transition: border .5s;
+}
+input:focus {
+border: 2px solid #A2D2CD;
+box-shadow: none;
+}
+.btn {
+border: 2px solid transparent;
+background-color: #A2D2CD;
+color: #ffffff;
+font-size: 16px;
+line-height: 25px;
+padding: 10px 0;
+text-decoration: none;
+text-shadow: none;
+border-radius: 3px;
+box-shadow: none;
+transition: 0.25s;
+display: block;
+width: 250px;
+margin: 0 auto;
+}
+.btn:hover {
+background-color: #9ac0b0;
+}
+.login-link {
+font-size: 12px;
+display: block;
+margin-top: 12px;
+}
+ </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500&display=swap" rel="stylesheet">
+  <title>Login</title>
+</head>
+<body>
+<form action="/login" method="POST">
+<div class="login">
+  <div class="login-screen">
+    <div class="app-title">
+      <h1>Login</h1>
+    </div>
+  <div class="login-form">
+    <div class="control-group">
+      <label>
+        <input type="text" class="login-field" value="" placeholder="username" name="username">
+        <span class="login-field-icon fui-user"></span>
+      </label>
+    </div>
+    <div class="control-group">
+      <label>
+        <input type="password" class="login-field" value="" placeholder="password" name="password">
+        <span class="login-field-icon fui-lock"></span>
+      </label>
+
+    </div>
+     <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block">
+   </div>
+  </div>
+ </div>
+</form>
+</body>
+</html>

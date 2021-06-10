@@ -19,19 +19,20 @@ def createDate(year, month, day, hour):
 
 
 # data vo formate: datetime[0], value[1]
-def movingAvg(npData):
+def movingAvg(np_data):
     result = []
-    if not npData:
-        return npData
-    for idx in range(len(npData)-2):
-        point3avg = round((npData[idx][1] + npData[idx+1][1] + npData[idx+2][1]) / 3 , 2)
-        # print(npData[idx][1] , npData[idx+1][1] , npData[idx+2][1])
+    if not np_data:
+        return np_data
+    for idx in range(len(np_data)-2):
+        point3avg = round((np_data[idx][1] + np_data[idx+1][1] + np_data[idx+2][1]) / 3, 2)
+        # print(np_data[idx][1] , np_data[idx+1][1] , np_data[idx+2][1])
         # print(point3avg)
-        result.append([npData[idx+1][0] , point3avg])
-        # npData[idx+1][1] = point3avg
+        result.append([np_data[idx+1][0], point3avg])
+        # np_data[idx+1][1] = point3avg
     return result
 
-def eliminateNoise(values, std_factor = 3):
+
+def eliminateNoise(values, std_factor=3):
     if not values:
         return values
     values = np.array(values)
@@ -46,7 +47,8 @@ def eliminateNoise(values, std_factor = 3):
 
     return final_values
 
-def sigma(values, std_factor = 3):
+
+def sigma(values, std_factor=3):
     if not values:
         return [0, 0]
     values = np.array(values)
@@ -58,9 +60,9 @@ def sigma(values, std_factor = 3):
 
     return [spodna, dolna]
 
-# def filterByDateTime(npData, myDate):
+# def filterByDateTime(np_data, myDate):
 #     result = []
-#     for row in npData:
+#     for row in np_data:
 
 #         # if day == '0':
 #         #     mydate = np.datetime64(year+'-'+month)
@@ -78,33 +80,34 @@ def sigma(values, std_factor = 3):
 #     return np.array(result)
 
 
-# def filterByRoom(npData, room):
+# def filterByRoom(np_data, room):
 #     result = []
-#     for row in npData:
+#     for row in np_data:
 #         if room == row[4]:
 #             result.append((row[5], row[1], row[2]))
 #     return np.array(result)
 
 
-def parsePlot(npData):
+def parsePlot(np_data):
     # returns data in format [[minute of the day][value]]
     result = []
-    if not npData:
-        return npData
-    for row in npData:
+    if not np_data:
+        return np_data
+    for row in np_data:
         row = list(row)
 
-        result.append([round(((int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)/60), 2), row[1]])
+        result.append([round(((int(row[0].strftime("%M"))+int(row[0].strftime("%H"))*60)/60), 2),
+                       row[1]])
     return result
 
 
 # funkcia pre candlestick chart
-def parseCandle(npData):
+def parseCandle(np_data):
     result = []
-    if not npData:
-        return npData
+    if not np_data:
+        return np_data
     # returns data in format [[hour],[value_1, value_2,...,value_n]]
-    for row in npData:
+    for row in np_data:
         row = list(row)
         row[0] = int(row[0].strftime("%H"))
         if not result:
@@ -115,14 +118,20 @@ def parseCandle(npData):
             if element[0] == row[0]:
                 element[1].append(row[1])
                 continue
-            elif element == result[-1]:
+            if element == result[-1]:
                 result.append([row[0]])
                 result[-1].append([row[1]])
                 break
     # returns data in format [[hour], [open - Q3, high - maximum, low - minimum, close - Q1]]
     for element in result:
-        # element[1] = [np.quantile(element[1], .75), maxi(element[1]), mini(element[1]), np.quantile(element[1], .25)]
-        element[1] = [element[1][0], round(np.amax(element[1]), 1), round(np.amin(element[1]), 1), element[1][-1]]
+        # element[1] = [np.quantile(element[1], .75),
+        #               maxi(element[1]),
+        #               mini(element[1]),
+        #               np.quantile(element[1], .25)]
+        element[1] = [element[1][0],
+                      round(np.amax(element[1]), 1),
+                      round(np.amin(element[1]), 1),
+                      element[1][-1]]
 
     return result
 
@@ -149,11 +158,11 @@ def parseCandle(npData):
 #     return result
 
 
-def a0volt(npData):
-    if not npData:
-        return npData
+def a0volt(np_data):
+    if not np_data:
+        return np_data
     result = []
-    for line in npData:
+    for line in np_data:
         line = list(line)
         result.append([line[0], round(line[1]/1024*5.0, 3)])
 
@@ -167,7 +176,7 @@ def avg(val):
         return val
     sum = 0
     if len(val) == 0:
-        return None 
+        return None
     for value in val:
         sum += value[1]
     return round(sum/len(val), 1)
