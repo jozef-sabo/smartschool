@@ -3,13 +3,13 @@ import json
 import time
 from flask import Flask, session, Response, request, render_template
 from flask_session import Session
-import sensor_details
-import smartSchool
-import fetchData
-import login
+import app.sensor_details as sensor_details
+import app.smartSchool as smartSchool
+import app.fetchData as fetchData
+import app.login as login
 
 # SESSION_COOKIE_SECURE = True
-app = Flask(__name__, template_folder="static/web")
+app = Flask(__name__, template_folder="app/static")
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
@@ -430,5 +430,5 @@ def logged_in():
 if __name__ == '__main__':
     # app.run(host="192.168.25.104")
     # app.run(host="10.0.7.174", debug=True)
-    app.run(host="10.0.7.59", debug=True)
-    # app.run(host="localhost", debug=True)
+    # app.run(host="10.0.7.59", debug=True)
+    app.run(host="localhost", debug=True)
