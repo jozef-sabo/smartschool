@@ -79,7 +79,7 @@ function logged_in() {
         }
 
     };
-    xhttp.open("GET", api_url + "/logged_in", true);
+    xhttp.open("GET", api_url + "/../../api/logged_in", true);
     xhttp.send();
 }
 
