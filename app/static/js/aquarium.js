@@ -7,7 +7,9 @@ let interval_id = 0;
 let text_graph = 2;
 
 // const api_url = "http://10.0.7.174:5000/api";
-const api_url = "http://10.0.7.59:5000/api";
+// const api_url = "http://10.0.7.59:5000/api";
+const api_url = "http://localhost:5000/aquarium/api";
+
 
 function get_sensors_data() {
     var xhttp;

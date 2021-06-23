@@ -18,7 +18,8 @@ let classNamePopUp;
 let contentTable;
 
 // const api_url = "http://10.0.7.174:5000/api";
-const api_url = "http://10.0.7.59:5000/api";
+// const api_url = "http://10.0.7.59:5000/api";
+const api_url = "http://localhost:5000/api";
 
 //TEMPORARY DATA FOR TESTING
 const temporary_rooms = {
