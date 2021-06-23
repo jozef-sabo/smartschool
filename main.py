@@ -26,6 +26,11 @@ def send_js(path):
     return send_from_directory('app/static/js', path)
 
 
+@app.route('/favicon.ico')
+def send_favicon():
+    return send_from_directory('app/static/img', "favicon.ico")
+
+
 if __name__ == '__main__':
     # app.run(host="192.168.25.104")
     # app.run(host="10.0.7.174", debug=True)
