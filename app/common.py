@@ -5,7 +5,7 @@ import sys
 script_dir = os.path.dirname( __file__ )
 mymodule_dir = os.path.join(script_dir, '..', "..")
 sys.path.append(mymodule_dir)
-import smartschool.app.modules.login as login
+import smartschool.app.modules.common.login as login
 
 common = Blueprint('common', __name__)
 

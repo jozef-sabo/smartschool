@@ -7,7 +7,7 @@ script_dir = os.path.dirname( __file__ )
 mymodule_dir = os.path.join(script_dir, '..', "..")
 sys.path.append(mymodule_dir)
 
-import smartschool.app.modules.sensor_details as sensor_details
+import smartschool.app.modules.aquarium.sensor_details as sensor_details
 
 
 sensors_response_cache = Response
@@ -18,7 +18,7 @@ last_relay_request = 0
 aquarium_api = Blueprint('aquarium_api', __name__)
 
 
-@aquarium_api.route("/aquarium", methods=["GET"])
+@aquarium_api.route("/", methods=["GET"])
 def show_aquarium():
     if not session.get("is_admin"):
         return render_template("/aquarium.html", without=True)

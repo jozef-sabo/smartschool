@@ -9,6 +9,7 @@ except ImportError:
 
 
 def login(form):
+    global config
     mariadb_connect = mysql.connector.connect(**config)
     user_name = form['username']
     password = form['password']
@@ -61,5 +62,3 @@ if __name__ == "__main__":
   app.secret_key = os.urandom(12)
   app.run(debug=False,host='0.0.0.0', port=5000)
 """
-
-login({"username": "Vrabel", "password": "ferinoaa"})

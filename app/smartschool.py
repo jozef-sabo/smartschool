@@ -8,9 +8,9 @@ script_dir = os.path.dirname( __file__ )
 mymodule_dir = os.path.join(script_dir, '..', "..")
 sys.path.append(mymodule_dir)
 
-import smartschool.app.modules.sensor_details as sensor_details
-import smartschool.app.modules.smartSchool as smartSchool
-import smartschool.app.modules.fetchData as fetchData
+import smartschool.app.modules.smartschool.sensor_details as sensor_details
+import smartschool.app.modules.smartschool.smartSchool as smartSchool
+import smartschool.app.modules.smartschool.fetchData as fetchData
 
 smartschool = Blueprint('smartschool', __name__)
 
