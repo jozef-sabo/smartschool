@@ -1,13 +1,10 @@
 import mysql.connector
 
-config = {
-    'user': '**REMOVED**',
-    'password': '**REMOVED**',
-    'host': '**REMOVED**',
-    'database': '**REMOVED**',
-    'port': '**REMOVED**',
-    'raise_on_warnings': True
-}
+config = {}
+try:
+    from secrets import *
+except ImportError:
+    pass
 
 
 def fetch(date, id_class, sensor):

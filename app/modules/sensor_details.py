@@ -6,14 +6,9 @@ import requests
 import flask
 
 # SECRETS IMPORT
-# DATABASE_HOST = ""
-# DATABASE_PORT = 0
-# DATABASE_NAME = ""
-# DATABASE_USER = ""
-# DATABASE_PASSWORD = ""
-L_DATABASE_NAME = ""
-L_DATABASE_USER = ""
-L_DATABASE_PASSWORD = ""
+L_DB_config = {}
+config = {}
+
 try:
     from secrets import *
 except ImportError:
@@ -45,10 +40,7 @@ units = {}
 
 
 def get_all_sensors():
-    connection = mysql.connector.connect(host=DATABASE_HOST,
-                                         database=DATABASE_NAME,
-                                         user=DATABASE_USER,
-                                         password=DATABASE_PASSWORD, port=DATABASE_PORT)
+    connection = mysql.connector.connect(**L_DB_config)
     # connection = mysql.connector.connect(host="localhost",
     #                                      database=L_DATABASE_NAME,
     #                                      user=L_DATABASE_USER,

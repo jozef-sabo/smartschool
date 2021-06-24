@@ -4,8 +4,6 @@ from app.aquarium import aquarium_api
 from app.common import common
 from app.smartschool import smartschool
 
-
-
 # SESSION_COOKIE_SECURE = True
 app = Flask(__name__, template_folder="app/static")
 app.register_blueprint(aquarium_api)

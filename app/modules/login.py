@@ -1,12 +1,7 @@
 from passlib.hash import bcrypt
 import mysql.connector
 
-# SECRETS IMPORT
-DATABASE_HOST = ""
-DATABASE_PORT = 0
-DATABASE_NAME = ""
-DATABASE_USER = ""
-DATABASE_PASSWORD = ""
+config = {}
 try:
     from secrets import *
 except ImportError:
@@ -14,8 +9,7 @@ except ImportError:
 
 
 def login(form):
-    mariadb_connect = mysql.connector.connect(user=DATABASE_USER, password=DATABASE_PASSWORD, database=DATABASE_NAME,
-                                              port=DATABASE_PORT, host=DATABASE_HOST)
+    mariadb_connect = mysql.connector.connect(**config)
     user_name = form['username']
     password = form['password']
     cur = mariadb_connect.cursor(buffered=True)

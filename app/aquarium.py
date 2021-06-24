@@ -1,4 +1,4 @@
-from flask import Blueprint, Response, session, request, render_template
+from flask import Blueprint, Response, session, render_template
 import time
 import os
 import sys
@@ -8,7 +8,6 @@ mymodule_dir = os.path.join(script_dir, '..', "..")
 sys.path.append(mymodule_dir)
 
 import smartschool.app.modules.sensor_details as sensor_details
-import smartschool.app.modules.login as login
 
 
 sensors_response_cache = Response
