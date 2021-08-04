@@ -10,9 +10,14 @@ jozef-sabo , KlaraHirm
 ## Web
 Based on HTML, CSS.
 
-
 #Authors
 ErikB17 
+
+## Our architecture:
+![unnamed](https://user-images.githubusercontent.com/70195350/128141327-cf56d354-5d90-449a-bfff-03e0aa7d969b.png)
+
+## Demonstration:
+![GIF3](https://user-images.githubusercontent.com/70195350/128141351-01841a4f-af0a-467c-8141-2bd0c1e6cc7e.gif)
 
 ## Tutoriál ako si naflashovať esp na software Tasmota
 ### 1. Hardware, ktorý budeme potrebovať: esp8266, USB-a na USB-mini kábel.
