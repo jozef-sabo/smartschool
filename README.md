@@ -1,5 +1,5 @@
 # Smartschool
-# Web application displaying data from local sensors at our school classrooms
+## Web application displaying data from local sensors at our school classrooms
 
 ## Server
 Based on Python/Flask framework
