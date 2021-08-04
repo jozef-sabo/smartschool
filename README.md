@@ -43,7 +43,7 @@ MachiYm
 
 # Smartaquarium
 ## Web application displaying data and controlling local sensors in a turtle aquarium
-
+Web application with admin users, who are able to control the sensors.
 ## Our architecture:
 ![arcgh](https://user-images.githubusercontent.com/70195350/128142682-c7ea4688-f724-449d-9312-383084c93748.png)
 
