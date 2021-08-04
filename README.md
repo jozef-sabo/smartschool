@@ -40,3 +40,18 @@ ErikB17
 
 #Authors
 MachiYm
+
+# Smartaquarium
+## Web application displaying data and controlling local sensors in a turtle aquarium
+
+## Our architecture:
+![arcgh](https://user-images.githubusercontent.com/70195350/128142682-c7ea4688-f724-449d-9312-383084c93748.png)
+
+## 3D printed feeder with an An Archimedes' screw:
+![krmidlo](https://user-images.githubusercontent.com/70195350/128142827-6232547d-eb0c-4d19-baac-4a12b9f33cb7.jpg)
+
+## Demonstration:
+![GIF1](https://user-images.githubusercontent.com/70195350/128142856-12d7e71b-583f-495f-b9a3-d41b6367525d.gif)
+
+#Authors:
+ErikB17 , jozef-sabo , KlaraHirm
